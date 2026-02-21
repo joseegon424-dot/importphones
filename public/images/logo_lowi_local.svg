@@ -1,0 +1,14 @@
+<svg viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="60" fill="white"/>
+  <g transform="translate(10, 10)">
+    <!-- L -->
+    <path d="M0 0h14v8H8v28H0V0z" transform="translate(0, 5)"/>
+    <!-- O -->
+    <path d="M40 0c-15 0-25 10-25 20s10 20 25 20 25-10 25-20-10-20-25-20zm0 32c-10 0-16-7-16-12s6-12 16-12 16 7 16 12-6 12-16 12z" transform="translate(30, 5)"/>
+    <!-- W -->
+    <path d="M100 5l5 33h-8l-4-25-4 25H80l-4-25-4 25h-8l5-33h8l4 25 4-25h8z" transform="translate(50, 0)"/>
+    <!-- I -->
+    <path d="M170 5h10v33h-10V5z" transform="translate(0, 0)"/>
+    <circle cx="175" cy="0" r="4.5" fill="#E53935"/>
+  </g>
+</svg>
