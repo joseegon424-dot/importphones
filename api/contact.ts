@@ -23,9 +23,23 @@ export default async function handler(req, res) {
 
     let fileUrl = '';
     if (filePath) {
-      const supabase = createClient((process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL) as string, process.env.SUPABASE_SERVICE_ROLE_KEY as string);
-      const { data } = await supabase.storage.from('formularios').createSignedUrl(filePath, 60 * 60 * 24 * 30); // Valid 30 days
-      if (data) fileUrl = data.signedUrl;
+      try {
+        const supabaseUrl = process.env.SUPABASE_URL || '';
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
+        if (!supabaseUrl || !supabaseKey) {
+          console.error("Missing Supabase credentials in Vercel Env");
+        }
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        const { data, error } = await supabase.storage.from('formularios').createSignedUrl(filePath, 60 * 60 * 24 * 30); // Valid 30 days
+
+        if (error) {
+          console.error('Supabase createSignedUrl error:', error);
+        } else if (data) {
+          fileUrl = data.signedUrl;
+        }
+      } catch (err) {
+        console.error('Supabase client error in createSignedUrl:', err);
+      }
     }
 
     const data = await resend.emails.send({
@@ -50,12 +64,12 @@ export default async function handler(req, res) {
           </div>
 
           ${fileUrl ? `
-          <div style="margin-top: 20px;">
-            <p><strong>📎 Archivo Adjunto (Factura/Documento):</strong></p>
-            <a href="${fileUrl}" style="display: inline-block; background: #E53935; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; font-weight: bold;">Ver / Descargar Archivo</a>
-            <p style="font-size: 0.8em; color: #888; margin-top: 10px;">Enlace seguro a Supabase Storage.</p>
+          <div style="margin-top: 20px; padding: 15px; background: #fff3f3; border-left: 4px solid #E53935; border-radius: 4px;">
+            <p style="margin-top: 0;"><strong>📎 Archivo Adjunto (Factura/Documento):</strong></p>
+            <a href="${fileUrl}" style="display: inline-block; background: #E53935; color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; font-weight: bold; margin: 10px 0;">Ver / Descargar Archivo</a>
+            <p style="font-size: 0.8em; color: #666; margin-bottom: 0;">Enlace seguro válido por 30 días.</p>
           </div>
-          ` : ''}
+          ` : '<p style="color: #666; font-style: italic;">Sin archivo adjunto.</p>'}
         </div>
       `,
     });

@@ -122,7 +122,7 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
     } catch (error) {
       console.error('Error al enviar:', error);
       setIsSubmitting(false);
-      alert('Hubo un error al enviar el mensaje. Inténtalo de nuevo o contáctanos por WhatsApp.');
+      alert(`Hubo un error al enviar el mensaje: ${error instanceof Error ? error.message : 'Error desconocido'}. Inténtalo de nuevo o contáctanos por WhatsApp.`);
     }
   };
 
