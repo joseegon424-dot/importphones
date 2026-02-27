@@ -5,34 +5,34 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const toEmail = process.env.CONTACT_EMAIL || 'joseegon424@gmail.com';
 
 export default async function handler(req, res) {
-    // CORS handles
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // CORS handles
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const { name, email, phone, location, service, message, filePath } = req.body;
+
+    let fileUrl = '';
+    if (filePath) {
+      const supabase = createClient((process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL) as string, process.env.SUPABASE_SERVICE_ROLE_KEY as string);
+      const { data } = await supabase.storage.from('formularios').createSignedUrl(filePath, 60 * 60 * 24 * 30); // Valid 30 days
+      if (data) fileUrl = data.signedUrl;
     }
 
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method not allowed' });
-    }
-
-    try {
-        const { name, email, phone, location, service, message, filePath } = req.body;
-
-        let fileUrl = '';
-        if (filePath) {
-            const supabase = createClient(process.env.VITE_SUPABASE_URL as string, process.env.SUPABASE_SERVICE_ROLE_KEY as string);
-            const { data } = await supabase.storage.from('formularios').createSignedUrl(filePath, 60 * 60 * 24 * 30); // Valid 30 days
-            if (data) fileUrl = data.signedUrl;
-        }
-
-        const data = await resend.emails.send({
-            from: 'Importphones Web <onboarding@resend.dev>',
-            to: [toEmail],
-            subject: `Contacto Web: ${name} (${service || 'General'})`,
-            html: `
+    const data = await resend.emails.send({
+      from: 'Importphones Web <onboarding@resend.dev>',
+      to: [toEmail],
+      subject: `Contacto Web: ${name} (${service || 'General'})`,
+      html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eaeaea; border-radius: 8px; padding: 20px;">
           <h2 style="color: #E53935; margin-top: 0;">Nuevo Mensaje de Contacto</h2>
           <p>Has recibido un nuevo mensaje desde el formulario web.</p>
@@ -58,11 +58,11 @@ export default async function handler(req, res) {
           ` : ''}
         </div>
       `,
-        });
+    });
 
-        res.status(200).json({ success: true, data });
-    } catch (error) {
-        console.error('Error sending email:', error);
-        res.status(500).json({ error: error.message || 'Internal error' });
-    }
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    console.error('Error sending email:', error);
+    res.status(500).json({ error: (error as any).message || 'Internal error' });
+  }
 }
