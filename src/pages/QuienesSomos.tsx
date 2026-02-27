@@ -218,75 +218,77 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
   return (
     <div ref={pageRef} className="overflow-hidden">
 
-      {/* ── Hero header ── */}
-      <section className="hero-awwards !py-0" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
-        {/* Background Image with Parallax effect */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* ── Hero header (Standardized) ── */}
+      <section className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+        {/* Background Image with Overlay */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <img
             src="/images/quienes-somos-hero-v2.png"
             alt="Importphones Equipo"
-            className="w-full h-full object-cover filter brightness-[0.7] contrast-[1.05]"
-            style={{ transform: 'scale(1.1)' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.6)' }}
           />
-          {/* Grainy texture overlay for brutalist feel */}
-          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
-
-          {/* Premium Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/30 to-[#080808]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-transparent" />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
         </div>
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full relative z-10">
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
-            {/* Left side: Title */}
-            <div className="relative">
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-black text-white tracking-tighter leading-[0.8] drop-shadow-xl">
-                Quiénes <br />
-                <span className="text-red-600">somos</span>
+            {/* Left side: Content */}
+            <div style={{ zIndex: 2, position: 'relative' }}>
+              <p className="hero-label" style={{ marginBottom: '1.5rem' }}>NOSOTROS</p>
+
+              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
+                <div style={{ overflow: 'hidden' }}>
+                  <span className="hero-word-line" style={{ display: 'block' }}>QUIÉNES</span>
+                </div>
+                <div style={{ overflow: 'hidden' }}>
+                  <span className="hero-word-line" style={{ display: 'block' }}>
+                    <span style={{ color: '#E53935' }}>SOMOS</span>
+                  </span>
+                </div>
               </h1>
 
-              {/* Added element below title: Established Date & Decorative line */}
-              <div className="mt-8 flex items-center gap-6 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                <div className="h-[2px] w-24 bg-gradient-to-r from-red-600 to-transparent"></div>
-                <p className="text-white/40 text-sm font-bold uppercase tracking-[0.4em]">Est. 2015 — Madrid</p>
-              </div>
-            </div>
-
-            {/* Right side: Description & Badges */}
-            <div className="lg:pl-12 lg:border-l border-white/10" style={{ alignSelf: 'center' }}>
-              <p className="text-white text-lg md:text-xl max-w-2xl leading-relaxed mb-10 opacity-90 font-medium">
+              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
                 Somos un equipo de profesionales apasionados por ayudar a empresas y particulares a optimizar sus gastos en
-                telecomunicaciones y energía con <strong className="text-white">transparencia y resultados garantizados</strong>.
+                telecomunicaciones y energía con transparencia y resultados garantizados.
               </p>
 
-              {/* Micro-badges: Monochromatic & Premium (No Red/Blue circles) */}
-              <div className="flex flex-wrap items-center gap-12">
-                <div className="flex items-center gap-5 group">
-                  <div className="w-16 h-16 rounded-[22px] bg-white/[0.03] border border-white/10 flex items-center justify-center text-white transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600 group-hover:shadow-[0_0_30px_rgba(220,38,38,0.3)]">
-                    <Award size={30} strokeWidth={1.5} />
-                  </div>
-                  <div>
-                    <p className="text-red-600 font-black text-xl leading-none tracking-tight">Excelencia</p>
-                    <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mt-1.5 font-bold">Certificada</p>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-5 group">
-                  <div className="w-16 h-16 rounded-[22px] bg-white/[0.03] border border-white/10 flex items-center justify-center text-white transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600 group-hover:shadow-[0_0_30px_rgba(220,38,38,0.3)]">
-                    <Users size={30} strokeWidth={1.5} />
-                  </div>
-                  <div>
-                    <p className="text-red-600 font-black text-xl leading-none tracking-tight">Cercanía</p>
-                    <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mt-1.5 font-bold">Humana</p>
-                  </div>
-                </div>
+              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
+                <a href="#historia" className="btn-primary" onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector('#historia')?.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  <span>Nuestra historia</span>
+                  <ArrowRight size={18} />
+                </a>
               </div>
             </div>
 
+            {/* Right side: Stats/Badges */}
+            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+              <div className="flex items-center gap-5 group trust-card-brutal" style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)' }}>
+                <div className="w-16 h-16 rounded-[22px] bg-white/[0.03] border border-white/10 flex items-center justify-center text-white transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600">
+                  <Award size={30} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-red-600 font-black text-xl leading-none tracking-tight">Excelencia</p>
+                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mt-1.5 font-bold">Certificada</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-5 group trust-card-brutal" style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)' }}>
+                <div className="w-16 h-16 rounded-[22px] bg-white/[0.03] border border-white/10 flex items-center justify-center text-white transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600">
+                  <Users size={30} strokeWidth={1.5} />
+                </div>
+                <div>
+                  <p className="text-red-600 font-black text-xl leading-none tracking-tight">Cercanía</p>
+                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mt-1.5 font-bold">Humana</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
         {/* Minimal Scroll Indicator */}
         <div className="absolute bottom-8 left-12 flex flex-col items-center gap-3">
           <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-20"></div>
@@ -295,7 +297,7 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
       </section>
 
       {/* ── Historia: two-column with premium presentation ── */}
-      <section ref={historyRef} className="section-light bg-[#fdfdfd]" style={{ padding: 'clamp(6rem, 12vw, 10rem) 0', position: 'relative', overflow: 'hidden' }}>
+      <section id="historia" ref={historyRef} className="section-light bg-[#fdfdfd]" style={{ padding: 'clamp(6rem, 12vw, 10rem) 0', position: 'relative', overflow: 'hidden' }}>
         {/* Subtle decorative elements */}
         <div className="absolute top-0 right-0 w-1/3 h-full bg-slate-50/50 -skew-x-12 translate-x-1/2 z-0"></div>
 
@@ -705,7 +707,7 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
           </Link>
         </div>
       </section>
-    </div>
+    </div >
   );
 };
 

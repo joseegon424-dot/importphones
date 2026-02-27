@@ -87,13 +87,26 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
         cloudinaryData.append('file', formData.file);
         cloudinaryData.append('upload_preset', 'u5ic0lzm');
 
-        const cloudinaryRes = await fetch('https://api.cloudinary.com/v1_1/drprrdhyp/auto/upload', {
+        // Determinar tipo de recurso para evitar errores 401 en PDFs/RAW
+        const isImage = formData.file.type.startsWith('image/');
+        const resourceType = isImage ? 'image' : 'raw';
+
+        const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/drprrdhyp/${resourceType}/upload`, {
           method: 'POST',
           body: cloudinaryData
         });
 
         const cloudinaryJson = await cloudinaryRes.json();
-        fileUrl = cloudinaryJson.secure_url || fileUrl;
+
+        // Si falló secure_url, intentamos url normal, o capturamos error
+        if (cloudinaryJson.secure_url) {
+          fileUrl = cloudinaryJson.secure_url;
+        } else if (cloudinaryJson.url) {
+          fileUrl = cloudinaryJson.url;
+        } else {
+          console.error('Cloudinary Error:', cloudinaryJson);
+          throw new Error('Error al subir el archivo a la nube');
+        }
       }
 
       // 2. Enviar datos a FormSubmit con el link de Cloudinary
@@ -154,42 +167,44 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
   return (
     <div ref={pageRef} className="overflow-hidden">
 
-      {/* ── S1: Hero */}
-      <section className="page-header hero-awwards !py-0" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+      {/* ── S1: Hero (Standardized) ── */}
+      <section className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
 
-        {/* Background image related to contact */}
+        {/* Professional Background Image & Overlay */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <img
-            src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=1920&q=80"
-            alt="Contacto"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)' }}
+            src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+            alt="Contacto Importphones"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.6)' }}
           />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
         </div>
 
-        {/* Bring SVG envelope to the front, make it glow and bolder */}
-        <div className="hero-subpage-svg" aria-hidden="true" style={{ zIndex: 3, pointerEvents: 'none', filter: 'drop-shadow(0 0 18px rgba(229,57,53,0.9))' }}>
-          <svg viewBox="0 0 700 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path className="ct-envelope-path" d="M120 160 L580 160 L580 400 L120 400 Z" stroke="#ff3b3b" strokeWidth="2.5" strokeDasharray="2000" strokeDashoffset="2000" />
-            <path className="ct-envelope-path" d="M120 160 L350 310 L580 160" stroke="#E53935" strokeWidth="2.5" strokeDasharray="2000" strokeDashoffset="2000" />
-            <path className="ct-envelope-path" d="M120 400 L310 270 M580 400 L390 270" stroke="rgba(255,100,100,0.6)" strokeWidth="2" strokeDasharray="2000" strokeDashoffset="2000" />
-            <path className="ct-envelope-path" d="M590 180 Q630 200 635 240 Q638 275 620 300 L605 315 L590 295 Q602 280 600 255 Q598 225 580 208 Z" stroke="rgba(255,100,100,0.7)" strokeWidth="2" strokeDasharray="2000" strokeDashoffset="2000" />
-            <circle cx="350" cy="310" r="6" fill="#ff3b3b" />
-            <circle cx="350" cy="160" r="4" fill="#ff3b3b" opacity="0.8" />
-          </svg>
-        </div>
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full" style={{ position: 'relative', zIndex: 2, paddingTop: '9rem', paddingBottom: '5rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'center' }}>
-            <div>
-              <p className="page-header-label ct-hero-sub" style={{ marginBottom: '1.5rem' }}>Contacto</p>
-              <h1 className="ct-title page-header-title" style={{ overflow: 'hidden', marginBottom: '2rem' }}>
-                Hablemos de <span style={{ color: '#E53935' }}>ahorro</span>
+            {/* Left side: Content */}
+            <div style={{ zIndex: 2, position: 'relative' }}>
+              <p className="hero-label" style={{ marginBottom: '1.5rem' }}>CONTACTO</p>
+
+              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem' }}>
+                <div style={{ overflow: 'hidden' }}>
+                  <span className="hero-word-line" style={{ display: 'block' }}>HABLEMOS</span>
+                </div>
+                <div style={{ overflow: 'hidden' }}>
+                  <span className="hero-word-line" style={{ display: 'block' }}>
+                    DE <span style={{ color: '#E53935' }}>AHORRO</span>
+                  </span>
+                </div>
               </h1>
-              <p className="ct-hero-sub" style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1.1rem', lineHeight: 1.75, marginBottom: '3rem', maxWidth: '480px' }}>
-                Estamos aquí para ayudarte a reducir tus facturas.
-                Contacta con nosotros y descubre cuánto puedes ahorrar.
+
+              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem' }}>
+                Estamos aquí para ayudarte a reducir tus facturas y optimizar tus servicios.
+                Contacta con nuestro equipo de expertos hoy mismo.
               </p>
-              <div className="ct-hero-sub" style={{ display: 'flex', gap: '1.25rem', flexWrap: 'wrap' }}>
+
+              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
                 <a href="tel:+34931596464" className="btn-primary">
                   <Phone size={18} />
                   <span>Llamar ahora</span>
@@ -202,20 +217,23 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
                 </a>
               </div>
             </div>
-            {/* Hero stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+
+            {/* Right side: Stats Cards */}
+            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
               {[
                 { v: 'Gratis', label: 'Análisis de facturas', icon: CheckCircle },
                 { v: '24h', label: 'Propuesta personalizada', icon: Clock },
                 { v: '0€', label: 'Sin costes ocultos', icon: CheckCircle },
                 { v: '100%', label: 'Ahorro garantizado', icon: CheckCircle },
               ].map((s, i) => (
-                <div key={i} className="ct-info-stat" style={{
-                  background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: '16px', padding: '2rem 1.5rem', textAlign: 'center'
+                <div key={i} className="trust-card-brutal" style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '16px', padding: '2.5rem 1.5rem', textAlign: 'center'
                 }}>
-                  <div style={{ fontFamily: 'Space Grotesk', fontSize: '2rem', fontWeight: 800, color: '#E53935', lineHeight: 1 }}>{s.v}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginTop: '0.5rem' }}>{s.label}</div>
+                  <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#E53935', lineHeight: 1, marginBottom: '0.5rem' }}>{s.v}</div>
+                  <div style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>{s.label}</div>
                 </div>
               ))}
             </div>

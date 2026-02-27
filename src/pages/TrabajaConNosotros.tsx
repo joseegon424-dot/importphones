@@ -116,13 +116,25 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
                 cloudinaryData.append('file', formData.file);
                 cloudinaryData.append('upload_preset', 'u5ic0lzm');
 
-                const cloudinaryRes = await fetch('https://api.cloudinary.com/v1_1/drprrdhyp/auto/upload', {
+                // Determinar tipo de recurso para evitar errores 401 en PDFs/RAW
+                const isImage = formData.file.type.startsWith('image/');
+                const resourceType = isImage ? 'image' : 'raw';
+
+                const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/drprrdhyp/${resourceType}/upload`, {
                     method: 'POST',
                     body: cloudinaryData
                 });
 
                 const cloudinaryJson = await cloudinaryRes.json();
-                fileUrl = cloudinaryJson.secure_url || fileUrl;
+
+                if (cloudinaryJson.secure_url) {
+                    fileUrl = cloudinaryJson.secure_url;
+                } else if (cloudinaryJson.url) {
+                    fileUrl = cloudinaryJson.url;
+                } else {
+                    console.error('Cloudinary Error:', cloudinaryJson);
+                    throw new Error('Error al subir el CV');
+                }
             }
 
             // 2. Enviar datos a FormSubmit con el link de Cloudinary
@@ -166,46 +178,54 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
     return (
         <div ref={pageRef} className="overflow-hidden bg-[#FAFAFA]">
 
-            {/* ── 1. HERO SECTION ── */}
-            <section ref={heroRef} className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '60vh', display: 'flex', alignItems: 'center' }}>
+            {/* ── 1. HERO SECTION (Standardized) ── */}
+            <section ref={heroRef} className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
                 <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
                     <img
                         src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                        alt="Comercial Freelance"
+                        alt="Trabaja con nosotros Importphones"
                         style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)' }}
                     />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
                 </div>
 
-                <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full" style={{ position: 'relative', zIndex: 2, paddingTop: '10rem', paddingBottom: '6rem' }}>
-                    <div style={{ maxWidth: '800px' }}>
-                        <p className="tcn-hero-title" style={{ color: '#E53935', fontSize: '1rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
-                            Trabaja con nosotros
-                        </p>
-                        <h1 className="tcn-hero-title title-display" style={{
-                            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-                            fontWeight: 900,
-                            color: '#ffffff',
-                            lineHeight: 1.1,
-                            marginBottom: '1.5rem',
-                            textShadow: '0 4px 20px rgba(0,0,0,0.6)'
-                        }}>
-                            ¡Únete a ImportPhones como <span style={{ color: '#E53935' }}>Comercial Freelance</span>!
-                        </h1>
-                        <p className="tcn-hero-sub" style={{
-                            fontSize: 'clamp(1.1rem, 2vw, 1.25rem)',
-                            color: 'rgba(255,255,255,0.85)',
-                            lineHeight: 1.7,
-                            marginBottom: '2.5rem',
-                            maxWidth: '700px',
-                            fontWeight: 400
-                        }}>
-                            ¿Buscas maximizar tus ingresos con total libertad? En ImportPhones estamos expandiendo nuestra red comercial y buscamos a los mejores talentos en ventas. Si eres una persona ambiciosa, proactiva y quieres trabajar con un modelo de negocio altamente rentable, este es tu sitio.
-                        </p>
-                        <div className="tcn-hero-cta" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                            <a href="#application-form" className="btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.05rem', background: '#E53935', color: '#fff', borderRadius: '50px' }}>
-                                <span>Solicitar más información</span>
-                                <ArrowRight size={18} />
-                            </a>
+                <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+                        <div style={{ zIndex: 2, position: 'relative' }}>
+                            <p className="hero-label" style={{ marginBottom: '1.5rem', color: '#E53935' }}>UNETE AL EQUIPO</p>
+
+                            <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
+                                <div style={{ overflow: 'hidden' }}>
+                                    <span className="hero-word-line" style={{ display: 'block' }}>COMERCIAL</span>
+                                </div>
+                                <div style={{ overflow: 'hidden' }}>
+                                    <span className="hero-word-line" style={{ display: 'block' }}>
+                                        <span style={{ color: '#E53935' }}>FREELANCE</span>
+                                    </span>
+                                </div>
+                            </h1>
+
+                            <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
+                                ¿Buscas maximizar tus ingresos con total libertad?
+                                En ImportPhones estamos expandiendo nuestra red comercial.
+                                Si eres ambicioso y proactivo, este es tu sitio.
+                            </p>
+
+                            <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
+                                <a href="#application-form" className="btn-primary" style={{ padding: '1rem 2.5rem', borderRadius: '50px' }}>
+                                    <span>Solicitar información</span>
+                                    <ArrowRight size={18} />
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Visual element or secondary text can go here */}
+                        <div className="hidden lg:block" style={{ zIndex: 2, position: 'relative' }}>
+                            <div style={{ border: '2px solid #E53935', padding: '3rem', borderRadius: '24px', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(10px)' }}>
+                                <h3 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>SÉ TU PROPIO JEFE</h3>
+                                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>Ofrecemos las comisiones más altas del mercado y un modelo de negocio probado.</p>
+                            </div>
                         </div>
                     </div>
                 </div>

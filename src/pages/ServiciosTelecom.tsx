@@ -219,99 +219,73 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
     <div ref={pageRef} className="overflow-hidden">
 
       {/* ══════════════════════════════════════════════
-          S1 — HERO  (dark + antenna SVG)
+          S1 — HERO (Standardized)
       ══════════════════════════════════════════════ */}
-      <section ref={headerRef} className="page-header hero-awwards" style={{
-        position: 'relative', overflow: 'hidden', minHeight: '80vh',
-        display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--color-black)'
-      }}>
-        {/* Generado Brutalist Background */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'url("/images/telecom_hero_bg.png")',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          opacity: 0.25,
-          filter: 'grayscale(0.3) saturate(1.5)',
-        }} />
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, var(--color-black) 20%, transparent 100%)', zIndex: 1 }} />
-
-        {/* Antenna SVG */}
-        <div className="hero-subpage-svg" aria-hidden="true" style={{ zIndex: 2 }}>
-          <svg viewBox="0 0 700 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path className="tc-antenna-path" d="M350 440 L350 220" stroke="#E53935" strokeWidth="2" strokeDasharray="1500" strokeDashoffset="1500" />
-            <path className="tc-antenna-path" d="M310 260 L350 220 L390 260" stroke="#E53935" strokeWidth="2" strokeDasharray="1500" strokeDashoffset="1500" />
-            <path className="tc-antenna-path" d="M290 440 L410 440" stroke="rgba(229,57,53,0.4)" strokeWidth="1.5" strokeDasharray="1500" strokeDashoffset="1500" />
-            <path className="tc-signal-arc" d="M230 350 Q350 180 470 350" stroke="rgba(229,57,53,0.25)" strokeWidth="1.5" fill="none" />
-            <path className="tc-signal-arc" d="M265 370 Q350 230 435 370" stroke="rgba(229,57,53,0.45)" strokeWidth="1.5" fill="none" />
-            <path className="tc-signal-arc" d="M299 392 Q350 278 401 392" stroke="rgba(229,57,53,0.7)" strokeWidth="2" fill="none" />
-            <circle cx="350" cy="220" r="4" fill="#E53935" opacity="0.9" />
-            <path className="tc-antenna-path" d="M290 440 L260 480 M410 440 L440 480" stroke="rgba(229,57,53,0.3)" strokeWidth="1" strokeDasharray="1500" strokeDashoffset="1500" />
-          </svg>
+      <section ref={headerRef} className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+        {/* Background Image & Overlay */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <img
+            src="/images/telecom_hero_bg.png"
+            alt="Servicios Telecom"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.6)' }}
+          />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
         </div>
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="page-header-label">Servicios</p>
-          <h1 className="page-header-title">
-            Telecomu<span style={{ color: '#E53935' }}>nicaciones</span>
-          </h1>
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
-          {/* Hero three-column: streaming logos + text + photo */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: '3rem', marginTop: '3rem', alignItems: 'center' }}>
-            <div ref={entertainRef}>
-              <p className="section-label" style={{ color: '#fff', opacity: 0.8, marginBottom: '0.75rem' }}>Ahorros significativos</p>
-              <h3 className="section-title" style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>
-                incluimos en alguna <span>operadora:</span>
-              </h3>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem', marginTop: '1.5rem' }}>
-                {[
-                  { src: '/images/logo_disney.png', alt: 'Disney+', height: '70px' },
-                  { src: '/images/netflix.png', alt: 'Netflix', height: '80px' },
-                  { src: '/images/movistar.png', alt: 'Movistar', height: '85px' },
-                  { src: '/images/prime_video.png', alt: 'Prime Video', height: '85px' },
-                ].map((logo, idx) => (
-                  <div key={idx} className="tc-stream-logo hero-img-float" style={{
-                    background: '#fff', height: '120px',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    padding: '1.5rem', borderRadius: '16px',
-                    border: '2px solid transparent', boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-                    transition: 'border-color 0.3s ease, transform 0.3s ease',
-                    animationDelay: `${idx * 0.15}s`,
-                  }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#E53935'; (e.currentTarget as HTMLElement).style.transform = 'scale(1.05)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'transparent'; (e.currentTarget as HTMLElement).style.transform = ''; }}
-                  >
-                    <img src={logo.src} alt={logo.alt} style={{ height: logo.height, width: 'auto', objectFit: 'contain' }} />
-                  </div>
-                ))}
+            {/* Left side: Content */}
+            <div style={{ zIndex: 2, position: 'relative' }}>
+              <p className="hero-label" style={{ marginBottom: '1.5rem' }}>TELECOM</p>
+
+              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
+                <div style={{ overflow: 'hidden' }}>
+                  <span className="hero-word-line" style={{ display: 'block' }}>CONEXIÓN</span>
+                </div>
+                <div style={{ overflow: 'hidden' }}>
+                  <span className="hero-word-line" style={{ display: 'block' }}>
+                    SIN <span style={{ color: '#E53935' }}>LÍMITES</span>
+                  </span>
+                </div>
+              </h1>
+
+              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
+                Internet de alta velocidad y tarifas móviles a medida.
+                Gestionamos tu portabilidad de forma rápida y gratuita.
+              </p>
+
+              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
+                <Link to="/contacto" className="btn-primary">
+                  <span>Solicitar estudio gratuito</span>
+                  <ArrowRight size={18} />
+                </Link>
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem', paddingTop: '1rem' }}>
-              <p style={{ color: '#888', lineHeight: '1.7', fontSize: '1rem' }}>
-                <strong style={{ color: '#fff', fontWeight: 700 }}>Netflix:</strong> Puedes vincular tu cuenta existente o activar una nueva con el plan "Estándar con anuncios" asociado a la tarifa.
-              </p>
-              <p style={{ color: '#888', lineHeight: '1.7', fontSize: '1rem' }}>
-                <strong style={{ color: '#fff', fontWeight: 700 }}>Disney+:</strong> Acceso ilimitado a películas, series y contenido exclusivo de Disney, Pixar, Marvel y más.
-              </p>
-              <p style={{ color: '#888', lineHeight: '1.7', fontSize: '1rem' }}>
-                <strong style={{ color: '#fff', fontWeight: 700 }}>Amazon Prime:</strong> Entrega rápida sin coste adicional, Prime Video, Amazon Music, Prime Gaming y más.
-              </p>
-              {/* Stats row */}
-              <div style={{ display: 'flex', gap: '2rem', marginTop: '0.5rem' }}>
-                {[{ n: '1Gbps', l: 'Velocidad máx.' }, { n: '48h', l: 'Portabilidad' }, { n: '40%', l: 'Ahorro est.' }].map((s, i) => (
-                  <div key={i} style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem', fontWeight: 900, color: '#E53935' }}>{s.n}</div>
-                    <div style={{ fontSize: '0.72rem', color: '#666', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '0.1rem' }}>{s.l}</div>
+            {/* Right side: Stats/Info Cards */}
+            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+              {[
+                { icon: Wifi, label: 'Fibra', sub: 'Hasta 1Gbps' },
+                { icon: Phone, label: 'Móvil', sub: 'Datos ilimitados' },
+                { icon: Globe, label: 'Cobertura', sub: 'Nacional' },
+                { icon: Shield, label: 'Seguridad', sub: 'Sin permanencia' },
+              ].map((item, i) => (
+                <div key={i} className="trust-card-brutal" style={{
+                  background: 'rgba(255,255,255,0.05)',
+                  backdropFilter: 'blur(10px)',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  borderRadius: '16px', padding: '2rem 1.5rem', textAlign: 'center',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
+                }}>
+                  <div style={{ color: '#E53935', marginBottom: '0.75rem' }}>
+                    <item.icon size={32} strokeWidth={1.5} />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Third Column: Hero Photo */}
-            <div style={{ position: 'relative', width: '100%', aspectRatio: '8/10', borderRadius: '0', border: '5px solid #111', overflow: 'hidden', boxShadow: '15px 15px 0 #E53935' }}>
-              <img src="/images/telecom_hero_photo.png" alt="Telecomunicaciones Avanzadas" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#fff', lineHeight: 1, marginBottom: '0.25rem' }}>{item.label}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase' }}>{item.sub}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
