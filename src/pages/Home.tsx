@@ -217,7 +217,7 @@ const Home = ({ isLoaded }: HomeProps) => {
     <div ref={heroRef} className="overflow-hidden">
 
       {/* ── Section 1: Hero (dark) — BRUTAL title ── */}
-      <section className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+      <section className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
         {/* Professional Background Image & Overlay */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
           <img

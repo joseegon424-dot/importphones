@@ -3,15 +3,14 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Wifi, Phone, Globe, Shield, CheckCircle, TrendingUp, Zap, MessageCircle } from 'lucide-react';
-import SplitType from 'split-type';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ServiciosTelecomProps { isLoaded: boolean; }
 
 const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
-  const pageRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const operatorsRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
@@ -26,17 +25,14 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
     const ctx = gsap.context(() => {
 
       // ── Hero title
-      const heroTitle = pageRef.current?.querySelector<HTMLElement>('.page-header-title');
-      if (heroTitle) {
-        heroTitle.classList.add('split-target');
-        const sp = new SplitType(heroTitle, { types: 'words,chars' });
-        gsap.fromTo(sp.chars,
-          { y: '110%', opacity: 0 },
-          { y: '0%', opacity: 1, duration: 0.8, stagger: 0.025, ease: 'power3.out', delay: 0.4 }
+      if (titleRef.current) {
+        const words = titleRef.current.querySelectorAll('.hero-word-line');
+        gsap.fromTo(words,
+          { y: '110%', opacity: 0, skewY: 3 },
+          { y: '0%', opacity: 1, skewY: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.3 }
         );
       }
-      gsap.fromTo('.page-header-subtitle', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.8 });
-      gsap.fromTo('.page-header-label', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', delay: 0.2 });
+      gsap.fromTo('.hero-subtitle', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.8 });
 
       // Antenna SVG draw
       gsap.fromTo('.tc-antenna-path',
@@ -154,7 +150,7 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
         }
       );
 
-    }, pageRef);
+    }, heroRef);
     return () => ctx.revert();
   }, [isLoaded]);
 
@@ -216,78 +212,95 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
   };
 
   return (
-    <div ref={pageRef} className="overflow-hidden">
+    <div ref={heroRef} className="overflow-hidden">
 
       {/* ══════════════════════════════════════════════
-          S1 — HERO (Standardized)
+          S1 — HERO  (dark + antenna SVG)
       ══════════════════════════════════════════════ */}
-      <section ref={headerRef} className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+      {/* ── S1: HERO */}
+      <section className="hero-awwards">
         {/* Background Image & Overlay */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <div className="absolute inset-0 z-0">
           <img
             src="/images/telecom_hero_bg.png"
-            alt="Servicios Telecom"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.6)' }}
+            alt="Telecomunicaciones"
+            className="w-full h-full object-cover filter brightness-[0.25] saturate-[1.2]"
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
+          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-transparent to-transparent" />
         </div>
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+        {/* Antenna SVG */}
+        <div className="hero-subpage-svg" aria-hidden="true" style={{ zIndex: 0, opacity: 0.6 }}>
+          <svg viewBox="0 0 700 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path className="tc-antenna-path" d="M350 440 L350 220" stroke="#E53935" strokeWidth="2" strokeDasharray="1500" strokeDashoffset="1500" />
+            <path className="tc-antenna-path" d="M310 260 L350 220 L390 260" stroke="#E53935" strokeWidth="2" strokeDasharray="1500" strokeDashoffset="1500" />
+            <path className="tc-signal-arc" d="M230 350 Q350 180 470 350" stroke="rgba(229,57,53,0.25)" strokeWidth="1.5" fill="none" />
+            <path className="tc-signal-arc" d="M265 370 Q350 230 435 370" stroke="rgba(229,57,53,0.45)" strokeWidth="1.5" fill="none" />
+            <path className="tc-signal-arc" d="M299 392 Q350 278 401 392" stroke="rgba(229,57,53,0.7)" strokeWidth="2" fill="none" />
+            <circle cx="350" cy="220" r="4" fill="#E53935" />
+          </svg>
+        </div>
 
-            {/* Left side: Content */}
-            <div style={{ zIndex: 2, position: 'relative' }}>
-              <p className="hero-label" style={{ marginBottom: '1.5rem' }}>TELECOM</p>
-
-              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>CONEXIÓN</span>
-                </div>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>
-                    SIN <span style={{ color: '#E53935' }}>LÍMITES</span>
-                  </span>
-                </div>
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div>
+              <p className="hero-label">SERVICIOS</p>
+              <h1 ref={titleRef} className="hero-title-brutal">
+                {[
+                  { text: 'CONECTIVIDAD', red: false },
+                  { text: 'SIN LÍMITES', red: true },
+                ].map((word, i) => (
+                  <div key={i} style={{ overflow: 'hidden' }}>
+                    <span className="hero-word-line" style={{
+                      display: 'block',
+                      color: word.red ? '#E53935' : '#ffffff',
+                    }}>
+                      {word.text}
+                    </span>
+                  </div>
+                ))}
               </h1>
-
-              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
-                Internet de alta velocidad y tarifas móviles a medida.
-                Gestionamos tu portabilidad de forma rápida y gratuita.
+              <p className="hero-subtitle mb-8">
+                Fibra óptica de alta velocidad, planes móviles con datos ilimitados y las mejores plataformas de streaming integradas. Todo lo que necesitas para estar conectado.
               </p>
 
-              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
-                <Link to="/contacto" className="btn-primary">
-                  <span>Solicitar estudio gratuito</span>
-                  <ArrowRight size={18} />
-                </Link>
+              <div className="grid grid-cols-4 gap-4 mt-8">
+                {[
+                  { src: '/images/logo_disney.png', alt: 'Disney+' },
+                  { src: '/images/netflix.png', alt: 'Netflix' },
+                  { src: '/images/movistar.png', alt: 'Movistar' },
+                  { src: '/images/prime_video.png', alt: 'Prime Video' },
+                ].map((logo, idx) => (
+                  <div key={idx} className="bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
+                    <img src={logo.src} alt={logo.alt} className="h-8 w-auto object-contain brightness-0 invert" />
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Right side: Stats/Info Cards */}
-            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              {[
-                { icon: Wifi, label: 'Fibra', sub: 'Hasta 1Gbps' },
-                { icon: Phone, label: 'Móvil', sub: 'Datos ilimitados' },
-                { icon: Globe, label: 'Cobertura', sub: 'Nacional' },
-                { icon: Shield, label: 'Seguridad', sub: 'Sin permanencia' },
-              ].map((item, i) => (
-                <div key={i} className="trust-card-brutal" style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '16px', padding: '2rem 1.5rem', textAlign: 'center',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-                }}>
-                  <div style={{ color: '#E53935', marginBottom: '0.75rem' }}>
-                    <item.icon size={32} strokeWidth={1.5} />
-                  </div>
-                  <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#fff', lineHeight: 1, marginBottom: '0.25rem' }}>{item.label}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase' }}>{item.sub}</div>
+            <div className="hidden lg:block">
+              <div className="relative">
+                <div className="aspect-[4/5] border-[1px] border-white/10 rounded-[2rem] overflow-hidden translate-x-6 translate-y-6">
+                  <img src="/images/telecom_hero_photo.png" alt="Telecom" className="w-full h-full object-cover" />
                 </div>
-              ))}
+                <div className="absolute inset-0 border-[2px] border-[#E53935] rounded-[2rem] -translate-x-4 -translate-y-4 z-[-1]"></div>
+
+                {/* Floating stats */}
+                <div className="absolute top-10 -right-10 bg-black/80 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl">
+                  <div className="text-2xl font-black text-[#E53935]">1Gbps</div>
+                  <div className="text-[9px] uppercase tracking-tighter text-white/40">Fibra Simétrica</div>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+
+        {/* Minimal Scroll Indicator */}
+        <div className="absolute bottom-8 left-12 flex flex-col items-center gap-3">
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-20"></div>
+          <span className="text-[9px] text-white/20 uppercase tracking-[0.4em] font-bold [writing-mode:vertical-lr]">Scroll</span>
         </div>
       </section>
 
@@ -710,10 +723,10 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
 
           <h2 className="cta-telecom-content" style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(3.5rem, 7vw, 6rem)',
+            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
             fontWeight: 900,
             color: '#fff',
-            lineHeight: 1,
+            lineHeight: 1.1,
             textTransform: 'uppercase',
             marginBottom: '2rem'
           }}>

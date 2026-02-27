@@ -174,73 +174,154 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
     <div ref={pageRef} className="overflow-hidden">
 
       {/* ══════════════════════════════════════════════
-          S1 — HERO HEADER (Standardized)
+          S1 — HERO HEADER  (dark)
       ══════════════════════════════════════════════ */}
-      <section ref={headerRef} className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
-        {/* Background Image & Overlay */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          <img
-            src="/images/services-hero.png"
-            alt="Servicios Importphones"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.6)' }}
-          />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
-        </div>
+      <section ref={headerRef} className="page-header hero-awwards" style={{
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        background: 'var(--color-black)'
+      }}>
+        {/* Background Image with Overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'url("/images/services-hero.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.35,
+          filter: 'grayscale(0.4) contrast(1.1)',
+        }} />
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+        {/* Animated Gradient Overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to right, var(--color-black) 0%, rgba(0,0,0,0.8) 40%, transparent 100%)',
+          zIndex: 1
+        }} />
 
-            {/* Left side: Content */}
-            <div style={{ zIndex: 2, position: 'relative' }}>
-              <p className="hero-label" style={{ marginBottom: '1.5rem' }}>SERVICIOS</p>
+        {/* Content Container */}
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full" style={{ position: 'relative', zIndex: 2 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>SOLUCIONES</span>
-                </div>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>
-                    DE <span style={{ color: '#E53935' }}>AHORRO</span>
-                  </span>
-                </div>
+            {/* Left Column: Title & Buttons (Aligned below title) */}
+            <div style={{ zIndex: 2 }}>
+              <p className="page-header-label mb-6 inline-block" style={{
+                letterSpacing: '0.4em',
+                fontSize: '0.8rem',
+                color: 'var(--color-primary)',
+                textTransform: 'uppercase',
+                fontWeight: 800
+              }}>
+                — EXPERIENCIA Y EFICACIA —
+              </p>
+              <h1 className="hero-title-brutal mb-8" style={{ color: '#fff' }}>
+                Soluciones de <br />
+                <span style={{ color: '#E53935' }}>Ahorro</span> Real
               </h1>
 
-              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
-                Transformamos tu consumo en eficiencia. Expertos en optimizar tus facturas
-                de energía y telecomunicaciones con tarifas exclusivas.
-              </p>
-
-              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
-                <Link to="/contacto" className="btn-primary">
-                  <span>Solicitar estudio gratuito</span>
+              {/* Botones alineados debajo del título */}
+              <div className="flex flex-wrap gap-6 mb-12">
+                <Link to="/contacto" className="btn-primary" style={{ padding: '1.2rem 2.5rem' }}>
+                  <span>Solicitar Estudio</span>
                   <ArrowRight size={18} />
                 </Link>
+                <a href="#principales" className="btn-outline" onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector('#principales')?.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  Explorar Servicios
+                </a>
+              </div>
+
+              {/* Decorative accent squares for brutalist feel */}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '2rem' }}>
+                <div style={{ width: '12px', height: '12px', background: '#E53935' }} />
+                <div style={{ width: '12px', height: '12px', background: 'rgba(255,255,255,0.2)' }} />
+                <div style={{ width: '12px', height: '12px', background: 'rgba(255,255,255,0.1)' }} />
               </div>
             </div>
 
-            {/* Right side: Info Cards */}
-            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              {[
-                { icon: Zap, label: 'Energía', sub: 'Ahorro Real', img: 'https://images.unsplash.com/photo-1466611653911-95282fc3656b?auto=format&fit=crop&w=400&q=80' },
-                { icon: Wifi, label: 'Telecom', sub: 'Tarifas VIP', img: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80' },
-              ].map((item, i) => (
-                <div key={i} className="trust-card-brutal" style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '16px', padding: '2.5rem 1.5rem', textAlign: 'center'
-                }}>
-                  <div style={{ width: '50px', height: '50px', background: 'rgba(229,57,53,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: '#E53935' }}>
-                    <item.icon size={24} />
+            {/* Right Column: Centered Description & Info Squares below it */}
+            <div style={{
+              paddingLeft: 'clamp(0rem, 5vw, 4rem)',
+              borderLeft: '1px solid rgba(255,255,255,0.1)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              textAlign: 'center',
+              marginTop: '4rem'
+            }}>
+              <p className="page-header-subtitle text-xl mb-12" style={{
+                lineHeight: 1.7,
+                maxWidth: '600px',
+                fontWeight: 500,
+                color: '#ffffff'
+              }}>
+                Transformamos tu consumo en eficiencia. Expertos en optimizar tus facturas
+                de energía y telecomunicaciones con acceso a tarifas exclusivas que no verás en otro lugar.
+              </p>
+
+              {/* Info Squares (Cuadraditos) alineados debajo del texto */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', width: '100%', maxWidth: '500px' }}>
+                {[
+                  { icon: Zap, label: 'Energía', sub: 'Ahorro Real', img: 'https://images.unsplash.com/photo-1466611653911-95282fc3656b?auto=format&fit=crop&w=400&q=80' },
+                  { icon: Wifi, label: 'Telecom', sub: 'Tarifas VIP', img: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80' },
+                ].map((item, i) => (
+                  <div key={i} style={{
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    padding: '1.5rem',
+                    borderRadius: '2px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    textAlign: 'left'
+                  }}>
+                    {/* Background decoration with mini gradient image */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      backgroundImage: `url("${item.img}")`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      opacity: 0.15,
+                      zIndex: 0
+                    }} />
+                    {/* Image Gradient Technique (darker overlay) */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to right, rgba(0,0,0,0.8), transparent)',
+                      zIndex: 1
+                    }} />
+
+                    <div style={{
+                      width: '40px', height: '40px',
+                      background: 'rgba(229,57,53,0.1)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: '#E53935',
+                      position: 'relative',
+                      zIndex: 2
+                    }}>
+                      <item.icon size={20} />
+                    </div>
+                    <div style={{ position: 'relative', zIndex: 2 }}>
+                      <div style={{ color: '#fff', fontWeight: 700, fontSize: '0.9rem' }}>{item.label}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600 }}>{item.sub}</div>
+                    </div>
                   </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', lineHeight: 1, marginBottom: '0.5rem' }}>{item.label}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase' }}>{item.sub}</div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
+
           </div>
         </div>
+
         {/* Global Bottom Divider */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
       </section>
@@ -899,15 +980,15 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
         <div className="max-w-[1800px] mx-auto px-6 lg:px-12 position-relative" style={{ zIndex: 1 }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '4rem', alignItems: 'center' }}>
             <div>
-              <p style={{ fontSize: '1.2rem', fontWeight: 900, letterSpacing: '0.4em', textTransform: 'uppercase', color: '#111', marginBottom: '2rem' }}>
+              <p style={{ fontSize: '0.9rem', fontWeight: 900, letterSpacing: '0.3em', textTransform: 'uppercase', color: '#111', marginBottom: '2rem' }}>
                 — EMPIEZA HOY, ES GRATIS
               </p>
               <h2 className="cta-service-content" style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(4rem, 8vw, 7rem)',
+                fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
                 fontWeight: 900,
                 color: '#fff',
-                lineHeight: 0.9,
+                lineHeight: 1.1,
                 textTransform: 'uppercase',
                 marginBottom: '2rem'
               }}>
@@ -960,7 +1041,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
         </div>
       </section>
 
-    </div >
+    </div>
   );
 };
 

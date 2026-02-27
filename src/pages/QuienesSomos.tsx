@@ -13,7 +13,8 @@ interface QuienesSomosProps {
 }
 
 const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
-  const pageRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
   const missionRef = useRef<HTMLDivElement>(null);
   const valuesRef = useRef<HTMLDivElement>(null);
@@ -25,45 +26,23 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
 
     const ctx = gsap.context(() => {
       // Page title reveal
-      const heroTitle = pageRef.current?.querySelector<HTMLElement>('.page-header-title');
-      if (heroTitle) {
-        heroTitle.classList.add('split-target');
-        const split = new SplitType(heroTitle, { types: 'words,chars' });
-        gsap.fromTo(split.chars,
-          { y: '110%', opacity: 0 },
-          { y: '0%', opacity: 1, duration: 0.8, stagger: 0.025, ease: 'power3.out', delay: 0.4 }
+      if (titleRef.current) {
+        const words = titleRef.current.querySelectorAll('.hero-word-line');
+        gsap.fromTo(words,
+          { y: '110%', opacity: 0, skewY: 3 },
+          { y: '0%', opacity: 1, skewY: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.3 }
         );
       }
-      gsap.fromTo('.page-header-subtitle',
-        { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.8 }
+      gsap.fromTo('.hero-subtitle',
+        { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.9 }
       );
-      gsap.fromTo('.qs-skyline-path',
-        { strokeDashoffset: 2000 },
-        { strokeDashoffset: 0, duration: 2.8, ease: 'power2.out', stagger: 0.1, delay: 0.3 }
+      gsap.fromTo('.hero-cta',
+        { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 1.1 }
       );
-
-      // Parallax effect for the hero image
-      gsap.to('.page-header img', {
-        y: '20%',
-        scale: 1.25,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.page-header',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
-
-      // Animate Hero Badges
-      gsap.from('.page-header .flex.items-center', {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: 'power3.out',
-        delay: 1.2
-      });
+      gsap.fromTo('.hero-badge-ref',
+        { scale: 0, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.6, stagger: 0.15, ease: 'back.out(1.7)', delay: 1.3 }
+      );
 
       // History section
       gsap.fromTo('.history-content',
@@ -155,7 +134,7 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
         { y: 60, opacity: 0 },
         { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: ctaRef.current, start: 'top 70%' } }
       );
-    }, pageRef);
+    }, heroRef);
 
     return () => ctx.revert();
   }, [isLoaded]);
@@ -216,79 +195,81 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
   };
 
   return (
-    <div ref={pageRef} className="overflow-hidden">
+    <div ref={heroRef} className="overflow-hidden">
 
-      {/* ── Hero header (Standardized) ── */}
-      <section className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
-        {/* Background Image with Overlay */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+      {/* ── Hero header ── */}
+      <section className="hero-awwards">
+        {/* Background Image & Overlay */}
+        <div className="absolute inset-0 z-0">
           <img
             src="/images/quienes-somos-hero-v2.png"
             alt="Importphones Equipo"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.6)' }}
+            className="w-full h-full object-cover filter brightness-[0.6] contrast-[1.05]"
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
+          {/* Grainy texture overlay for brutalist feel */}
+          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+
+          {/* Premium Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
         </div>
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
 
-            {/* Left side: Content */}
-            <div style={{ zIndex: 2, position: 'relative' }}>
-              <p className="hero-label" style={{ marginBottom: '1.5rem' }}>NOSOTROS</p>
-
-              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>QUIÉNES</span>
-                </div>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>
-                    <span style={{ color: '#E53935' }}>SOMOS</span>
-                  </span>
-                </div>
+            {/* Left side: Label & Title */}
+            <div className="relative">
+              <p className="hero-label">IMPORTPHONES.NET</p>
+              <h1 ref={titleRef} className="hero-title-brutal">
+                {[
+                  { text: 'QUIÉNES', red: false },
+                  { text: 'SOMOS', red: true },
+                ].map((word, i) => (
+                  <div key={i} style={{ overflow: 'hidden' }}>
+                    <span className="hero-word-line" style={{
+                      display: 'block',
+                      color: word.red ? '#E53935' : '#ffffff',
+                    }}>
+                      {word.text}
+                    </span>
+                  </div>
+                ))}
               </h1>
 
-              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
+              {/* Established Date & Decorative line */}
+              <div className="mt-8 flex items-center gap-6 hero-cta">
+                <div className="h-[2px] w-24 bg-gradient-to-r from-red-600 to-transparent"></div>
+                <p className="text-white/40 text-sm font-bold uppercase tracking-[0.4em]">Est. 2015 — Madrid</p>
+              </div>
+            </div>
+
+            {/* Right side: Description & Badges */}
+            <div className="lg:pl-12 lg:border-l border-white/10" style={{ alignSelf: 'center' }}>
+              <p className="hero-subtitle">
                 Somos un equipo de profesionales apasionados por ayudar a empresas y particulares a optimizar sus gastos en
-                telecomunicaciones y energía con transparencia y resultados garantizados.
+                telecomunicaciones y energía con <strong className="text-white">transparencia y resultados garantizados</strong>.
               </p>
 
-              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
-                <a href="#historia" className="btn-primary" onClick={(e) => {
-                  e.preventDefault();
-                  document.querySelector('#historia')?.scrollIntoView({ behavior: 'smooth' });
-                }}>
-                  <span>Nuestra historia</span>
-                  <ArrowRight size={18} />
-                </a>
+              {/* Trust badges */}
+              <div className="flex flex-wrap items-center gap-12">
+                {[
+                  { label: 'Certificada', sub: 'Excelencia', icon: Award },
+                  { label: 'Humana', sub: 'Cercanía', icon: Users },
+                ].map((b, i) => (
+                  <div key={i} className="hero-badge-ref" style={{
+                    borderLeft: '2px solid rgba(229,57,53,0.6)',
+                    paddingLeft: '1.25rem',
+                  }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 900, color: '#E53935', lineHeight: 1 }}>{b.label}</div>
+                    <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', fontWeight: 500, marginTop: '0.25rem' }}>{b.sub}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Right side: Stats/Badges */}
-            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              <div className="flex items-center gap-5 group trust-card-brutal" style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)' }}>
-                <div className="w-16 h-16 rounded-[22px] bg-white/[0.03] border border-white/10 flex items-center justify-center text-white transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600">
-                  <Award size={30} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <p className="text-red-600 font-black text-xl leading-none tracking-tight">Excelencia</p>
-                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mt-1.5 font-bold">Certificada</p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-5 group trust-card-brutal" style={{ background: 'rgba(255,255,255,0.05)', padding: '2rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)' }}>
-                <div className="w-16 h-16 rounded-[22px] bg-white/[0.03] border border-white/10 flex items-center justify-center text-white transition-all duration-500 group-hover:bg-red-600 group-hover:border-red-600">
-                  <Users size={30} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <p className="text-red-600 font-black text-xl leading-none tracking-tight">Cercanía</p>
-                  <p className="text-white/30 text-[10px] uppercase tracking-[0.2em] mt-1.5 font-bold">Humana</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+
         {/* Minimal Scroll Indicator */}
         <div className="absolute bottom-8 left-12 flex flex-col items-center gap-3">
           <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-20"></div>
@@ -297,7 +278,7 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
       </section>
 
       {/* ── Historia: two-column with premium presentation ── */}
-      <section id="historia" ref={historyRef} className="section-light bg-[#fdfdfd]" style={{ padding: 'clamp(6rem, 12vw, 10rem) 0', position: 'relative', overflow: 'hidden' }}>
+      <section ref={historyRef} className="section-light bg-[#fdfdfd]" style={{ padding: 'clamp(6rem, 12vw, 10rem) 0', position: 'relative', overflow: 'hidden' }}>
         {/* Subtle decorative elements */}
         <div className="absolute top-0 right-0 w-1/3 h-full bg-slate-50/50 -skew-x-12 translate-x-1/2 z-0"></div>
 
@@ -342,12 +323,13 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
             </div>
 
             {/* Right: real photo — premium presentation */}
-            <div className="history-image-col order-1 lg:order-2 group" style={{ position: 'relative' }}>
-              <div className="relative z-10 w-full aspect-[4/5] lg:aspect-[4/3] rounded-[40px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] bg-slate-200">
+            <div className="history-image-col order-1 lg:order-2 group" style={{ position: 'relative', width: '100%', maxWidth: '900px' }}>
+              <div className="relative z-10 w-full aspect-[16/10] lg:aspect-[16/9] rounded-[40px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] bg-slate-200">
                 <img
                   src="/images/service-telecom.jpg"
                   alt="Equipo Importphones trabajando"
                   className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  style={{ transform: 'scale(1.05)' }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
@@ -595,8 +577,8 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
       {/* ── Why Us with Image ── */}
       <section style={{ background: '#0a0a0a', padding: 'clamp(5rem, 9vw, 8rem) 0' }}>
         <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'center' }}>
-            <div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '4rem', alignItems: 'center' }}>
+            <div style={{ textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
               <span style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em', color: '#E53935', textTransform: 'uppercase', display: 'block', marginBottom: '1rem' }}>VENTAJAS</span>
               <h2 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 800, color: '#fff', lineHeight: 1.2, marginBottom: '2rem' }}>
                 ¿Por qué <span style={{ color: '#E53935' }}>elegirnos?</span>
@@ -610,7 +592,7 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
                 ))}
               </ul>
             </div>
-            <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', aspectRatio: '4/3' }}>
+            <div style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', aspectRatio: '21/9', gridColumn: 'span 2', width: '100%' }}>
               <img src="/images/service-energy.jpg" alt="Ahorra tiempo y dinero" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.7)' }} />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(229,57,53,0.4), transparent)' }} />
               <div style={{ position: 'absolute', bottom: '2rem', left: '2rem', color: '#fff' }}>
@@ -707,7 +689,7 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
           </Link>
         </div>
       </section>
-    </div >
+    </div>
   );
 };
 

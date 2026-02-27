@@ -3,15 +3,14 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Shield, Clock, TrendingUp, CheckCircle, Headphones, Star, Leaf } from 'lucide-react';
-import SplitType from 'split-type';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface ServiciosEnergiaProps { isLoaded: boolean; }
 
 const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
-  const pageRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const providersRef = useRef<HTMLDivElement>(null);
   const benefitsRef = useRef<HTMLDivElement>(null);
@@ -25,23 +24,20 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
     const ctx = gsap.context(() => {
 
       // ── Hero title
-      const heroTitle = pageRef.current?.querySelector<HTMLElement>('.page-header-title');
-      if (heroTitle) {
-        heroTitle.classList.add('split-target');
-        const sp = new SplitType(heroTitle, { types: 'words,chars' });
-        gsap.fromTo(sp.chars,
-          { y: '110%', opacity: 0 },
-          { y: '0%', opacity: 1, duration: 0.8, stagger: 0.025, ease: 'power3.out', delay: 0.4 }
+      if (titleRef.current) {
+        const words = titleRef.current.querySelectorAll('.hero-word-line');
+        gsap.fromTo(words,
+          { y: '110%', opacity: 0, skewY: 3 },
+          { y: '0%', opacity: 1, skewY: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.3 }
         );
       }
-      gsap.fromTo('.page-header-subtitle', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.8 });
-      gsap.fromTo('.page-header-label', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', delay: 0.2 });
+      gsap.fromTo('.hero-subtitle', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.8 });
 
       // Hero image animation (Target removed, keeping delay logic synchronized)
 
       // Hero stat numbers count-up
-      const statEls = pageRef.current?.querySelectorAll<HTMLElement>('.en-hero-stat');
-      statEls?.forEach((el) => {
+      const statEls = heroRef.current?.querySelectorAll<HTMLElement>('.en-hero-stat');
+      statEls?.forEach((el: HTMLElement) => {
         const target = parseFloat(el.dataset.target || '0');
         const suffix = el.dataset.suffix || '';
         const counter = { val: 0 };
@@ -140,7 +136,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
         }
       );
 
-    }, pageRef);
+    }, heroRef);
     return () => ctx.revert();
   }, [isLoaded]);
 
@@ -204,78 +200,82 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
   };
 
   return (
-    <div ref={pageRef} className="overflow-hidden">
+    <div ref={heroRef} className="overflow-hidden">
 
       {/* ══════════════════════════════════════════════
-          S1 — HERO (Standardized)
+          S1 — HERO (2-col brutalist dark red energy)
       ══════════════════════════════════════════════ */}
-      <section ref={headerRef} className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+      {/* ── S1: HERO */}
+      <section className="hero-awwards">
         {/* Background Image & Overlay */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <div className="absolute inset-0 z-0">
           <img
             src="/images/energy-hero-bg.jpg"
-            alt="Servicios Energía"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.6)' }}
+            alt="Energía"
+            className="w-full h-full object-cover filter brightness-[0.35]"
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
+          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
         </div>
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-
-            {/* Left side: Content */}
-            <div style={{ zIndex: 2, position: 'relative' }}>
-              <p className="hero-label" style={{ marginBottom: '1.5rem' }}>ENERGÍA</p>
-
-              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>AHORRO</span>
-                </div>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>
-                    <span style={{ color: '#E53935' }}>ENERGÉTICO</span>
-                  </span>
-                </div>
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div>
+              <p className="hero-label">SERVICIOS</p>
+              <h1 ref={titleRef} className="hero-title-brutal">
+                {[
+                  { text: 'ENERGÍA', red: true },
+                  { text: '& AHORRO', red: false },
+                ].map((word, i) => (
+                  <div key={i} style={{ overflow: 'hidden' }}>
+                    <span className="hero-word-line" style={{
+                      display: 'block',
+                      color: word.red ? '#E53935' : '#ffffff',
+                    }}>
+                      {word.text}
+                    </span>
+                  </div>
+                ))}
               </h1>
-
-              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
-                Optimiza tu factura eléctrica y ahorra hasta un 40%.
-                Gestionamos el cambio de compañía sin cortes de suministro.
+              <p className="hero-subtitle mb-8">
+                Optimiza tu factura eléctrica y ahorra hasta un 40%. Gestionamos el cambio de compañía sin cortes de suministro y con asesoramiento personalizado.
               </p>
 
-              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
-                <Link to="/contacto" className="btn-primary">
-                  <span>Solicitar estudio gratuito</span>
-                  <ArrowRight size={18} />
-                </Link>
+              {/* Stat row */}
+              <div className="flex gap-8 mt-12 bg-white/[0.03] border border-white/10 p-8 rounded-2xl backdrop-blur-sm">
+                {[
+                  { target: 40, suffix: '%', label: 'Ahorro' },
+                  { target: 5000, suffix: '+', label: 'Clientes' },
+                  { target: 24, suffix: 'h', label: 'Estudio' },
+                ].map((s, i) => (
+                  <div key={i}>
+                    <div className="en-hero-stat" data-target={s.target} data-suffix={s.suffix}
+                      style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, color: '#E53935', lineHeight: 1 }}>
+                      0{s.suffix}
+                    </div>
+                    <div className="text-[10px] text-white/40 uppercase tracking-widest font-bold mt-1">{s.label}</div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Right side: Stats/Info Cards */}
-            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              {[
-                { target: 40, suffix: '%', label: 'Ahorro medio' },
-                { target: 5000, suffix: '+', label: 'Clientes activos' },
-                { target: 15, suffix: ' días', label: 'Cambio máximo' },
-                { target: 100, suffix: '%', label: 'Compromiso' },
-              ].map((s, i) => (
-                <div key={i} className="trust-card-brutal" style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '16px', padding: '2rem 1.5rem', textAlign: 'center',
-                  display: 'flex', flexDirection: 'column', justifyContent: 'center'
-                }}>
-                  <div className="en-hero-stat" data-target={s.target} data-suffix={s.suffix}
-                    style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 900, color: '#E53935', lineHeight: 1, marginBottom: '0.5rem' }}>
-                    0{s.suffix}
-                  </div>
-                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>{s.label}</div>
-                </div>
-              ))}
+            <div className="hidden lg:block relative">
+              <div className="aspect-[4/3] border-[6px] border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+                <img src="/images/service-energy.jpg" alt="Ahorro energético" className="w-full h-full object-cover" />
+              </div>
+              <div className="absolute -bottom-6 -right-6 bg-[#E53935] text-white p-6 rounded-2xl shadow-xl border-4 border-black">
+                <div className="text-3xl font-black italic">-40%</div>
+                <div className="text-[10px] font-bold uppercase tracking-wider">Ahorro Garantizado</div>
+              </div>
             </div>
           </div>
+        </div>
+
+        {/* Minimal Scroll Indicator */}
+        <div className="absolute bottom-8 left-12 flex flex-col items-center gap-3">
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-20"></div>
+          <span className="text-[9px] text-white/20 uppercase tracking-[0.4em] font-bold [writing-mode:vertical-lr]">Scroll</span>
         </div>
       </section>
 
@@ -694,7 +694,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
             — Sin coste, sin compromiso —
           </div>
 
-          <h2 className="cta-energy-content" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3.5rem, 7vw, 6rem)', fontWeight: 900, color: '#111', lineHeight: 1, textTransform: 'uppercase', marginBottom: '2rem' }}>
+          <h2 className="cta-energy-content" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', fontWeight: 900, color: '#111', lineHeight: 1.1, textTransform: 'uppercase', marginBottom: '2rem' }}>
             ¿EMPEZAMOS A <br />
             <span style={{ color: '#E53935', textDecoration: 'underline', textDecorationThickness: '10px', textUnderlineOffset: '10px' }}>AHORRAR?</span>
           </h2>

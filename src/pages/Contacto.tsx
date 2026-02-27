@@ -16,7 +16,8 @@ interface ContactoProps {
 }
 
 const Contacto = ({ isLoaded }: ContactoProps) => {
-  const pageRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const infoRef = useRef<HTMLDivElement>(null);
   const methodsRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', message: '', file: null as File | null });
@@ -28,18 +29,17 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
   useEffect(() => {
     if (!isLoaded) return;
     const ctx = gsap.context(() => {
-      const heroTitle = pageRef.current?.querySelector<HTMLElement>('.ct-title');
-      if (heroTitle) {
-        heroTitle.classList.add('split-target');
-        const split = new SplitType(heroTitle, { types: 'words,chars' });
-        gsap.fromTo(split.chars,
-          { y: '110%', opacity: 0 },
-          { y: '0%', opacity: 1, duration: 0.8, stagger: 0.025, ease: 'power3.out', delay: 0.4 }
+      // Hero Animations
+      if (titleRef.current) {
+        const words = titleRef.current.querySelectorAll('.hero-word-line');
+        gsap.fromTo(words,
+          { y: '110%', opacity: 0, skewY: 3 },
+          { y: '0%', opacity: 1, skewY: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.3 }
         );
       }
-      gsap.fromTo('.ct-hero-sub', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.85 });
+      gsap.fromTo('.hero-subtitle', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.9 });
       gsap.fromTo('.ct-envelope-path', { strokeDashoffset: 2000 }, { strokeDashoffset: 0, duration: 2.5, ease: 'power2.out', stagger: 0.08, delay: 0.3 });
-      gsap.fromTo('.ct-info-stat', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: 'back.out(1.4)', delay: 1.2 });
+      gsap.fromTo('.hero-badge-ref', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: 'back.out(1.4)', delay: 1.2 });
 
       // Info cards & form
       gsap.fromTo('.ct-info-card',
@@ -65,7 +65,7 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
           scrollTrigger: { trigger: methodsRef.current, start: 'top 72%' }
         }
       );
-    }, pageRef);
+    }, heroRef);
     return () => ctx.revert();
   }, [isLoaded]);
 
@@ -87,26 +87,13 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
         cloudinaryData.append('file', formData.file);
         cloudinaryData.append('upload_preset', 'u5ic0lzm');
 
-        // Determinar tipo de recurso para evitar errores 401 en PDFs/RAW
-        const isImage = formData.file.type.startsWith('image/');
-        const resourceType = isImage ? 'image' : 'raw';
-
-        const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/drprrdhyp/${resourceType}/upload`, {
+        const cloudinaryRes = await fetch('https://api.cloudinary.com/v1_1/drprrdhyp/auto/upload', {
           method: 'POST',
           body: cloudinaryData
         });
 
         const cloudinaryJson = await cloudinaryRes.json();
-
-        // Si falló secure_url, intentamos url normal, o capturamos error
-        if (cloudinaryJson.secure_url) {
-          fileUrl = cloudinaryJson.secure_url;
-        } else if (cloudinaryJson.url) {
-          fileUrl = cloudinaryJson.url;
-        } else {
-          console.error('Cloudinary Error:', cloudinaryJson);
-          throw new Error('Error al subir el archivo a la nube');
-        }
+        fileUrl = cloudinaryJson.secure_url || fileUrl;
       }
 
       // 2. Enviar datos a FormSubmit con el link de Cloudinary
@@ -165,79 +152,90 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
   ];
 
   return (
-    <div ref={pageRef} className="overflow-hidden">
+    <div ref={heroRef} className="overflow-hidden">
 
-      {/* ── S1: Hero (Standardized) ── */}
-      <section className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
+      {/* ── S1: Hero */}
+      <section className="hero-awwards">
 
-        {/* Professional Background Image & Overlay */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        {/* Background Image & Overlay */}
+        <div className="absolute inset-0 z-0">
           <img
-            src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-            alt="Contacto Importphones"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.6)' }}
+            src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=1920&q=80"
+            alt="Contacto"
+            className="w-full h-full object-cover filter brightness-[0.35]"
           />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
+          <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
         </div>
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
+        {/* Bring SVG envelope to the front */}
+        <div className="hero-subpage-svg" aria-hidden="true" style={{ zIndex: 0, pointerEvents: 'none', filter: 'drop-shadow(0 0 18px rgba(229,57,53,0.9))' }}>
+          <svg viewBox="0 0 700 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path className="ct-envelope-path" d="M120 160 L580 160 L580 400 L120 400 Z" stroke="#ff3b3b" strokeWidth="2.5" strokeDasharray="2000" strokeDashoffset="2000" />
+            <path className="ct-envelope-path" d="M120 160 L350 310 L580 160" stroke="#E53935" strokeWidth="2.5" strokeDasharray="2000" strokeDashoffset="2000" />
+            <path className="ct-envelope-path" d="M120 400 L310 270 M580 400 L390 270" stroke="rgba(255,100,100,0.6)" strokeWidth="2" strokeDasharray="2000" strokeDashoffset="2000" />
+            <path className="ct-envelope-path" d="M590 180 Q630 200 635 240 Q638 275 620 300 L605 315 L590 295 Q602 280 600 255 Q598 225 580 208 Z" stroke="rgba(255,100,100,0.7)" strokeWidth="2" strokeDasharray="2000" strokeDashoffset="2000" />
+            <circle cx="350" cy="310" r="6" fill="#ff3b3b" />
+          </svg>
+        </div>
+
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-
-            {/* Left side: Content */}
-            <div style={{ zIndex: 2, position: 'relative' }}>
-              <p className="hero-label" style={{ marginBottom: '1.5rem' }}>CONTACTO</p>
-
-              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem' }}>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>HABLEMOS</span>
-                </div>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>
-                    DE <span style={{ color: '#E53935' }}>AHORRO</span>
-                  </span>
-                </div>
+            <div>
+              <p className="hero-label">CONTACTO</p>
+              <h1 ref={titleRef} className="hero-title-brutal">
+                {[
+                  { text: 'HABLEMOS', red: false },
+                  { text: 'DE AHORRO', red: true },
+                ].map((word, i) => (
+                  <div key={i} style={{ overflow: 'hidden' }}>
+                    <span className="hero-word-line" style={{
+                      display: 'block',
+                      color: word.red ? '#E53935' : '#ffffff',
+                    }}>
+                      {word.text}
+                    </span>
+                  </div>
+                ))}
               </h1>
-
-              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem' }}>
-                Estamos aquí para ayudarte a reducir tus facturas y optimizar tus servicios.
-                Contacta con nuestro equipo de expertos hoy mismo.
+              <p className="hero-subtitle mb-8">
+                Estamos aquí para ayudarte a reducir tus facturas. Descubre cuánto puedes ahorrar hoy mismo con un análisis personalizado.
               </p>
-
-              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
+              <div className="hero-cta flex gap-4">
                 <a href="tel:+34931596464" className="btn-primary">
                   <Phone size={18} />
                   <span>Llamar ahora</span>
                 </a>
                 <a href="https://wa.me/34611809595" target="_blank" rel="noopener noreferrer"
-                  className="btn-primary"
-                  style={{ background: 'transparent', border: '2px solid rgba(255,255,255,0.3)', color: '#fff' }}>
+                  className="btn-outline">
                   <WhatsAppIcon size={18} />
                   <span>WhatsApp</span>
                 </a>
               </div>
             </div>
 
-            {/* Right side: Stats Cards */}
-            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+            {/* Hero stats */}
+            <div className="grid grid-cols-2 gap-4 lg:gap-6">
               {[
-                { v: 'Gratis', label: 'Análisis de facturas', icon: CheckCircle },
-                { v: '24h', label: 'Propuesta personalizada', icon: Clock },
-                { v: '0€', label: 'Sin costes ocultos', icon: CheckCircle },
-                { v: '100%', label: 'Ahorro garantizado', icon: CheckCircle },
+                { v: 'Gratis', label: 'Análisis de facturas' },
+                { v: '24h', label: 'Propuesta lista' },
+                { v: '0€', label: 'Sin costes' },
+                { v: '100%', label: 'Garantizado' },
               ].map((s, i) => (
-                <div key={i} className="trust-card-brutal" style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '16px', padding: '2.5rem 1.5rem', textAlign: 'center'
-                }}>
-                  <div style={{ fontSize: '2.5rem', fontWeight: 900, color: '#E53935', lineHeight: 1, marginBottom: '0.5rem' }}>{s.v}</div>
-                  <div style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.6)', fontWeight: 500 }}>{s.label}</div>
+                <div key={i} className="hero-badge-ref bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, color: '#E53935', lineHeight: 1 }}>{s.v}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.5rem', fontWeight: 600, textTransform: 'uppercase' }}>{s.label}</div>
                 </div>
               ))}
             </div>
           </div>
+        </div>
+
+        {/* Minimal Scroll Indicator */}
+        <div className="absolute bottom-8 left-12 flex flex-col items-center gap-3">
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-20"></div>
+          <span className="text-[9px] text-white/20 uppercase tracking-[0.4em] font-bold [writing-mode:vertical-lr]">Scroll</span>
         </div>
       </section>
 

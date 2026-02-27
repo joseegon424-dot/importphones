@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SplitType from 'split-type';
 import { Shield, ChevronRight } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -16,19 +15,19 @@ const tocSections = [
 ];
 
 const PoliticaPrivacidad = () => {
-    const pageRef = useRef<HTMLDivElement>(null);
+    const heroRef = useRef<HTMLDivElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
     const [active, setActive] = useState('pp-1');
 
     useEffect(() => {
         window.scrollTo(0, 0);
         const ctx = gsap.context(() => {
-            const title = pageRef.current?.querySelector<HTMLElement>('.pp-title');
-            if (title) {
-                title.classList.add('split-target');
-                const split = new SplitType(title, { types: 'words,chars' });
-                gsap.fromTo(split.chars,
-                    { y: '110%', opacity: 0 },
-                    { y: '0%', opacity: 1, duration: 0.7, stagger: 0.02, ease: 'power3.out', delay: 0.3 }
+            // ── Hero title
+            if (titleRef.current) {
+                const words = titleRef.current.querySelectorAll('.hero-word-line');
+                gsap.fromTo(words,
+                    { y: '110%', opacity: 0, skewY: 3 },
+                    { y: '0%', opacity: 1, skewY: 0, duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.3 }
                 );
             }
             gsap.fromTo('.pp-hero-sub', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.8 });
@@ -47,7 +46,7 @@ const PoliticaPrivacidad = () => {
                     onEnterBack: () => setActive(sec.id),
                 });
             });
-        }, pageRef);
+        }, heroRef);
         return () => ctx.revert();
     }, []);
 
@@ -74,39 +73,61 @@ const PoliticaPrivacidad = () => {
     );
 
     return (
-        <div ref={pageRef} className="overflow-hidden">
-            <section className="page-header hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {/* Background image — privacy / security */}
-                <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <div ref={heroRef} className="overflow-hidden">
+            {/* ── S1: HERO */}
+            <section className="hero-awwards">
+                {/* Background Image & Overlay */}
+                <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1920&q=80"
                         alt="Política de Privacidad"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.22)' }}
+                        className="w-full h-full object-cover filter brightness-[0.25]"
                     />
+                    <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-transparent to-transparent" />
                 </div>
-                <div className="hero-subpage-svg" aria-hidden="true" style={{ zIndex: 1 }}>
+
+                <div className="hero-subpage-svg" aria-hidden="true" style={{ zIndex: 1, opacity: 0.4 }}>
                     <svg viewBox="0 0 700 500" fill="none">
-                        {/* Shield */}
                         <path className="pp-svg-path"
                             d="M350 80 L470 130 L470 260 Q470 370 350 420 Q230 370 230 260 L230 130 Z"
                             stroke="#E53935" strokeWidth="1.5" strokeDasharray="2000" strokeDashoffset="2000" />
                         <path className="pp-svg-path"
                             d="M350 100 L455 145 L455 258 Q455 355 350 400 Q245 355 245 258 L245 145 Z"
                             stroke="rgba(229,57,53,0.4)" strokeWidth="1" strokeDasharray="2000" strokeDashoffset="2000" />
-                        {/* Check inside */}
                         <path className="pp-svg-path" d="M300 250 L335 285 L410 210"
                             stroke="rgba(229,57,53,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="2000" strokeDashoffset="2000" />
                         <circle cx="350" cy="80" r="5" fill="#E53935" opacity="0.8" />
                     </svg>
                 </div>
-                <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full" style={{ position: 'relative', zIndex: 2, paddingTop: '8rem', paddingBottom: '5rem' }}>
-                    <p className="page-header-label pp-hero-sub" style={{ marginBottom: '1rem' }}>Privacidad</p>
-                    <h1 className="pp-title page-header-title" style={{ overflow: 'hidden', marginBottom: '1.5rem', maxWidth: '780px' }}>
-                        Política de <span style={{ color: '#E53935' }}>Privacidad</span>
+
+                <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full relative z-10">
+                    <p className="hero-label pp-hero-sub">PRIVACIDAD</p>
+                    <h1 ref={titleRef} className="hero-title-brutal">
+                        {[
+                            { text: 'POLÍTICA DE', red: false },
+                            { text: 'PRIVACIDAD', red: true },
+                        ].map((word, i) => (
+                            <div key={i} style={{ overflow: 'hidden' }}>
+                                <span className="hero-word-line" style={{
+                                    display: 'block',
+                                    color: word.red ? '#E53935' : '#ffffff',
+                                }}>
+                                    {word.text}
+                                </span>
+                            </div>
+                        ))}
                     </h1>
-                    <p className="pp-hero-sub" style={{ color: 'rgba(255,255,255,0.55)', fontSize: '1.05rem', maxWidth: '560px', lineHeight: 1.7 }}>
-                        Este texto cumple con el Reglamento General de Protección de Datos (RGPD) europeo y la LOPDGDD española.
+                    <p className="hero-subtitle pp-hero-sub max-w-[600px]">
+                        Tu seguridad y confianza son nuestra prioridad. Cumplimos rigurosamente con el RGPD para proteger tus datos personales.
                     </p>
+                </div>
+
+                {/* Minimal Scroll Indicator */}
+                <div className="absolute bottom-8 left-12 flex flex-col items-center gap-3">
+                    <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-20"></div>
+                    <span className="text-[9px] text-white/20 uppercase tracking-[0.4em] font-bold [writing-mode:vertical-lr]">Scroll</span>
                 </div>
             </section>
 

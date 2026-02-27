@@ -11,8 +11,8 @@ interface TrabajaConNosotrosProps {
 }
 
 const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
-    const pageRef = useRef<HTMLDivElement>(null);
-    const heroRef = useRef<HTMLElement>(null);
+    const heroRef = useRef<HTMLDivElement>(null);
+    const titleRef = useRef<HTMLHeadingElement>(null);
     const whyRef = useRef<HTMLElement>(null);
     const productsRef = useRef<HTMLDivElement>(null);
     const whatWeLookForRef = useRef<HTMLDivElement>(null);
@@ -33,17 +33,20 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
 
         const ctx = gsap.context(() => {
             // Hero Animations
-            gsap.fromTo('.tcn-hero-title',
-                { y: 40, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.2 }
-            );
-            gsap.fromTo('.tcn-hero-sub',
+            if (titleRef.current) {
+                const words = titleRef.current.querySelectorAll('.hero-word-line');
+                gsap.fromTo(words,
+                    { y: '110%', opacity: 0, skewY: 3 },
+                    { y: '0%', opacity: 1, skewY: 0, duration: 0.9, stagger: 0.12, ease: 'power3.out', delay: 0.3 }
+                );
+            }
+            gsap.fromTo('.hero-subtitle',
                 { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.5 }
+                { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.9 }
             );
-            gsap.fromTo('.tcn-hero-cta',
+            gsap.fromTo('.hero-cta',
                 { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.7 }
+                { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 1.1 }
             );
 
             // Benefits Animations
@@ -91,7 +94,7 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
                 }
             );
 
-        }, pageRef);
+        }, heroRef);
         return () => ctx.revert();
     }, [isLoaded]);
 
@@ -116,25 +119,13 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
                 cloudinaryData.append('file', formData.file);
                 cloudinaryData.append('upload_preset', 'u5ic0lzm');
 
-                // Determinar tipo de recurso para evitar errores 401 en PDFs/RAW
-                const isImage = formData.file.type.startsWith('image/');
-                const resourceType = isImage ? 'image' : 'raw';
-
-                const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/drprrdhyp/${resourceType}/upload`, {
+                const cloudinaryRes = await fetch('https://api.cloudinary.com/v1_1/drprrdhyp/auto/upload', {
                     method: 'POST',
                     body: cloudinaryData
                 });
 
                 const cloudinaryJson = await cloudinaryRes.json();
-
-                if (cloudinaryJson.secure_url) {
-                    fileUrl = cloudinaryJson.secure_url;
-                } else if (cloudinaryJson.url) {
-                    fileUrl = cloudinaryJson.url;
-                } else {
-                    console.error('Cloudinary Error:', cloudinaryJson);
-                    throw new Error('Error al subir el CV');
-                }
+                fileUrl = cloudinaryJson.secure_url || fileUrl;
             }
 
             // 2. Enviar datos a FormSubmit con el link de Cloudinary
@@ -176,58 +167,68 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
     };
 
     return (
-        <div ref={pageRef} className="overflow-hidden bg-[#FAFAFA]">
-
-            {/* ── 1. HERO SECTION (Standardized) ── */}
-            <section ref={heroRef} className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
-                <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <div ref={heroRef} className="overflow-hidden">
+            {/* ── 1. HERO SECTION ── */}
+            <section className="hero-awwards">
+                {/* Background Image & Overlay */}
+                <div className="absolute inset-0 z-0">
                     <img
                         src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
-                        alt="Trabaja con nosotros Importphones"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)' }}
+                        alt="Join our team"
+                        className="w-full h-full object-cover filter brightness-[0.5] contrast-[1.1]"
                     />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 50%)' }} />
+                    <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3BaseFilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/baseFilter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/40 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent" />
                 </div>
 
-                <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-                        <div style={{ zIndex: 2, position: 'relative' }}>
-                            <p className="hero-label" style={{ marginBottom: '1.5rem', color: '#E53935' }}>UNETE AL EQUIPO</p>
+                <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-                            <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
-                                <div style={{ overflow: 'hidden' }}>
-                                    <span className="hero-word-line" style={{ display: 'block' }}>COMERCIAL</span>
-                                </div>
-                                <div style={{ overflow: 'hidden' }}>
-                                    <span className="hero-word-line" style={{ display: 'block' }}>
-                                        <span style={{ color: '#E53935' }}>FREELANCE</span>
-                                    </span>
-                                </div>
+                        {/* Left side: Label & Title */}
+                        <div className="relative">
+                            <p className="hero-label">ÚNETE AL EQUIPO</p>
+                            <h1 ref={titleRef} className="hero-title-brutal">
+                                {[
+                                    { text: 'TRABAJA', red: false },
+                                    { text: 'CON NOSOTROS', red: true },
+                                ].map((word, i) => (
+                                    <div key={i} style={{ overflow: 'hidden' }}>
+                                        <span className="hero-word-line" style={{
+                                            display: 'block',
+                                            color: word.red ? '#E53935' : '#ffffff',
+                                        }}>
+                                            {word.text}
+                                        </span>
+                                    </div>
+                                ))}
                             </h1>
+                            <div className="mt-8 flex items-center gap-6 hero-cta">
+                                <div className="h-[2px] w-24 bg-gradient-to-r from-red-600 to-transparent"></div>
+                                <p className="text-white/40 text-sm font-bold uppercase tracking-[0.4em]">Freelance — Oportunidades</p>
+                            </div>
+                        </div>
 
-                            <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
-                                ¿Buscas maximizar tus ingresos con total libertad?
-                                En ImportPhones estamos expandiendo nuestra red comercial.
-                                Si eres ambicioso y proactivo, este es tu sitio.
+                        {/* Right side: Subtitle & CTA */}
+                        <div className="lg:pl-12 lg:border-l border-white/10" style={{ alignSelf: 'center' }}>
+                            <p className="hero-subtitle mb-8">
+                                ¿Buscas maximizar tus ingresos con total libertad? Estamos expandiendo nuestra red comercial y buscamos a los mejores talentos en ventas. Un modelo de negocio rentable y flexible te espera.
                             </p>
-
-                            <div className="hero-cta visible" style={{ opacity: 1, transform: 'none' }}>
-                                <a href="#application-form" className="btn-primary" style={{ padding: '1rem 2.5rem', borderRadius: '50px' }}>
+                            <div className="hero-cta">
+                                <a href="#application-form" className="btn-primary">
+                                    <Rocket size={18} />
                                     <span>Solicitar información</span>
-                                    <ArrowRight size={18} />
                                 </a>
                             </div>
                         </div>
 
-                        {/* Visual element or secondary text can go here */}
-                        <div className="hidden lg:block" style={{ zIndex: 2, position: 'relative' }}>
-                            <div style={{ border: '2px solid #E53935', padding: '3rem', borderRadius: '24px', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(10px)' }}>
-                                <h3 style={{ color: '#fff', fontSize: '1.5rem', fontWeight: 800, marginBottom: '1rem' }}>SÉ TU PROPIO JEFE</h3>
-                                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>Ofrecemos las comisiones más altas del mercado y un modelo de negocio probado.</p>
-                            </div>
-                        </div>
                     </div>
+                </div>
+
+                {/* Minimal Scroll Indicator */}
+                <div className="absolute bottom-8 left-12 flex flex-col items-center gap-3">
+                    <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent opacity-20"></div>
+                    <span className="text-[9px] text-white/20 uppercase tracking-[0.4em] font-bold [writing-mode:vertical-lr]">Scroll</span>
                 </div>
             </section>
 

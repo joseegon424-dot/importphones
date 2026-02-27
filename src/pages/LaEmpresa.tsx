@@ -156,74 +156,26 @@ const LaEmpresa = () => {
 
   return (
     <div ref={pageRef} className="overflow-hidden">
-      {/* ══════════════════════════════════════════════
-          S1 — HERO (Standardized)
-      ══════════════════════════════════════════════ */}
-      <section className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center' }}>
-        {/* Background Image & Overlay */}
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
-          <img
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1800&q=80"
-            alt="La Empresa"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter: 'brightness(0.5)' }}
-          />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 60%, transparent 100%)' }} />
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(229,57,53,0.2) 0%, transparent 50%)' }} />
-        </div>
+      {/* Hero Section */}
+      <section className="page-header hero-awwards" style={{ position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', background: '#E53935' }}>
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-black/20 to-transparent"></div>
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full hero-content-z">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-
-            {/* Left side: Content */}
-            <div style={{ zIndex: 2, position: 'relative' }}>
-              <p className="hero-label" style={{ marginBottom: '1.5rem', background: '#E53935' }}>LA EMPRESA</p>
-
-              <h1 className="hero-title-brutal" style={{ marginBottom: '2rem', color: '#fff' }}>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>TU ALIADO</span>
-                </div>
-                <div style={{ overflow: 'hidden' }}>
-                  <span className="hero-word-line" style={{ display: 'block' }}>
-                    <span style={{ color: '#E53935' }}>ESTRATÉGICO</span>
-                  </span>
-                </div>
-              </h1>
-
-              <p className="hero-subtitle visible" style={{ color: 'rgba(255,255,255,0.7)', opacity: 1, transform: 'none', marginBottom: '3rem', maxWidth: '600px' }}>
-                IMPORTPHONES.NET nace con la vocación de ofrecer un servicio integral de consultoría en telecomunicaciones y energía. Apostamos por la cercanía y profesionalidad.
-              </p>
-
-              <div className="hero-cta visible" style={{ opacity: 1, transform: 'none', display: 'flex', gap: '1rem' }}>
-                <a href="#historia" className="btn-primary">
-                  <span>Nuestra Historia</span>
-                  <Award size={18} />
-                </a>
-              </div>
-            </div>
-
-            {/* Right side: Stats/Info Cards */}
-            <div style={{ zIndex: 2, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-              {[
-                { icon: Calendar, value: '10+', label: 'Años' },
-                { icon: Users, value: '5000+', label: 'Clientes' },
-                { icon: Star, value: '881', label: 'Reseñas' },
-                { icon: Award, value: '100%', label: 'Éxito' },
-              ].map((stat, i) => (
-                <div key={i} className="trust-card-brutal" style={{
-                  background: 'rgba(255,255,255,0.05)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255,255,255,0.1)',
-                  borderRadius: '16px', padding: '2rem 1.5rem', textAlign: 'center',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'
-                }}>
-                  <div style={{ color: '#E53935', marginBottom: '0.75rem' }}>
-                    <stat.icon size={32} strokeWidth={1.5} />
-                  </div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#fff', lineHeight: 1, marginBottom: '0.25rem' }}>{stat.value}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', fontWeight: 600, textTransform: 'uppercase' }}>{stat.label}</div>
-                </div>
-              ))}
-            </div>
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full relative z-10">
+          <div className="company-hero-content max-w-4xl">
+            <span className="inline-block bg-black text-white px-4 py-1 text-xs font-bold uppercase tracking-widest mb-6">
+              La Empresa
+            </span>
+            <h1 className="hero-title font-display text-white mb-6">
+              IMPORTPHONES.NET
+              <span className="block text-black">Tu aliado estratégico</span>
+            </h1>
+            <p className="text-xl text-white/90 leading-relaxed max-w-2xl">
+              Nace con la vocación de ofrecer un servicio integral de consultoría en
+              telecomunicaciones y energía. Con amplia experiencia en el sector empresarial,
+              apostamos por la cercanía, la profesionalidad y la búsqueda constante de las mejores
+              condiciones para nuestros clientes.
+            </p>
           </div>
         </div>
       </section>
