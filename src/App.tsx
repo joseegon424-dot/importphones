@@ -19,6 +19,7 @@ import AvisoLegal from './pages/AvisoLegal';
 import PoliticaPrivacidad from './pages/PoliticaPrivacidad';
 import TrabajaConNosotros from './pages/TrabajaConNosotros';
 import WhatsAppFloating from './components/WhatsAppFloating';
+import NotFound from './pages/NotFound';
 
 import './App.css';
 
@@ -129,6 +130,7 @@ const AppContent = () => {
           <Route path="/aviso-legal" element={<AvisoLegal />} />
           <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
           <Route path="/trabaja-con-nosotros" element={<TrabajaConNosotros />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 

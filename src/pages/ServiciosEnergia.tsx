@@ -4,7 +4,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Shield, Clock, TrendingUp, CheckCircle, Headphones, Star, Leaf } from 'lucide-react';
 import SplitType from 'split-type';
-import { allTestimonials } from '../data/testimonials';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,7 +17,6 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
   const benefitsRef = useRef<HTMLDivElement>(null);
   const processRef = useRef<HTMLDivElement>(null);
   const savingsRef = useRef<HTMLDivElement>(null);
-  const testiRef = useRef<HTMLDivElement>(null);
   const faqRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
@@ -39,15 +37,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
       gsap.fromTo('.page-header-subtitle', { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.8 });
       gsap.fromTo('.page-header-label', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power3.out', delay: 0.2 });
 
-      // Lightning bolt SVG
-      gsap.fromTo('.en-bolt-path',
-        { strokeDashoffset: 1500 },
-        { strokeDashoffset: 0, duration: 2.2, ease: 'power2.out', stagger: 0.1, delay: 0.3 }
-      );
-      gsap.fromTo('.en-glow',
-        { opacity: 0 },
-        { opacity: 0.6, duration: 1.2, yoyo: true, repeat: -1, ease: 'sine.inOut', delay: 2 }
-      );
+      // Hero image animation (Target removed, keeping delay logic synchronized)
 
       // Hero stat numbers count-up
       const statEls = pageRef.current?.querySelectorAll<HTMLElement>('.en-hero-stat');
@@ -56,8 +46,9 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
         const suffix = el.dataset.suffix || '';
         const counter = { val: 0 };
         gsap.to(counter, {
-          val: target, duration: 2, ease: 'power2.out', delay: 1.2,
+          val: target, duration: 2, ease: 'power2.out', delay: 0.6,
           onUpdate: () => { el.textContent = Math.round(counter.val) + suffix; },
+          scrollTrigger: { trigger: el, start: 'top 95%' }
         });
       });
 
@@ -79,10 +70,10 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
 
       // ── Providers
       gsap.fromTo('.en-provider-item',
-        { scale: 0.8, opacity: 0 },
+        { scale: 0.8, opacity: 0, y: 30 },
         {
-          scale: 1, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.5)',
-          scrollTrigger: { trigger: providersRef.current, start: 'top 72%' }
+          scale: 1, opacity: 1, y: 0, duration: 0.6, stagger: 0.1, ease: 'back.out(1.5)',
+          scrollTrigger: { trigger: providersRef.current, start: 'top 75%' }
         }
       );
 
@@ -95,28 +86,21 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
         }
       );
       gsap.fromTo('.en-benefit-img',
-        { x: 60, opacity: 0 },
+        { x: -60, opacity: 0 },
         {
           x: 0, opacity: 1, duration: 1.1, ease: 'power3.out',
           scrollTrigger: { trigger: benefitsRef.current, start: 'top 65%' }
         }
       );
 
-      // ── Process
-      gsap.fromTo('.en-process-step',
-        { x: -40, opacity: 0 },
+      // ── Process (different layout now)
+      gsap.fromTo('.en-process-step-col',
+        { y: 60, opacity: 0 },
         {
-          x: 0, opacity: 1, duration: 0.7, stagger: 0.14, ease: 'power3.out',
-          scrollTrigger: { trigger: processRef.current, start: 'top 72%' }
+          y: 0, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'back.out(1.2)',
+          scrollTrigger: { trigger: processRef.current, start: 'top 75%' }
         }
       );
-      ScrollTrigger.create({
-        trigger: processRef.current, start: 'top 65%', end: 'bottom 35%', scrub: 1,
-        onUpdate: (self) => {
-          const fill = processRef.current?.querySelector<HTMLElement>('.process-svg-line-fill');
-          if (fill) fill.style.height = `${self.progress * 100}%`;
-        },
-      });
 
       // ── Savings section: count-up on numbers
       const savingNums = savingsRef.current?.querySelectorAll<HTMLElement>('.en-saving-num');
@@ -135,15 +119,6 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
         {
           y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
           scrollTrigger: { trigger: savingsRef.current, start: 'top 70%' }
-        }
-      );
-
-      // ── Testimonials
-      gsap.fromTo('.testimonial-card-brutal',
-        { y: 60, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.8, stagger: 0.12, ease: 'power3.out',
-          scrollTrigger: { trigger: testiRef.current, start: 'top 72%' }
         }
       );
 
@@ -192,12 +167,12 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
   ];
 
   const providers = [
-    { name: 'Orange', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg', color: '#FF6600' },
-    { name: 'O2', logo: '/images/logo-o2-WJ0ZyWZ8.png', color: '#003087' },
-    { name: 'Lowi', logo: '/images/logo_lowi_local.svg', color: '#6B21A8' },
-    { name: 'Repsol', logo: '/images/repsol-logo-DmRPVn3o.png', color: '#006C35' },
-    { name: 'Niba', logo: '/images/logo_niba_local.svg', color: '#E53935' },
+    { name: 'Endesa', logo: 'https://firmar.online/wp-content/uploads/2016/07/Endesa-Logo.png', color: '#005481' },
+    { name: 'Iberdrola', logo: 'https://www.liferay.com/documents/10182/454278648/Logo-Iberdrola.png/34596900-51b6-70f0-c88c-6ea56d8f46ec?t=1663242153214&download=true', color: '#3A913F' },
+    { name: 'Niba', logo: 'https://static2.chollometro.com/images/780x408/images/n/niba-LOGO%20(1).png', color: '#FF0000' },
     { name: 'Naturgy', logo: '/images/logo_naturgy_local.svg', color: '#00A859' },
+    { name: 'Repsol', logo: '/images/repsol-logo-DmRPVn3o.png', color: '#006C35' },
+    { name: 'Audax', logo: 'https://upload.wikimedia.org/wikipedia/commons/6/69/Audax_renovables.png', color: '#FFB81C' },
   ];
 
   const benefits = [
@@ -214,15 +189,11 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
     { number: '04', title: 'Ahorro', desc: 'Empiezas a pagar menos' },
   ];
 
-  const testimonials = [allTestimonials[11], allTestimonials[12], allTestimonials[8]];
-
   const faq = [
-    { question: '¿Cuánto tarda el cambio de compañía?', answer: 'Una vez firmado el contrato puede durar entre 5 y 20 días el cambio de comercializadora.' },
-    { question: '¿Tengo que pagar algo por el cambio?', answer: 'No, el cambio es un trámite gratuito. Si sube o baja potencia inscrita sí hay un coste regulado por LEY.' },
-    { question: '¿Cuánto puedo ahorrar realmente?', answer: 'Depende de su tarifa actual y del estudio presentado por nuestro asesor, pero toda esta información la tendrá cuando un asesor se contacte con usted.' },
-    { question: '¿Cuánto tarda la portabilidad?', answer: 'La portabilidad móvil es de 2 días hábiles sin contar festivos ni fines de semana, una vez lanzada la ventana de cambio.' },
-    { question: '¿Pierdo mi número de teléfono?', answer: 'La portabilidad móvil mantiene su mismo número de siempre y no se queda sin línea; el cambio siempre se realiza de madrugada entre las 3 y las 6 AM.' },
-    { question: '¿Hay permanencia?', answer: 'Depende de la compañía; algunas no tienen permanencia, como por ejemplo O2.' },
+    { question: '¿Cuánto tarda el cambio de compañía de luz?', answer: 'Una vez firmado el contrato puede durar entre 5 y 20 días el cambio de comercializadora. Te recordamos que no sufrirás cortes de suministro.' },
+    { question: '¿Tengo que pagar algo por el cambio?', answer: 'No, el cambio es un trámite totalmente gratuito. Si sube o baja potencia inscrita sí hay un coste regulado por LEY de la distribuidora.' },
+    { question: '¿Cuánto puedo ahorrar realmente?', answer: 'Depende de su tarifa actual y del consumo reflejado en el estudio presentado por nuestro asesor. Hay clientes que ahorran hasta un 40% mensual. Esa información la tendrá clara y sin compromiso.' },
+    { question: '¿Hay permanencia?', answer: 'La mayoría de tarifas del mercado libre y de las comercializadoras que ofrecemos NO exigen ningún tipo de permanencia.' },
   ];
 
   const toggleFaq = (index: number) => {
@@ -236,86 +207,124 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
     <div ref={pageRef} className="overflow-hidden">
 
       {/* ══════════════════════════════════════════════
-          S1 — HERO  (dark + lightning SVG + hero stats)
+          S1 — HERO (2-col brutalist dark red energy)
       ══════════════════════════════════════════════ */}
-      <section ref={headerRef} className="page-header" style={{ position: 'relative', overflow: 'hidden', paddingBottom: '5rem' }}>
-        {/* Lightning bolt SVG */}
-        <div className="hero-subpage-svg" aria-hidden="true">
-          <svg viewBox="0 0 700 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path className="en-bolt-path" d="M390 60 L310 250 L370 250 L280 460 L450 220 L380 220 L460 60 Z" stroke="#E53935" strokeWidth="2" strokeDasharray="1500" strokeDashoffset="1500" fill="none" />
-            <path className="en-glow en-bolt-path" d="M390 60 L310 250 L370 250 L280 460 L450 220 L380 220 L460 60 Z" fill="rgba(229,57,53,0.08)" strokeDasharray="1500" strokeDashoffset="1500" />
-            <path className="en-bolt-path" d="M180 180 Q220 280 200 380" stroke="rgba(229,57,53,0.3)" strokeWidth="1.5" strokeDasharray="1500" strokeDashoffset="1500" />
-            <path className="en-bolt-path" d="M520 180 Q480 280 500 380" stroke="rgba(229,57,53,0.3)" strokeWidth="1.5" strokeDasharray="1500" strokeDashoffset="1500" />
-            <line className="en-bolt-path" x1="250" y1="300" x2="232" y2="316" stroke="rgba(229,57,53,0.5)" strokeWidth="1.5" strokeDasharray="1500" strokeDashoffset="1500" />
-            <line className="en-bolt-path" x1="460" y1="320" x2="480" y2="306" stroke="rgba(229,57,53,0.5)" strokeWidth="1.5" strokeDasharray="1500" strokeDashoffset="1500" />
-            <circle cx="350" cy="440" r="6" fill="rgba(229,57,53,0.3)" />
-          </svg>
-        </div>
+      <section ref={headerRef} className="page-header hero-awwards" style={{
+        position: 'relative',
+        overflow: 'hidden',
+        minHeight: '85vh',
+        display: 'flex',
+        alignItems: 'center',
+        backgroundImage: 'url(/images/energy-hero-bg.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
+      }}>
+        {/* Dark Reddish Overlay */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, rgba(229,57,53,0.3) 100%)', zIndex: 1 }} />
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="page-header-label">Servicios</p>
-          <h1 className="page-header-title">
-            <span style={{ color: '#E53935' }}>Energía</span>
-          </h1>
-          <p className="page-header-subtitle">
-            Optimiza tu factura eléctrica y ahorra hasta un 40%.
-            Gestionamos el cambio de compañía sin cortes de suministro.
-          </p>
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full" style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ maxWidth: '800px' }}>
 
-          {/* Hero 3-stat bar */}
-          <div style={{ display: 'flex', gap: '3rem', marginTop: '3rem', flexWrap: 'wrap' }}>
-            {[
-              { target: 40, suffix: '%', label: 'Ahorro medio' },
-              { target: 5000, suffix: '+', label: 'Clientes activos' },
-              { target: 15, suffix: ' días', label: 'Cambio máximo' },
-            ].map((s, i) => (
-              <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                <div className="en-hero-stat" data-target={s.target} data-suffix={s.suffix}
-                  style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontWeight: 900, color: '#E53935', lineHeight: 1 }}>
-                  {s.target}{s.suffix}
+            <p className="page-header-label" style={{ background: '#000', padding: '0.4rem 1rem', display: 'inline-block', border: '1px solid #E53935' }}>Servicios</p>
+            <h1 className="page-header-title">
+              <span style={{ color: '#E53935' }}>Energía</span>
+            </h1>
+            <p className="page-header-subtitle" style={{ fontSize: '1.3rem', maxWidth: '600px', fontWeight: 500, color: '#fff' }}>
+              Optimiza tu factura eléctrica y ahorra hasta un 40%.
+              Gestionamos el cambio de compañía sin cortes de suministro.
+            </p>
+
+            {/* Hero 3-stat brutalist vertical bar */}
+            <div style={{ display: 'flex', gap: '2rem', marginTop: '3rem', flexWrap: 'wrap', background: '#111', padding: '2rem', borderLeft: '8px solid #E53935', boxShadow: '10px 10px 0 rgba(229,57,53,0.3)' }}>
+              {[
+                { target: 40, suffix: '%', label: 'Ahorro medio' },
+                { target: 5000, suffix: '+', label: 'Clientes activos' },
+                { target: 15, suffix: ' días', label: 'Cambio máximo' },
+              ].map((s, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                  <div className="en-hero-stat" data-target={s.target} data-suffix={s.suffix}
+                    style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontWeight: 900, color: '#fff', lineHeight: 1 }}>
+                    0{s.suffix}
+                  </div>
+                  <div style={{ fontSize: '0.72rem', color: '#E53935', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em' }}>{s.label}</div>
                 </div>
-                <div style={{ fontSize: '0.72rem', color: '#666', textTransform: 'uppercase', letterSpacing: '0.12em' }}>{s.label}</div>
-              </div>
-            ))}
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════
-          S2 — SERVICES  (WHITE) + image right
+          S2 — SERVICES (INVERTED BRUTALIST) 
+          Default: Red BG, White Text, Black shadow
+          Hover: Black BG, flat
       ══════════════════════════════════════════════ */}
       <section className="section-light" style={{ padding: 'clamp(5rem,9vw,8rem) 0' }}>
         <div ref={servicesRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: '5rem', alignItems: 'flex-start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 450px', gap: '6rem', alignItems: 'flex-start' }}>
             <div>
               <p className="section-label">QUÉ OFRECEMOS</p>
               <h2 className="section-title" style={{ color: 'var(--color-text-dark)', marginBottom: '3rem' }}>
                 Qué <span>ofrecemos</span>
               </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                 {services.map((svc, i) => (
-                  <div key={i} className="en-service-card" style={{
-                    background: '#fff', border: '1px solid rgba(0,0,0,0.06)',
-                    borderRadius: '20px', padding: '2rem 2.5rem',
+                  <div key={i} className="en-service-card group" style={{
+                    background: '#E53935',
+                    border: '2px solid #111',
+                    padding: '2.5rem',
                     display: 'flex', gap: '1.75rem', alignItems: 'flex-start',
-                    position: 'relative', overflow: 'hidden',
-                    transition: 'transform 0.35s ease, box-shadow 0.35s ease, border-color 0.3s ease',
+                    position: 'relative',
+                    transition: 'all 0.35s ease',
+                    boxShadow: '-10px 10px 0 #111'
                   }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 16px 40px rgba(0,0,0,0.09)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(229,57,53,0.2)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = ''; (e.currentTarget as HTMLElement).style.borderColor = ''; }}
+                    onMouseEnter={e => {
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.transform = 'translate(-10px, 10px)';
+                      el.style.boxShadow = '0 0 0 #111';
+                      el.style.background = '#111';
+                      el.style.borderColor = '#111';
+
+                      const t = el.querySelector('.en-svc-title') as HTMLElement;
+                      if (t) t.style.color = '#fff';
+
+                      const n = el.querySelector('.en-svc-num') as HTMLElement;
+                      if (n) n.style.color = 'rgba(255,255,255,0.05)';
+
+                      const ticks = el.querySelectorAll('.en-svc-tick');
+                      ticks.forEach(ti => { (ti as HTMLElement).style.color = '#fff'; });
+                    }}
+                    onMouseLeave={e => {
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.transform = '';
+                      el.style.boxShadow = '-10px 10px 0 #111';
+                      el.style.background = '#E53935';
+                      el.style.borderColor = '#111';
+
+                      const t = el.querySelector('.en-svc-title') as HTMLElement;
+                      if (t) t.style.color = '#fff';
+
+                      const n = el.querySelector('.en-svc-num') as HTMLElement;
+                      if (n) n.style.color = 'rgba(0,0,0,0.1)';
+
+                      const ticks = el.querySelectorAll('.en-svc-tick');
+                      ticks.forEach(ti => { (ti as HTMLElement).style.color = '#111'; });
+                    }}
                   >
-                    <span style={{ position: 'absolute', top: '0.5rem', right: '1.5rem', fontFamily: 'var(--font-display)', fontSize: '4.5rem', fontWeight: 900, color: 'rgba(0,0,0,0.04)', lineHeight: 1 }}>{svc.number}</span>
-                    <div style={{ width: '48px', height: '48px', background: 'rgba(229,57,53,0.08)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#E53935', flexShrink: 0 }}>
-                      <svc.icon size={22} />
+                    <span className="en-svc-num" style={{ position: 'absolute', top: '1rem', right: '1.5rem', fontFamily: 'var(--font-display)', fontSize: '5rem', fontWeight: 900, color: 'rgba(0,0,0,0.1)', lineHeight: 1, transition: 'color 0.3s ease' }}>{svc.number}</span>
+                    <div style={{ width: '55px', height: '55px', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#111', flexShrink: 0, border: '2px solid #111', boxShadow: '-3px 3px 0 #111' }}>
+                      <svc.icon size={28} />
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.15rem', fontWeight: 700, color: 'var(--color-text-dark)', marginBottom: '0.5rem' }}>{svc.title}</h3>
-                      <p style={{ color: 'var(--color-gray-mid)', lineHeight: 1.7, fontSize: '0.93rem', marginBottom: svc.features.length ? '1rem' : 0 }}>{svc.description}</p>
+                    <div style={{ flex: 1, position: 'relative', zIndex: 1 }}>
+                      <h3 className="en-svc-title" style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 900, color: '#fff', marginBottom: '0.75rem', textTransform: 'uppercase', transition: 'color 0.3s ease' }}>{svc.title}</h3>
+                      <p style={{ color: 'rgba(255,255,255,0.9)', lineHeight: 1.7, fontSize: '0.95rem', marginBottom: svc.features.length ? '1.25rem' : 0, fontWeight: 500 }}>{svc.description}</p>
                       {svc.features.length > 0 && (
-                        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+                        <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                           {svc.features.map((f, j) => (
-                            <li key={j} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-text-dark)' }}>
-                              <CheckCircle size={14} style={{ color: '#E53935', flexShrink: 0 }} /> {f}
+                            <li key={j} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', fontWeight: 700, color: '#fff' }}>
+                              <CheckCircle className="en-svc-tick" size={16} style={{ color: '#111', flexShrink: 0, transition: 'color 0.3s ease' }} /> {f}
                             </li>
                           ))}
                         </ul>
@@ -328,26 +337,23 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
 
             {/* Right: stacked energy image */}
             <div className="en-services-img" style={{ position: 'relative', paddingTop: '2rem' }}>
-              <div style={{ borderRadius: '24px', overflow: 'hidden', aspectRatio: '3/4', boxShadow: '0 30px 60px rgba(0,0,0,0.12)' }}>
+              <div style={{ border: '4px solid #111', overflow: 'hidden', aspectRatio: '3/4', boxShadow: '15px 15px 0 #E53935' }}>
                 <img src="/images/service-energy.jpg" alt="Servicios energía" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(229,57,53,0.15) 0%, transparent 50%)' }} />
               </div>
               {/* Floating badge top */}
-              <div style={{ position: 'absolute', top: '2rem', left: '-1.5rem', background: '#E53935', color: '#fff', borderRadius: '14px', padding: '1rem 1.25rem', boxShadow: '0 12px 30px rgba(229,57,53,0.35)' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 900, lineHeight: 1 }}>40%</div>
-                <div style={{ fontSize: '0.7rem', opacity: 0.85, marginTop: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ahorro</div>
+              <div style={{ position: 'absolute', top: '0', left: '-2rem', background: '#111', color: '#fff', border: '2px solid #fff', padding: '1rem 1.5rem', boxShadow: '-8px 8px 0 #fff' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, lineHeight: 1 }}>ANÁLISIS</div>
+                <div style={{ fontSize: '0.75rem', color: '#E53935', marginTop: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 700 }}>Gratuito y detallado</div>
               </div>
               {/* Floating badge bottom */}
-              <div style={{ position: 'absolute', bottom: '2rem', right: '-1.5rem', background: '#fff', borderRadius: '14px', padding: '1rem 1.25rem', boxShadow: '0 12px 30px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <Leaf size={16} style={{ color: '#00A859' }} />
-                <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.85rem', color: 'var(--color-text-dark)' }}>100% Verde</div>
-                  <div style={{ fontSize: '0.7rem', color: 'var(--color-gray-mid)' }}>Energía renovable</div>
+              <div style={{ position: 'absolute', bottom: '2rem', right: '-2.5rem', background: '#fff', border: '2px solid #111', padding: '1.25rem 1.5rem', boxShadow: '10px 10px 0 #111', display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+                <div style={{ background: '#111', width: '30px', height: '30px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Leaf size={16} style={{ color: '#E53935' }} />
                 </div>
-              </div>
-              {/* Dot grid decoration */}
-              <div style={{ position: 'absolute', bottom: '-16px', left: '-16px', opacity: 0.1, display: 'flex', flexWrap: 'wrap', width: '80px', gap: '6px' }}>
-                {[...Array(16)].map((_, i) => <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#E53935' }} />)}
+                <div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1rem', color: '#111', textTransform: 'uppercase' }}>100% Verde</div>
+                  <div style={{ fontSize: '0.75rem', color: '#666', fontWeight: 700, textTransform: 'uppercase' }}>Energía renovable</div>
+                </div>
               </div>
             </div>
           </div>
@@ -355,45 +361,49 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
       </section>
 
       {/* ══════════════════════════════════════════════
-          S3 — PROVIDERS  (light-2)
+          S3 — PROVIDERS (BRUTALIST INVERTED)
       ══════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--color-section-light-2)', padding: 'clamp(4rem,7vw,6rem) 0' }}>
+      <section style={{ background: '#0a0a0a', padding: 'clamp(6rem,9vw,8rem) 0' }}>
         <div ref={providersRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header" style={{ marginBottom: '3rem' }}>
-            <p className="section-label">COMERCIALIZADORAS</p>
-            <h2 className="section-title" style={{ color: 'var(--color-text-dark)' }}>
+          <div className="section-header" style={{ marginBottom: '4rem', textAlign: 'center' }}>
+            <p className="section-label" style={{ color: '#E53935' }}>COMERCIALIZADORAS</p>
+            <h2 className="section-title" style={{ color: '#fff' }}>
               Trabajamos con las <span>principales</span>
             </h2>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
             {providers.map((pv, i) => (
-              <div key={i} className="en-provider-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
+              <div key={i} className="en-provider-item group" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
                 <div style={{
-                  width: '100%', background: '#fff',
-                  border: '1px solid rgba(0,0,0,0.07)', borderRadius: '20px',
+                  width: '100%', background: '#111',
+                  border: '1px solid #333',
                   padding: '2.5rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  aspectRatio: '2/1', overflow: 'hidden',
-                  transition: 'background 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease',
+                  aspectRatio: '1/1', overflow: 'hidden',
+                  transition: 'all 0.35s ease',
+                  boxShadow: '8px 8px 0 #E53935'
                 }}
                   onMouseEnter={e => {
                     const el = e.currentTarget as HTMLElement;
-                    el.style.background = pv.color + '12';
-                    el.style.borderColor = pv.color + '66';
-                    el.style.transform = 'translateY(-4px)';
-                    el.style.boxShadow = '0 12px 30px rgba(0,0,0,0.08)';
+                    el.style.background = '#fff';
+                    el.style.borderColor = '#fff';
+                    el.style.transform = 'translate(8px, 8px)';
+                    el.style.boxShadow = 'none';
+                    const img = el.querySelector('img') as HTMLImageElement;
+                    if (img) img.style.filter = 'none';
                   }}
                   onMouseLeave={e => {
                     const el = e.currentTarget as HTMLElement;
-                    el.style.background = ''; el.style.borderColor = '';
-                    el.style.transform = ''; el.style.boxShadow = '';
+                    el.style.background = '#111';
+                    el.style.borderColor = '#333';
+                    el.style.transform = '';
+                    el.style.boxShadow = '8px 8px 0 #E53935';
+                    const img = el.querySelector('img') as HTMLImageElement;
+                    if (img) img.style.filter = 'grayscale(1) brightness(2)'; // make logo white initially
                   }}
                 >
-                  <img src={pv.logo} alt={pv.name} style={{ maxHeight: '48px', maxWidth: '80%', objectFit: 'contain', filter: 'grayscale(1) brightness(0.6)', transition: 'filter 0.35s ease' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = 'none'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = 'grayscale(1) brightness(0.6)'; }}
-                  />
+                  <img src={pv.logo} alt={pv.name} style={{ maxHeight: '60px', maxWidth: '85%', objectFit: 'contain', filter: 'grayscale(1) brightness(2)', transition: 'filter 0.35s ease' }} />
                 </div>
-                <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--color-gray-mid)' }}>{pv.name}</span>
+                <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.85rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#888' }}>{pv.name}</span>
               </div>
             ))}
           </div>
@@ -401,33 +411,67 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
       </section>
 
       {/* ══════════════════════════════════════════════
-          S4 — BENEFITS  (WHITE) + image right
+          S4 — BENEFITS (BLACK) + image right
       ══════════════════════════════════════════════ */}
-      <section className="section-light" style={{ padding: 'clamp(5rem,9vw,8rem) 0' }}>
+      <section style={{ background: '#111', padding: 'clamp(5rem,9vw,8rem) 0', borderTop: '1px solid #222' }}>
         <div ref={benefitsRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'center' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
             {/* Left: benefit cards */}
             <div>
-              <p className="section-label">VENTAJAS</p>
-              <h2 className="section-title" style={{ color: 'var(--color-text-dark)', marginBottom: '2.5rem' }}>
+              <p className="section-label" style={{ color: '#E53935' }}>VENTAJAS</p>
+              <h2 className="section-title" style={{ color: '#fff', marginBottom: '3rem' }}>
                 Por qué optimizar tu <span>factura</span>
               </h2>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
                 {benefits.map((b, i) => (
-                  <div key={i} className="en-benefit-card" style={{
-                    background: i % 2 === 0 ? '#fff' : 'rgba(229,57,53,0.03)',
-                    border: '1px solid rgba(0,0,0,0.06)',
-                    borderRadius: '18px', padding: '1.75rem',
-                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  <div key={i} className="en-benefit-card group" style={{
+                    background: '#111',
+                    border: '1px solid #333',
+                    padding: '2rem',
+                    transition: 'all 0.3s ease',
+                    position: 'relative',
+                    boxShadow: '-8px 8px 0 #E53935'
                   }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 30px rgba(0,0,0,0.08)'; }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}
+                    onMouseEnter={e => {
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.transform = 'translate(-8px, 8px)';
+                      el.style.boxShadow = 'none';
+                      el.style.background = '#fff';
+                      el.style.borderColor = '#fff';
+
+                      const ti = el.querySelector('.en-ben-ti') as HTMLElement;
+                      if (ti) ti.style.color = '#111';
+                      const de = el.querySelector('.en-ben-de') as HTMLElement;
+                      if (de) de.style.color = '#444';
+                      const iconWrap = el.querySelector('.en-ben-icon') as HTMLElement;
+                      if (iconWrap) {
+                        iconWrap.style.background = '#E53935';
+                        iconWrap.style.color = '#fff';
+                      }
+                    }}
+                    onMouseLeave={e => {
+                      const el = e.currentTarget as HTMLElement;
+                      el.style.transform = '';
+                      el.style.boxShadow = '-8px 8px 0 #E53935';
+                      el.style.background = '#111';
+                      el.style.borderColor = '#333';
+
+                      const ti = el.querySelector('.en-ben-ti') as HTMLElement;
+                      if (ti) ti.style.color = '#E53935';
+                      const de = el.querySelector('.en-ben-de') as HTMLElement;
+                      if (de) de.style.color = '#aaa';
+                      const iconWrap = el.querySelector('.en-ben-icon') as HTMLElement;
+                      if (iconWrap) {
+                        iconWrap.style.background = '#222';
+                        iconWrap.style.color = '#E53935';
+                      }
+                    }}
                   >
-                    <div style={{ width: '40px', height: '40px', background: 'rgba(229,57,53,0.08)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#E53935', marginBottom: '1rem' }}>
-                      <b.icon size={18} />
+                    <div className="en-ben-icon" style={{ width: '45px', height: '45px', background: '#222', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#E53935', marginBottom: '1.25rem', transition: 'all 0.3s ease' }}>
+                      <b.icon size={20} />
                     </div>
-                    <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', fontWeight: 700, color: 'var(--color-text-dark)', marginBottom: '0.35rem' }}>{b.title}</h3>
-                    <p style={{ fontSize: '0.85rem', color: 'var(--color-gray-mid)', lineHeight: 1.6 }}>{b.desc}</p>
+                    <h3 className="en-ben-ti" style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 900, color: '#E53935', marginBottom: '0.5rem', textTransform: 'uppercase', transition: 'color 0.3s ease' }}>{b.title}</h3>
+                    <p className="en-ben-de" style={{ fontSize: '0.85rem', color: '#aaa', lineHeight: 1.6, fontWeight: 500, transition: 'color 0.3s ease' }}>{b.desc}</p>
                   </div>
                 ))}
               </div>
@@ -435,27 +479,24 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
 
             {/* Right: energy photo */}
             <div className="en-benefit-img" style={{ position: 'relative' }}>
-              <div style={{ borderRadius: '24px', overflow: 'hidden', aspectRatio: '4/3', boxShadow: '0 30px 60px rgba(0,0,0,0.1)' }}>
-                <img src="/images/service-energy-2.jpg" alt="Beneficios ahorro energía" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(229,57,53,0.15) 0%, transparent 60%)' }} />
+              <div style={{ border: '4px solid #E53935', overflow: 'hidden', aspectRatio: '4/3', boxShadow: '15px 15px 0 #fff' }}>
+                <img src="/images/service-energy.jpg" alt="Beneficios ahorro energía" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'contrast(1.2)' }} />
               </div>
-              {/* Corner decoration frame */}
-              <div style={{ position: 'absolute', top: '-12px', right: '-12px', width: '80px', height: '80px', border: '3px solid #E53935', borderRadius: '20px', opacity: 0.35 }} />
-              <div style={{ position: 'absolute', bottom: '-10px', left: '-10px', width: '55px', height: '55px', background: '#E53935', borderRadius: '14px', opacity: 0.12 }} />
+
               {/* Stat card */}
-              <div style={{ position: 'absolute', top: '1.5rem', left: '-2rem', background: '#fff', borderRadius: '16px', padding: '1.25rem 1.5rem', boxShadow: '0 12px 30px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <div style={{ width: '36px', height: '36px', background: 'rgba(0,168,89,0.1)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#00A859' }}>
-                  <Leaf size={16} />
+              <div style={{ position: 'absolute', top: '-1rem', left: '-2rem', background: '#111', border: '2px solid #fff', padding: '1.25rem 1.5rem', boxShadow: '-10px 10px 0 #000', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ width: '40px', height: '40px', background: '#00A859', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                  <Leaf size={20} />
                 </div>
                 <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-text-dark)' }}>Energía verde</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--color-gray-mid)' }}>100% renovable</div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.1rem', color: '#fff', textTransform: 'uppercase' }}>Energía verde</div>
+                  <div style={{ fontSize: '0.75rem', color: '#aaa', fontWeight: 700, textTransform: 'uppercase' }}>100% renovable</div>
                 </div>
               </div>
               {/* Bottom stat */}
-              <div style={{ position: 'absolute', bottom: '1.5rem', right: '-2rem', background: '#E53935', color: '#fff', borderRadius: '16px', padding: '1.25rem 1.5rem', boxShadow: '0 12px 30px rgba(229,57,53,0.3)' }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.8rem', fontWeight: 900, lineHeight: 1 }}>480€</div>
-                <div style={{ fontSize: '0.68rem', opacity: 0.85, marginTop: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Ahorro/año</div>
+              <div style={{ position: 'absolute', bottom: '-2rem', right: '-1rem', background: '#E53935', color: '#fff', border: '2px solid #111', padding: '1.5rem 2rem', boxShadow: '10px 10px 0 #111' }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontWeight: 900, lineHeight: 1 }}>480€</div>
+                <div style={{ fontSize: '0.8rem', fontWeight: 700, marginTop: '0.2rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Ahorro / año</div>
               </div>
             </div>
           </div>
@@ -463,59 +504,81 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
       </section>
 
       {/* ══════════════════════════════════════════════
-          S5 — PROCESS  (light-2) + image
+          S5 — PROCESS (NEW LAYOUT GRID BRUTALIST)
       ══════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--color-section-light-2)', padding: 'clamp(5rem,9vw,8rem) 0' }}>
+      <section style={{ background: '#f5f5f5', padding: 'clamp(5rem,9vw,8rem) 0', borderTop: '4px solid #111' }}>
         <div ref={processRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5rem', alignItems: 'flex-start' }}>
-            {/* Left: process */}
-            <div>
-              <p className="section-label">PROCESO</p>
-              <h2 className="section-title" style={{ color: 'var(--color-text-dark)', marginBottom: '3rem' }}>
-                Cómo <span>funciona</span>
-              </h2>
-              <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start' }}>
-                <div className="process-svg-line" style={{ flexShrink: 0 }}>
-                  <div className="process-svg-line-fill" />
-                </div>
-                <div style={{ flex: 1 }}>
-                  {process.map((step, i) => (
-                    <div key={i} className="en-process-step" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', marginBottom: i < process.length - 1 ? '2rem' : 0, padding: '1.5rem 1.75rem', background: '#fff', border: '1px solid rgba(0,0,0,0.06)', borderRadius: '18px', transition: 'border-color 0.3s, box-shadow 0.3s' }}
-                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(229,57,53,0.25)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.07)'; }}
-                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = ''; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}
-                    >
-                      <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, color: '#E53935', lineHeight: 1, flexShrink: 0 }}>{step.number}</div>
-                      <div>
-                        <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem', fontWeight: 700, color: 'var(--color-text-dark)', marginBottom: '0.3rem' }}>{step.title}</h3>
-                        <p style={{ color: 'var(--color-gray-mid)', fontSize: '0.9rem', lineHeight: 1.6 }}>{step.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
 
-            {/* Right: energy infrastructure image */}
-            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'flex-start', paddingTop: '1rem' }}>
-              <div style={{ borderRadius: '24px', overflow: 'hidden', width: '100%', maxWidth: '400px', aspectRatio: '3/4', boxShadow: '0 30px 60px rgba(0,0,0,0.12)' }}>
-                <img src="/images/service-energy-3.jpg" alt="Proceso cambio energía" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4))' }} />
+          <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <p className="section-label">PROCESO</p>
+            <h2 className="section-title" style={{ color: '#111' }}>
+              Cómo <span>funciona</span>
+            </h2>
+          </div>
+
+          {/* 4-col Brutalist timeline grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+            {process.map((step, i) => (
+              <div key={i} className="en-process-step-col group" style={{
+                background: '#111',
+                border: '2px solid #E53935',
+                padding: '2.5rem 2rem',
+                position: 'relative',
+                transition: 'all 0.3s ease',
+                boxShadow: '-10px 10px 0 #E53935'
+              }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.transform = 'translate(-10px, 10px)';
+                  el.style.boxShadow = 'none';
+                  el.style.background = '#fff';
+                  el.style.borderColor = '#111';
+
+                  const n = el.querySelector('.en-proc-num') as HTMLElement;
+                  if (n) n.style.color = '#E53935';
+                  const t = el.querySelector('.en-proc-ti') as HTMLElement;
+                  if (t) t.style.color = '#111';
+                  const d = el.querySelector('.en-proc-de') as HTMLElement;
+                  if (d) d.style.color = '#444';
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.transform = '';
+                  el.style.boxShadow = '-10px 10px 0 #E53935';
+                  el.style.background = '#111';
+                  el.style.borderColor = '#E53935';
+
+                  const n = el.querySelector('.en-proc-num') as HTMLElement;
+                  if (n) n.style.color = 'rgba(255,255,255,0.1)';
+                  const t = el.querySelector('.en-proc-ti') as HTMLElement;
+                  if (t) t.style.color = '#fff';
+                  const d = el.querySelector('.en-proc-de') as HTMLElement;
+                  if (d) d.style.color = '#aaa';
+                }}
+              >
+                <div className="en-proc-num" style={{ position: 'absolute', top: '1rem', right: '1rem', fontFamily: 'var(--font-display)', fontSize: '5rem', fontWeight: 900, color: 'rgba(255,255,255,0.1)', lineHeight: 0.8, transition: 'color 0.3s ease' }}>{step.number}</div>
+                <h3 className="en-proc-ti" style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 900, color: '#fff', marginBottom: '1rem', marginTop: '2.5rem', textTransform: 'uppercase', transition: 'color 0.3s ease', position: 'relative', zIndex: 1 }}>{step.title}</h3>
+                <p className="en-proc-de" style={{ color: '#aaa', fontSize: '1rem', lineHeight: 1.6, fontWeight: 500, transition: 'color 0.3s ease', position: 'relative', zIndex: 1 }}>{step.desc}</p>
               </div>
-              {/* Checklist overlay card */}
-              <div style={{ position: 'absolute', bottom: '2rem', left: '0', background: '#fff', borderRadius: '16px', padding: '1.25rem 1.5rem', boxShadow: '0 16px 40px rgba(0,0,0,0.12)', minWidth: '200px' }}>
-                {['Sin cortes', 'Sin papeleos', 'Gratis'].map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-dark)', fontWeight: 600, fontSize: '0.88rem', marginBottom: i < 2 ? '0.6rem' : 0 }}>
-                    <CheckCircle size={15} style={{ color: '#E53935', flexShrink: 0 }} /> {item}
-                  </div>
-                ))}
-              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: '4rem', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ background: '#fff', border: '2px solid #111', padding: '1.5rem 3rem', display: 'flex', alignItems: 'center', gap: '3rem', flexWrap: 'wrap', justifyContent: 'center', boxShadow: '8px 8px 0 #111' }}>
+              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: '1.2rem', textTransform: 'uppercase', color: '#E53935' }}>Proceso cambio energía:</div>
+              {['Sin cortes', 'Sin papeleos', 'Totalmente Gratis'].map((item, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#111', fontWeight: 800, fontSize: '1rem', textTransform: 'uppercase' }}>
+                  <CheckCircle size={18} style={{ color: '#E53935' }} /> {item}
+                </div>
+              ))}
             </div>
           </div>
+
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════
-          S6 — SAVINGS EXAMPLE  (WHITE)
+          S6 — SAVINGS EXAMPLE (WHITE)
       ══════════════════════════════════════════════ */}
       <section className="section-light" style={{ padding: 'clamp(5rem,9vw,8rem) 0' }}>
         <div ref={savingsRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
@@ -527,93 +590,55 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
           </div>
 
           {/* Three cards: before / after / savings */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0', maxWidth: '1000px', margin: '0 auto', border: '4px solid #111', boxShadow: '20px 20px 0 #E53935' }}>
             {/* Before */}
-            <div className="en-savings-card" style={{ background: '#f5f5f5', borderRadius: '24px', padding: '3rem 2rem', textAlign: 'center', border: '1px solid rgba(0,0,0,0.06)' }}>
-              <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#999', marginBottom: '1.5rem' }}>FACTURA ACTUAL</p>
-              <div className="en-saving-num" data-target="95" data-suffix="€" style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', fontWeight: 900, color: '#ccc', textDecoration: 'line-through', lineHeight: 1 }}>95€</div>
-              <p style={{ color: '#aaa', marginTop: '0.75rem', fontSize: '0.85rem' }}>Mensual</p>
+            <div className="en-savings-card" style={{ background: '#f0f0f0', padding: '4rem 2rem', textAlign: 'center', borderRight: '2px solid #111' }}>
+              <p style={{ fontSize: '0.85rem', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#111', marginBottom: '1.5rem' }}>FACTURA ACTUAL</p>
+              <div className="en-saving-num" data-target="95" data-suffix="€" style={{ fontFamily: 'var(--font-display)', fontSize: '4rem', fontWeight: 900, color: '#111', textDecoration: 'line-through', textDecorationColor: '#E53935', textDecorationThickness: '4px', lineHeight: 1 }}>95€</div>
+              <p style={{ color: '#111', marginTop: '1rem', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase' }}>Mensual</p>
             </div>
 
             {/* After */}
-            <div className="en-savings-card" style={{ background: '#fff', borderRadius: '24px', padding: '3rem 2rem', textAlign: 'center', border: '2px solid #E53935', position: 'relative', boxShadow: '0 20px 50px rgba(229,57,53,0.1)' }}>
-              <div style={{ position: 'absolute', top: '-12px', left: '50%', transform: 'translateX(-50%)', background: '#E53935', color: '#fff', fontSize: '0.65rem', fontWeight: 700, padding: '0.3rem 1rem', borderRadius: '20px', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>−42% ahorro</div>
-              <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E53935', marginBottom: '1.5rem' }}>CON NOSOTROS</p>
-              <div className="en-saving-num" data-target="55" data-suffix="€" style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', fontWeight: 900, color: '#E53935', lineHeight: 1 }}>55€</div>
-              <p style={{ color: 'var(--color-gray-mid)', marginTop: '0.75rem', fontSize: '0.85rem' }}>Mensual</p>
+            <div className="en-savings-card" style={{ background: '#fff', padding: '4rem 2rem', textAlign: 'center', borderRight: '2px solid #111', position: 'relative' }}>
+              <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: '#E53935', color: '#fff', fontSize: '0.75rem', fontWeight: 800, padding: '0.4rem 1rem', textTransform: 'uppercase', border: '1px solid #111', boxShadow: '3px 3px 0 #111' }}>−42%</div>
+              <p style={{ fontSize: '0.85rem', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E53935', marginBottom: '1.5rem' }}>CON NOSOTROS</p>
+              <div className="en-saving-num" data-target="55" data-suffix="€" style={{ fontFamily: 'var(--font-display)', fontSize: '4rem', fontWeight: 900, color: '#E53935', lineHeight: 1 }}>55€</div>
+              <p style={{ color: '#111', marginTop: '1rem', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase' }}>Mensual</p>
             </div>
 
             {/* Savings */}
-            <div className="en-savings-card" style={{ background: '#E53935', borderRadius: '24px', padding: '3rem 2rem', textAlign: 'center' }}>
-              <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '1.5rem' }}>AHORRO ANUAL</p>
-              <div className="en-saving-num" data-target="480" data-suffix="€" style={{ fontFamily: 'var(--font-display)', fontSize: '3.5rem', fontWeight: 900, color: '#fff', lineHeight: 1 }}>480€</div>
-              <p style={{ color: 'rgba(255,255,255,0.8)', marginTop: '0.75rem', fontSize: '0.85rem' }}>Por año</p>
+            <div className="en-savings-card" style={{ background: '#111', padding: '4rem 2rem', textAlign: 'center' }}>
+              <p style={{ fontSize: '0.85rem', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E53935', marginBottom: '1.5rem' }}>AHORRO ANUAL</p>
+              <div className="en-saving-num" data-target="480" data-suffix="€" style={{ fontFamily: 'var(--font-display)', fontSize: '4rem', fontWeight: 900, color: '#fff', lineHeight: 1 }}>480€</div>
+              <p style={{ color: '#fff', marginTop: '1rem', fontSize: '0.9rem', fontWeight: 800, textTransform: 'uppercase' }}>Por año</p>
             </div>
           </div>
 
           {/* Sub-note */}
-          <p style={{ textAlign: 'center', marginTop: '2rem', color: 'var(--color-gray-mid)', fontSize: '0.82rem', opacity: 0.7 }}>
+          <p style={{ textAlign: 'center', marginTop: '3rem', color: '#111', fontSize: '0.9rem', fontWeight: 600, maxWidth: '600px', margin: '3rem auto 0 auto' }}>
             * Ejemplo real basado en perfil residencial estándar. Los resultados dependen de tu consumo y tarifa actual.
           </p>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════
-          S7 — TESTIMONIALS  (dark)
+          S8 — FAQ  (Gradient Dark to brand palette)
       ══════════════════════════════════════════════ */}
-      <section ref={testiRef} className="section-awwards testimonials-section">
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header">
-            <p className="section-label">Google Reviews</p>
-            <h2 className="section-title">Nuestras reseñas en <span>Google Maps</span></h2>
+      <section ref={faqRef} style={{ background: 'linear-gradient(170deg, #111 0%, #1a1a1a 60%, #4a0d0b 100%)', padding: 'clamp(6rem, 10vw, 8rem) 0' }}>
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+          <div className="section-header" style={{ textAlign: 'center', marginBottom: '4rem' }}>
+            <p className="section-label" style={{ color: '#E53935' }}>Preguntas</p>
+            <h2 className="section-title" style={{ color: '#fff' }}>Dudas <span>frecuentes</span></h2>
           </div>
-          <div className="testimonials-grid">
-            {testimonials.map((t, i) => (
-              <div key={i} className="testimonial-card-brutal">
-                <div className="google-review-badge">
-                  <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                  </svg>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Opinión Verificada</span>
-                </div>
-                <div className="google-review-stars">
-                  {[...Array(5)].map((_, j) => <Star key={j} size={14} fill="#FBBC05" stroke="none" />)}
-                </div>
-                <div className="testimonial-quote-google">"</div>
-                <p className="testimonial-text-google">{t.text}</p>
-                <div className="testimonial-author-google">
-                  <div className="testimonial-avatar-google">{t.name.charAt(0)}</div>
-                  <div className="testimonial-info-google">
-                    <span className="testimonial-name-google">{t.name}</span>
-                    <span className="testimonial-role-google">{t.role}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ══════════════════════════════════════════════
-          S8 — FAQ  (dark)
-      ══════════════════════════════════════════════ */}
-      <section ref={faqRef} className="section-awwards faq-section">
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header">
-            <p className="section-label">Preguntas</p>
-            <h2 className="section-title">Dudas <span>frecuentes</span></h2>
-          </div>
-          <div className="faq-list">
+          <div className="faq-list" style={{ maxWidth: '900px', margin: '0 auto' }}>
             {faq.map((item, i) => (
-              <div key={i} className="faq-energy-item faq-item">
-                <button className="faq-question" onClick={() => toggleFaq(i)}>
-                  <span>{item.question}</span>
-                  <span className="faq-icon">+</span>
+              <div key={i} className="faq-energy-item faq-item" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                <button className="faq-question" onClick={() => toggleFaq(i)} style={{ color: '#fff', padding: '2rem 0' }}>
+                  <span style={{ fontSize: '1.2rem', fontWeight: 700 }}>{item.question}</span>
+                  <span className="faq-icon" style={{ color: '#E53935' }}>+</span>
                 </button>
-                <div className="faq-answer"><p>{item.answer}</p></div>
+                <div className="faq-answer"><p style={{ color: '#ccc', paddingBottom: '2rem', fontSize: '1rem', lineHeight: 1.6 }}>{item.answer}</p></div>
               </div>
             ))}
           </div>
@@ -621,16 +646,59 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
       </section>
 
       {/* ══════════════════════════════════════════════
-          S9 — CTA  (dark)
+          S9 — CTA (Different brutalist background)
       ══════════════════════════════════════════════ */}
-      <section ref={ctaRef} className="cta-section">
-        <div className="cta-energy-content cta-content">
-          <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '1rem' }}>— Sin coste, sin compromiso —</p>
-          <h2 className="cta-title">¿Empezamos<br />a ahorrar?</h2>
-          <p className="cta-text">Solicita tu análisis gratuito y descubre cuánto puedes ahorrar en tu factura de luz. Sin compromiso, solo beneficios.</p>
-          <Link to="/contacto" className="cta-button">
-            <ArrowRight size={20} />
-            <span>Análisis gratuito</span>
+      <section ref={ctaRef} style={{
+        background: '#fff',
+        padding: 'clamp(6rem, 12vw, 10rem) 0',
+        position: 'relative',
+        overflow: 'hidden',
+        borderTop: '8px solid #111',
+        borderBottom: '8px solid #111'
+      }}>
+        {/* HUGE BACKGROUND STRIPES OR TEXT */}
+        <div style={{
+          position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+          fontSize: '28vw', fontWeight: 900, color: 'transparent',
+          WebkitTextStroke: '3px rgba(0,0,0,0.03)', fontFamily: 'var(--font-display)',
+          lineHeight: 1, whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 0
+        }}>
+          AHORRO
+        </div>
+
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 position-relative" style={{ zIndex: 1, textAlign: 'center' }}>
+          <div style={{ display: 'inline-block', background: '#111', color: '#fff', padding: '0.6rem 2rem', fontWeight: 900, letterSpacing: '0.2em', textTransform: 'uppercase', fontSize: '0.85rem', marginBottom: '2.5rem', border: '2px solid #E53935', boxShadow: '6px 6px 0 #E53935' }}>
+            — Sin coste, sin compromiso —
+          </div>
+
+          <h2 className="cta-energy-content" style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(3.5rem, 7vw, 6rem)', fontWeight: 900, color: '#111', lineHeight: 1, textTransform: 'uppercase', marginBottom: '2rem' }}>
+            ¿EMPEZAMOS A <br />
+            <span style={{ color: '#E53935', textDecoration: 'underline', textDecorationThickness: '10px', textUnderlineOffset: '10px' }}>AHORRAR?</span>
+          </h2>
+
+          <p className="cta-energy-content" style={{ fontSize: '1.25rem', color: '#333', lineHeight: 1.6, maxWidth: '750px', margin: '0 auto 4rem auto', fontWeight: 700 }}>
+            Solicita tu análisis gratuito y descubre cuánto puedes ahorrar en tu factura de luz. <br />Sin compromiso, solo beneficios.
+          </p>
+
+          <Link to="/contacto" className="cta-energy-content group inline-flex" style={{
+            alignItems: 'center', gap: '1.5rem', background: '#E53935', color: '#fff', padding: '1.5rem 3rem',
+            fontSize: '1.2rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em',
+            transition: 'all 0.3s ease', border: '4px solid #111', boxShadow: '10px 10px 0 #111'
+          }}
+            onMouseEnter={e => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.transform = 'translate(10px, 10px)';
+              el.style.boxShadow = '0 0 0 #111';
+            }}
+            onMouseLeave={e => {
+              const el = e.currentTarget as HTMLElement;
+              el.style.transform = '';
+              el.style.boxShadow = '10px 10px 0 #111';
+            }}>
+            <span>Solicitar análisis gratuito</span>
+            <div style={{ width: '40px', height: '40px', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%' }}>
+              <ArrowRight size={20} color="#fff" />
+            </div>
           </Link>
         </div>
       </section>

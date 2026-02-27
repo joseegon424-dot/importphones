@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import SplitType from 'split-type';
-import { Users, Rocket, Trophy, Heart, Send, Upload, Star, ArrowRight, CheckCircle, Briefcase, TrendingUp, Smile } from 'lucide-react';
+import { Rocket, Trophy, Zap, ShieldCheck, CheckCircle, Send, Upload, Target, LineChart, ArrowRight } from 'lucide-react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,91 +13,81 @@ interface TrabajaConNosotrosProps {
 const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
     const pageRef = useRef<HTMLDivElement>(null);
     const heroRef = useRef<HTMLElement>(null);
-    const benefitsRef = useRef<HTMLElement>(null);
-    const valuesRef = useRef<HTMLElement>(null);
-    const openingsRef = useRef<HTMLElement>(null);
+    const whyRef = useRef<HTMLElement>(null);
+    const productsRef = useRef<HTMLDivElement>(null);
+    const whatWeLookForRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLElement>(null);
 
     const [formData, setFormData] = useState({
-        name: '', email: '', phone: '', position: '', message: '',
+        name: '', email: '', phone: '', message: '', file: null as File | null,
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [fileName, setFileName] = useState('');
+    const [isHuman, setIsHuman] = useState(false);
+    const recaptchaRef = useRef<ReCAPTCHA>(null);
 
     useEffect(() => {
         if (!isLoaded) return;
         window.scrollTo(0, 0);
 
         const ctx = gsap.context(() => {
-            // ── Hero title SplitType
-            const heroTitle = pageRef.current?.querySelector<HTMLElement>('.tcn-hero-title');
-            if (heroTitle) {
-                heroTitle.classList.add('split-target');
-                const split = new SplitType(heroTitle, { types: 'words,chars' });
-                gsap.fromTo(split.chars,
-                    { y: '110%', opacity: 0 },
-                    { y: '0%', opacity: 1, duration: 0.75, stagger: 0.022, ease: 'power3.out', delay: 0.35 }
-                );
-            }
-            gsap.fromTo('.tcn-hero-sub',
+            // Hero Animations
+            gsap.fromTo('.tcn-hero-title',
                 { y: 40, opacity: 0 },
-                { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.85 }
+                { y: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.2 }
+            );
+            gsap.fromTo('.tcn-hero-sub',
+                { y: 30, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, ease: 'power3.out', delay: 0.5 }
             );
             gsap.fromTo('.tcn-hero-cta',
                 { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 1.1 }
-            );
-            gsap.fromTo('.tcn-stat',
-                { y: 30, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: 'back.out(1.4)', delay: 1.3 }
-            );
-            // SVG people path draw
-            gsap.fromTo('.tcn-svg-path',
-                { strokeDashoffset: 2000 },
-                { strokeDashoffset: 0, duration: 2.5, ease: 'power2.out', stagger: 0.08, delay: 0.2 }
+                { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 0.7 }
             );
 
-            // ── Benefits
+            // Benefits Animations
             gsap.fromTo('.tcn-benefit-card',
-                { y: 60, opacity: 0 },
-                {
-                    y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
-                    scrollTrigger: { trigger: benefitsRef.current, start: 'top 70%' }
-                }
-            );
-
-            // ── Values
-            gsap.fromTo('.tcn-value-item',
-                { x: -40, opacity: 0 },
-                {
-                    x: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: 'power3.out',
-                    scrollTrigger: { trigger: valuesRef.current, start: 'top 72%' }
-                }
-            );
-            gsap.fromTo('.tcn-values-img',
-                { x: 60, opacity: 0, scale: 0.95 },
-                {
-                    x: 0, opacity: 1, scale: 1, duration: 1.1, ease: 'power3.out',
-                    scrollTrigger: { trigger: valuesRef.current, start: 'top 65%' }
-                }
-            );
-
-            // ── Openings
-            gsap.fromTo('.tcn-opening-card',
                 { y: 50, opacity: 0 },
                 {
-                    y: 0, opacity: 1, duration: 0.75, stagger: 0.14, ease: 'power3.out',
-                    scrollTrigger: { trigger: openingsRef.current, start: 'top 72%' }
+                    y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+                    scrollTrigger: { trigger: whyRef.current, start: 'top 75%' }
                 }
             );
 
-            // ── Form
+            // Products Animations
+            gsap.fromTo('.tcn-product-item',
+                { x: -30, opacity: 0 },
+                {
+                    x: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: 'power3.out',
+                    scrollTrigger: { trigger: productsRef.current, start: 'top 75%' }
+                }
+            );
+
+            // What We Look For
+            gsap.fromTo('.tcn-lookfor-item',
+                { y: 40, opacity: 0 },
+                {
+                    y: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: 'power3.out',
+                    scrollTrigger: { trigger: whatWeLookForRef.current, start: 'top 75%' }
+                }
+            );
+
+            // Form Animation
             gsap.fromTo('.tcn-form-wrapper',
-                { y: 60, opacity: 0 },
+                { y: 40, opacity: 0 },
                 {
                     y: 0, opacity: 1, duration: 1, ease: 'power3.out',
-                    scrollTrigger: { trigger: formRef.current, start: 'top 70%' }
+                    scrollTrigger: { trigger: formRef.current, start: 'top 80%' }
+                }
+            );
+
+            // Image reveal
+            gsap.fromTo('.reveal-img',
+                { scale: 0.9, opacity: 0 },
+                {
+                    scale: 1, opacity: 1, duration: 1.2, ease: 'power2.out',
+                    scrollTrigger: { trigger: whyRef.current, start: 'top 60%' }
                 }
             );
 
@@ -105,333 +95,471 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
         return () => ctx.revert();
     }, [isLoaded]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const recaptchaValue = recaptchaRef.current?.getValue();
+        if (!recaptchaValue || !isHuman) {
+            alert('Por favor, completa el captcha de seguridad.');
+            return;
+        }
         setIsSubmitting(true);
-        setTimeout(() => { setIsSubmitting(false); setIsSubmitted(true); }, 1500);
+        try {
+            let fileUrl = 'No se adjuntó archivo';
+
+            // 1. Subir a Cloudinary si hay archivo
+            if (formData.file) {
+                const cloudinaryData = new FormData();
+                cloudinaryData.append('file', formData.file);
+                cloudinaryData.append('upload_preset', 'u5ic0lzm');
+
+                const cloudinaryRes = await fetch('https://api.cloudinary.com/v1_1/drprrdhyp/auto/upload', {
+                    method: 'POST',
+                    body: cloudinaryData
+                });
+
+                const cloudinaryJson = await cloudinaryRes.json();
+                fileUrl = cloudinaryJson.secure_url || fileUrl;
+            }
+
+            // 2. Enviar datos a FormSubmit con el link de Cloudinary
+            const data = new FormData();
+            data.append('Nombre', formData.name);
+            data.append('Email', formData.email);
+            data.append('Teléfono', formData.phone);
+            data.append('Mensaje', formData.message || 'Sin mensaje');
+            data.append('CV_ADJUNTO_LINK', fileUrl);
+
+            data.append('_subject', `NUEVA CANDIDATURA IMPORTPHONES: ${formData.name}`);
+            data.append('_template', 'table');
+            data.append('_captcha', 'false');
+
+            const res = await fetch('https://formsubmit.co/ajax/joseegon424@gmail.com', {
+                method: 'POST',
+                body: data,
+            });
+
+            if (res.ok) {
+                setIsSubmitting(false);
+                setIsSubmitted(true);
+            } else {
+                throw new Error('Error en el envío');
+            }
+        } catch (error) {
+            console.error('Error al enviar:', error);
+            setIsSubmitting(false);
+            alert('Hubo un error al enviar la solicitud. Inténtalo de nuevo o contáctanos por WhatsApp.');
+        }
     };
 
-    const benefits = [
-        { icon: Rocket, title: 'Crecimiento', desc: 'Oportunidades reales de ascenso y formación continua en el sector energético y telecom.' },
-        { icon: Heart, title: 'Ambiente', desc: 'Un equipo joven, dinámico y apasionado por la tecnología y el servicio al cliente.' },
-        { icon: Trophy, title: 'Excelencia', desc: 'Trabajamos con los estándares más altos del sector. La calidad es nuestra seña de identidad.' },
-        { icon: Star, title: 'Impacto', desc: 'Ayudamos a miles de familias y empresas a ahorrar cada día. Tu trabajo importa.' },
-        { icon: TrendingUp, title: 'Comisiones', desc: 'Sistema de comisiones competitivo y transparente. Tus resultados determinan tus ingresos.' },
-        { icon: Smile, title: 'Flexibilidad', desc: 'Horarios adaptables y posibilidad de trabajo remoto según el puesto.' },
-    ];
-
-    const openings = [
-        { title: 'Asesor Comercial', dept: 'Ventas', type: 'Jornada completa', location: '📍 Presencial / Remoto' },
-        { title: 'Técnico de Soporte', dept: 'Técnico', type: 'Jornada completa', location: '📍 Presencial' },
-        { title: 'Agente de Atención al Cliente', dept: 'Customer Success', type: 'Media jornada', location: '📍 Remoto' },
-        { title: 'Candidatura espontánea', dept: 'Cualquier área', type: 'A determinar', location: '📍 Flexible' },
-    ];
+    const handleReset = () => {
+        setFormData({ name: '', email: '', phone: '', message: '', file: null });
+        setIsSubmitted(false);
+        setFileName('');
+        setIsHuman(false);
+        if (recaptchaRef.current) recaptchaRef.current.reset();
+    };
 
     return (
-        <div ref={pageRef} className="overflow-hidden">
+        <div ref={pageRef} className="overflow-hidden bg-[#FAFAFA]">
 
-            {/* ── S1: Hero */}
-            <section ref={heroRef} className="page-header" style={{ position: 'relative', overflow: 'hidden', minHeight: '85vh', display: 'flex', alignItems: 'center' }}>
-                {/* Background SVG */}
-                <div className="hero-subpage-svg" aria-hidden="true">
-                    <svg viewBox="0 0 700 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        {/* Person 1 */}
-                        <circle className="tcn-svg-path" cx="220" cy="160" r="45" stroke="#E53935" strokeWidth="1.5" strokeDasharray="2000" strokeDashoffset="2000" />
-                        <path className="tcn-svg-path" d="M160 300 Q220 250 280 300 L290 400 H150 Z" stroke="#E53935" strokeWidth="1.5" strokeDasharray="2000" strokeDashoffset="2000" />
-                        {/* Person 2 */}
-                        <circle className="tcn-svg-path" cx="380" cy="140" r="38" stroke="rgba(229,57,53,0.6)" strokeWidth="1.2" strokeDasharray="2000" strokeDashoffset="2000" />
-                        <path className="tcn-svg-path" d="M325 290 Q380 245 435 290 L445 390 H315 Z" stroke="rgba(229,57,53,0.6)" strokeWidth="1.2" strokeDasharray="2000" strokeDashoffset="2000" />
-                        {/* Person 3 */}
-                        <circle className="tcn-svg-path" cx="530" cy="170" r="32" stroke="rgba(229,57,53,0.3)" strokeWidth="1" strokeDasharray="2000" strokeDashoffset="2000" />
-                        <path className="tcn-svg-path" d="M485 300 Q530 260 575 300 L580 390 H480 Z" stroke="rgba(229,57,53,0.3)" strokeWidth="1" strokeDasharray="2000" strokeDashoffset="2000" />
-                        {/* Connection lines */}
-                        <path className="tcn-svg-path" d="M265 185 Q322 165 342 178" stroke="rgba(229,57,53,0.5)" strokeWidth="1" strokeDasharray="2000" strokeDashoffset="2000" />
-                        <path className="tcn-svg-path" d="M418 162 Q474 155 498 168" stroke="rgba(229,57,53,0.3)" strokeWidth="1" strokeDasharray="2000" strokeDashoffset="2000" />
-                        {/* Dots */}
-                        <circle cx="220" cy="160" r="4" fill="#E53935" />
-                        <circle cx="380" cy="140" r="3" fill="rgba(229,57,53,0.6)" />
-                        <circle cx="530" cy="170" r="2.5" fill="rgba(229,57,53,0.3)" />
-                    </svg>
+            {/* ── 1. HERO SECTION ── */}
+            <section ref={heroRef} className="hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '60vh', display: 'flex', alignItems: 'center' }}>
+                <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                    <img
+                        src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+                        alt="Comercial Freelance"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.35)' }}
+                    />
                 </div>
 
-                <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full" style={{ position: 'relative', zIndex: 2, paddingTop: '8rem', paddingBottom: '5rem' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
-                        <div>
-                            <p className="page-header-label tcn-hero-sub" style={{ marginBottom: '1.5rem' }} >Únete al equipo</p>
-                            <h1 className="tcn-hero-title page-header-title" style={{ overflow: 'hidden', marginBottom: '2rem' }}>
-                                Construye el futuro de la <span style={{ color: '#E53935' }}>consultoría</span>
-                            </h1>
-                            <div className="tcn-hero-sub" style={{ fontSize: '1.15rem', color: 'rgba(255,255,255,0.65)', lineHeight: 1.75, marginBottom: '3rem', maxWidth: '520px' }}>
-                                <p style={{ marginBottom: '1rem' }}>
-                                    En Importphones, no solo vendemos servicios; resolvemos problemas.
-                                    Nuestra historia comenzó con una visión simple: hacer que la energía
-                                    y las telecomunicaciones sean justas para todos.
-                                </p>
-                                <p>
-                                    Buscamos personas inconformistas, detallistas y que entiendan que
-                                    el cliente es el centro de todo lo que hacemos.
-                                </p>
-                            </div>
-                            <div className="tcn-hero-cta" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                                <a href="#application-form" className="btn-primary">
-                                    <span>Ver vacantes</span>
-                                    <ArrowRight size={18} />
-                                </a>
-                            </div>
-                        </div>
-
-                        {/* Stats column */}
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
-                            {[
-                                { num: '+5.000', label: 'Clientes ayudados', icon: Users },
-                                { num: '98%', label: 'Satisfacción cliente', icon: Star },
-                                { num: '+10', label: 'Años de experiencia', icon: Trophy },
-                                { num: '3', label: 'Sedes operativas', icon: Briefcase },
-                            ].map((s, i) => (
-                                <div key={i} className="tcn-stat" style={{
-                                    background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-                                    borderRadius: '16px', padding: '2rem 1.5rem', textAlign: 'center'
-                                }}>
-                                    <s.icon size={28} style={{ color: '#E53935', marginBottom: '0.75rem' }} />
-                                    <div style={{ fontFamily: 'Space Grotesk', fontSize: '2rem', fontWeight: 800, color: '#fff', lineHeight: 1 }}>{s.num}</div>
-                                    <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginTop: '0.4rem' }}>{s.label}</div>
-                                </div>
-                            ))}
+                <div className="max-w-[1400px] mx-auto px-6 lg:px-12 w-full" style={{ position: 'relative', zIndex: 2, paddingTop: '10rem', paddingBottom: '6rem' }}>
+                    <div style={{ maxWidth: '800px' }}>
+                        <p className="tcn-hero-title" style={{ color: '#E53935', fontSize: '1rem', fontWeight: 800, letterSpacing: '2px', textTransform: 'uppercase', marginBottom: '1.5rem' }}>
+                            Trabaja con nosotros
+                        </p>
+                        <h1 className="tcn-hero-title title-display" style={{
+                            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                            fontWeight: 900,
+                            color: '#ffffff',
+                            lineHeight: 1.1,
+                            marginBottom: '1.5rem',
+                            textShadow: '0 4px 20px rgba(0,0,0,0.6)'
+                        }}>
+                            ¡Únete a ImportPhones como <span style={{ color: '#E53935' }}>Comercial Freelance</span>!
+                        </h1>
+                        <p className="tcn-hero-sub" style={{
+                            fontSize: 'clamp(1.1rem, 2vw, 1.25rem)',
+                            color: 'rgba(255,255,255,0.85)',
+                            lineHeight: 1.7,
+                            marginBottom: '2.5rem',
+                            maxWidth: '700px',
+                            fontWeight: 400
+                        }}>
+                            ¿Buscas maximizar tus ingresos con total libertad? En ImportPhones estamos expandiendo nuestra red comercial y buscamos a los mejores talentos en ventas. Si eres una persona ambiciosa, proactiva y quieres trabajar con un modelo de negocio altamente rentable, este es tu sitio.
+                        </p>
+                        <div className="tcn-hero-cta" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                            <a href="#application-form" className="btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.05rem', background: '#E53935', color: '#fff', borderRadius: '50px' }}>
+                                <span>Solicitar más información</span>
+                                <ArrowRight size={18} />
+                            </a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* ── S2: Benefits */}
-            <section ref={benefitsRef} className="section-light" style={{ padding: '6rem 0' }}>
-                <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-                    <div className="section-header" style={{ marginBottom: '4rem' }}>
-                        <p className="section-label">Por qué elegirnos</p>
-                        <h2 className="section-title" style={{ color: 'var(--color-text-dark)' }}>
-                            Lo que <span>ofrecemos</span>
-                        </h2>
-                    </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem' }}>
-                        {benefits.map((b, i) => (
-                            <div key={i} className="tcn-benefit-card service-card-light" style={{
-                                padding: '2.5rem', borderRadius: '20px',
-                                border: '1px solid rgba(0,0,0,0.06)',
-                                transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-                            }}
-                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-6px)'; (e.currentTarget as HTMLElement).style.boxShadow = '0 20px 50px rgba(0,0,0,0.1)'; }}
-                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}
-                            >
-                                <div style={{
-                                    width: '52px', height: '52px', background: '#E5393510', borderRadius: '14px',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1.5rem'
-                                }}>
-                                    <b.icon size={26} style={{ color: '#E53935' }} />
-                                </div>
-                                <h3 style={{ fontFamily: 'Space Grotesk', fontSize: '1.2rem', fontWeight: 700, color: 'var(--color-text-dark)', marginBottom: '0.75rem' }}>{b.title}</h3>
-                                <p style={{ color: '#666', lineHeight: 1.6, fontSize: '0.95rem' }}>{b.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── S3: Culture / Values with image */}
-            <section ref={valuesRef} style={{ background: 'var(--color-section-light-2)', padding: '6rem 0' }}>
-                <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '6rem', alignItems: 'center' }}>
+            {/* ── 2. ¿POR QUÉ COLABORAR CON NOSOTROS? ── */}
+            <section ref={whyRef} style={{ padding: '6rem 0' }}>
+                <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <div>
-                            <p className="section-label">Nuestra cultura</p>
-                            <h2 className="section-title" style={{ color: 'var(--color-text-dark)', marginBottom: '2.5rem' }}>
-                                Valores que nos <span>definen</span>
+                            <p style={{ color: '#E53935', fontSize: '0.9rem', fontWeight: 700, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '1rem' }}>
+                                Tu crecimiento es el nuestro
+                            </p>
+                            <h2 style={{ fontSize: 'clamp(2rem, 3.5vw, 3rem)', fontWeight: 800, color: '#111', lineHeight: 1.15, marginBottom: '2rem' }}>
+                                🚀 ¿Por qué colaborar con <span style={{ color: '#E53935' }}>nosotros</span>?
                             </h2>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                                {[
-                                    'Compromiso total con el cliente',
-                                    'Transparencia en cada proceso',
-                                    'Innovación constante en nuestras soluciones',
-                                    'Trabajo en equipo por encima de todo',
-                                    'Formación continua y desarrollo personal',
-                                    'Resultados medibles y honestidad radical',
-                                ].map((v, i) => (
-                                    <div key={i} className="tcn-value-item" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                        <div style={{ width: '28px', height: '28px', background: '#E5393515', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                            <CheckCircle size={16} style={{ color: '#E53935' }} />
-                                        </div>
-                                        <span style={{ color: '#444', fontSize: '1rem', lineHeight: 1.5 }}>{v}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="tcn-values-img" style={{ position: 'relative' }}>
-                            {/* Decorative frame */}
-                            <div style={{ position: 'absolute', inset: '-20px', border: '2px solid rgba(229,57,53,0.15)', borderRadius: '24px', zIndex: 0 }} />
-                            <div style={{ position: 'relative', zIndex: 1, borderRadius: '20px', overflow: 'hidden', aspectRatio: '4/3', background: 'linear-gradient(135deg, #E53935 0%, #B71C1C 100%)' }}>
-                                {/* Placeholder visual */}
-                                <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem', padding: '3rem' }}>
-                                    <Users size={80} style={{ color: 'rgba(255,255,255,0.3)' }} />
-                                    <div style={{ textAlign: 'center' }}>
-                                        <div style={{ fontFamily: 'Space Grotesk', fontSize: '1.8rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>El equipo Importphones</div>
-                                        <div style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1rem' }}>Jóvenes, apasionados y comprometidos</div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Badge */}
-                            <div style={{
-                                position: 'absolute', bottom: '-1.5rem', left: '-1.5rem', zIndex: 2,
-                                background: '#fff', borderRadius: '16px', padding: '1.2rem 1.6rem',
-                                boxShadow: '0 16px 40px rgba(0,0,0,0.12)', display: 'flex', alignItems: 'center', gap: '0.8rem'
-                            }}>
-                                <div style={{ width: '40px', height: '40px', background: '#E5393515', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <TrendingUp size={20} style={{ color: '#E53935' }} />
-                                </div>
-                                <div>
-                                    <div style={{ fontFamily: 'Space Grotesk', fontWeight: 800, fontSize: '1.1rem', color: '#111' }}>Crecemos contigo</div>
-                                    <div style={{ fontSize: '0.75rem', color: '#888' }}>Formación y ascenso garantizados</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                            <p style={{ color: '#555', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: '3rem' }}>
+                                En un mercado competitivo, nos diferenciamos por ofrecer condiciones que realmente valoran tu esfuerzo:
+                            </p>
 
-            {/* ── S4: Open Positions */}
-            <section ref={openingsRef} className="section-light" style={{ padding: '6rem 0' }} id="application-form">
-                <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-                    <div className="section-header" style={{ marginBottom: '3.5rem' }}>
-                        <p className="section-label">Vacantes actuales</p>
-                        <h2 className="section-title" style={{ color: 'var(--color-text-dark)' }}>
-                            Puestos <span>disponibles</span>
-                        </h2>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        {openings.map((o, i) => (
-                            <div key={i} className="tcn-opening-card" style={{
-                                background: '#fff', border: '1px solid rgba(0,0,0,0.07)', borderRadius: '16px',
-                                padding: '2rem 2.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                                gap: '2rem', transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
-                                cursor: 'pointer'
-                            }}
-                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateX(6px)'; (e.currentTarget as HTMLElement).style.borderColor = '#E53935'; (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 30px rgba(0,0,0,0.08)'; }}
-                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.borderColor = ''; (e.currentTarget as HTMLElement).style.boxShadow = ''; }}
-                            >
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                                    <div style={{ width: '48px', height: '48px', background: '#E5393510', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                        <Briefcase size={22} style={{ color: '#E53935' }} />
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                                {/* Benefit 1 */}
+                                <div className="tcn-benefit-card" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', background: '#fff', padding: '2rem', borderRadius: '16px', border: '1px solid #E53935', transition: 'all 0.3s ease', cursor: 'pointer', borderLeftWidth: '5px' }}
+                                    onMouseEnter={e => {
+                                        const el = e.currentTarget as HTMLElement;
+                                        el.style.transform = 'translateY(-6px)'; el.style.background = '#111'; el.style.boxShadow = '0 15px 35px rgba(229,57,53,0.2)';
+                                        const t = el.querySelector('.bc-title') as HTMLElement; if (t) t.style.color = '#fff';
+                                        const d = el.querySelector('.bc-desc') as HTMLElement; if (d) d.style.color = 'rgba(255,255,255,0.8)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        const el = e.currentTarget as HTMLElement;
+                                        el.style.transform = ''; el.style.background = '#fff'; el.style.boxShadow = '';
+                                        const t = el.querySelector('.bc-title') as HTMLElement; if (t) t.style.color = '#111';
+                                        const d = el.querySelector('.bc-desc') as HTMLElement; if (d) d.style.color = '#555';
+                                    }}
+                                >
+                                    <div style={{ width: '48px', height: '48px', background: 'rgba(229,57,53,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#E53935' }}>
+                                        <LineChart size={24} />
                                     </div>
                                     <div>
-                                        <div style={{ fontFamily: 'Space Grotesk', fontWeight: 700, fontSize: '1.1rem', color: '#111' }}>{o.title}</div>
-                                        <div style={{ fontSize: '0.85rem', color: '#888', marginTop: '0.2rem' }}>{o.dept} · {o.location}</div>
+                                        <h3 className="bc-title" style={{ fontSize: '1.2rem', fontWeight: 800, color: '#111', marginBottom: '0.5rem', transition: 'color 0.3s ease' }}>Comisiones Altas y Sin Techo</h3>
+                                        <p className="bc-desc" style={{ color: '#555', lineHeight: 1.6, transition: 'color 0.3s ease' }}>
+                                            Creemos en recompensar el éxito. Ofrecemos uno de los esquemas de comisiones más competitivos del sector. Cuanto más vendes, más ganas, sin límites.
+                                        </p>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                                    <span style={{ background: '#E5393510', color: '#E53935', padding: '0.4rem 1rem', borderRadius: '99px', fontSize: '0.8rem', fontWeight: 600, whiteSpace: 'nowrap' }}>{o.type}</span>
-                                    <ArrowRight size={20} style={{ color: '#E53935', flexShrink: 0 }} />
+
+                                {/* Benefit 2 */}
+                                <div className="tcn-benefit-card" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', background: '#fff', padding: '2rem', borderRadius: '16px', border: '1px solid #E53935', transition: 'all 0.3s ease', cursor: 'pointer', borderLeftWidth: '5px' }}
+                                    onMouseEnter={e => {
+                                        const el = e.currentTarget as HTMLElement;
+                                        el.style.transform = 'translateY(-6px)'; el.style.background = '#111'; el.style.boxShadow = '0 15px 35px rgba(229,57,53,0.2)';
+                                        const t = el.querySelector('.bc-title') as HTMLElement; if (t) t.style.color = '#fff';
+                                        const d = el.querySelector('.bc-desc') as HTMLElement; if (d) d.style.color = 'rgba(255,255,255,0.8)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        const el = e.currentTarget as HTMLElement;
+                                        el.style.transform = ''; el.style.background = '#fff'; el.style.boxShadow = '';
+                                        const t = el.querySelector('.bc-title') as HTMLElement; if (t) t.style.color = '#111';
+                                        const d = el.querySelector('.bc-desc') as HTMLElement; if (d) d.style.color = '#555';
+                                    }}
+                                >
+                                    <div style={{ width: '48px', height: '48px', background: 'rgba(229,57,53,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#E53935' }}>
+                                        <Trophy size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="bc-title" style={{ fontSize: '1.2rem', fontWeight: 800, color: '#111', marginBottom: '0.5rem', transition: 'color 0.3s ease' }}>Ventaja Fiscal Estratégica</h3>
+                                        <p className="bc-desc" style={{ color: '#555', lineHeight: 1.6, transition: 'color 0.3s ease' }}>
+                                            ImportPhones es una marca propiedad de una empresa andorrana. Esto supone una ventaja fiscal competitiva y una estructura sólida que nos permite optimizar los recursos para ofrecer mejores márgenes.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Benefit 3 */}
+                                <div className="tcn-benefit-card" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start', background: '#fff', padding: '2rem', borderRadius: '16px', border: '1px solid #E53935', transition: 'all 0.3s ease', cursor: 'pointer', borderLeftWidth: '5px' }}
+                                    onMouseEnter={e => {
+                                        const el = e.currentTarget as HTMLElement;
+                                        el.style.transform = 'translateY(-6px)'; el.style.background = '#111'; el.style.boxShadow = '0 15px 35px rgba(229,57,53,0.2)';
+                                        const t = el.querySelector('.bc-title') as HTMLElement; if (t) t.style.color = '#fff';
+                                        const d = el.querySelector('.bc-desc') as HTMLElement; if (d) d.style.color = 'rgba(255,255,255,0.8)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        const el = e.currentTarget as HTMLElement;
+                                        el.style.transform = ''; el.style.background = '#fff'; el.style.boxShadow = '';
+                                        const t = el.querySelector('.bc-title') as HTMLElement; if (t) t.style.color = '#111';
+                                        const d = el.querySelector('.bc-desc') as HTMLElement; if (d) d.style.color = '#555';
+                                    }}
+                                >
+                                    <div style={{ width: '48px', height: '48px', background: 'rgba(229,57,53,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: '#E53935' }}>
+                                        <ShieldCheck size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="bc-title" style={{ fontSize: '1.2rem', fontWeight: 800, color: '#111', marginBottom: '0.5rem', transition: 'color 0.3s ease' }}>Seguridad y Transparencia</h3>
+                                        <p className="bc-desc" style={{ color: '#555', lineHeight: 1.6, transition: 'color 0.3s ease' }}>
+                                            No trabajamos con promesas en el aire. Todo se formaliza mediante un contrato profesional donde quedan estipuladas de forma clara y transparente tus comisiones.
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Right side Image */}
+                        <div className="reveal-img" style={{ position: 'relative', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', height: '100%', minHeight: '500px' }}>
+                            <img
+                                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
+                                alt="Equipo de ventas"
+                                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* ── S5: Application Form */}
-            <section ref={formRef} style={{ background: 'var(--color-text-dark)', padding: '6rem 0' }}>
-                <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr', gap: '6rem', alignItems: 'start' }}>
-                        {/* Left copy */}
-                        <div>
-                            <p className="section-label">Candidatura</p>
-                            <h2 style={{ fontFamily: 'Space Grotesk', fontSize: 'clamp(2rem,4vw,3rem)', fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: '1.5rem' }}>
-                                Envíanos tu <span style={{ color: '#E53935' }}>CV</span>
+            {/* ── 3. PRODUCTOS Y QUÉ BUSCAMOS ── */}
+            <section style={{ padding: '6rem 0', background: '#fff' }}>
+                <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+                        {/* QUÉ PRODUCTOS COMERCIALIZARÁS */}
+                        <div ref={productsRef}>
+                            <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 800, color: '#111', lineHeight: 1.2, marginBottom: '1.5rem' }}>
+                                ⚡ ¿Qué productos<br />comercializarás?
                             </h2>
-                            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '1.05rem', lineHeight: 1.7, marginBottom: '2.5rem' }}>
-                                Queremos conocerte. Completa el formulario y adjunta tu currículum. Nuestro equipo de RRHH revisará tu perfil en menos de 48 horas.
+                            <p style={{ color: '#555', fontSize: '1.05rem', lineHeight: 1.7, marginBottom: '2rem' }}>
+                                Te proporcionamos un catálogo de servicios de alta demanda con procesos de contratación ágiles:
                             </p>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                                {['CV revisado en 48h', 'Proceso transparente y ágil', 'Feedback siempre garantizado'].map((t, i) => (
-                                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                        <CheckCircle size={18} style={{ color: '#E53935', flexShrink: 0 }} />
-                                        <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.95rem' }}>{t}</span>
-                                    </div>
-                                ))}
+                            <div className="tcn-product-item" style={{ background: '#fff', padding: '1.5rem', borderRadius: '0 12px 12px 0', marginBottom: '1rem', border: '1px solid #E53935', borderLeftWidth: '5px', transition: 'all 0.3s ease', cursor: 'pointer' }}
+                                onMouseEnter={e => {
+                                    const el = e.currentTarget as HTMLElement;
+                                    el.style.transform = 'translateX(6px)'; el.style.background = '#111'; el.style.boxShadow = '0 10px 20px rgba(229,57,53,0.2)';
+                                    const t = el.querySelector('.pi-title') as HTMLElement; if (t) t.style.color = '#fff';
+                                    const d = el.querySelector('.pi-desc') as HTMLElement; if (d) d.style.color = 'rgba(255,255,255,0.8)';
+                                }}
+                                onMouseLeave={e => {
+                                    const el = e.currentTarget as HTMLElement;
+                                    el.style.transform = ''; el.style.background = '#fff'; el.style.boxShadow = '';
+                                    const t = el.querySelector('.pi-title') as HTMLElement; if (t) t.style.color = '#111';
+                                    const d = el.querySelector('.pi-desc') as HTMLElement; if (d) d.style.color = '#555';
+                                }}
+                            >
+                                <h4 className="pi-title" style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem', transition: 'color 0.3s ease' }}>
+                                    <Zap size={20} color="#E53935" /> Energía
+                                </h4>
+                                <p className="pi-desc" style={{ color: '#555', fontSize: '0.95rem', transition: 'color 0.3s ease' }}>Soluciones de ahorro luz y gas para hogares y empresas.</p>
                             </div>
+                            <div className="tcn-product-item" style={{ background: '#fff', padding: '1.5rem', borderRadius: '0 12px 12px 0', marginBottom: '1.5rem', border: '1px solid #E53935', borderLeftWidth: '5px', transition: 'all 0.3s ease', cursor: 'pointer' }}
+                                onMouseEnter={e => {
+                                    const el = e.currentTarget as HTMLElement;
+                                    el.style.transform = 'translateX(6px)'; el.style.background = '#111'; el.style.boxShadow = '0 10px 20px rgba(229,57,53,0.2)';
+                                    const t = el.querySelector('.pi-title') as HTMLElement; if (t) t.style.color = '#fff';
+                                    const d = el.querySelector('.pi-desc') as HTMLElement; if (d) d.style.color = 'rgba(255,255,255,0.8)';
+                                }}
+                                onMouseLeave={e => {
+                                    const el = e.currentTarget as HTMLElement;
+                                    el.style.transform = ''; el.style.background = '#fff'; el.style.boxShadow = '';
+                                    const t = el.querySelector('.pi-title') as HTMLElement; if (t) t.style.color = '#111';
+                                    const d = el.querySelector('.pi-desc') as HTMLElement; if (d) d.style.color = '#555';
+                                }}
+                            >
+                                <h4 className="pi-title" style={{ fontSize: '1.1rem', fontWeight: 800, color: '#111', display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem', transition: 'color 0.3s ease' }}>
+                                    <Rocket size={20} color="#E53935" /> Conectividad (Fibra)
+                                </h4>
+                                <p className="pi-desc" style={{ color: '#555', fontSize: '0.95rem', transition: 'color 0.3s ease' }}>Los mejores servicios de fibra óptica y telefonía con cobertura nacional.</p>
+                            </div>
+                            <p className="tcn-product-item" style={{ fontSize: '0.9rem', color: '#888', fontStyle: 'italic', background: '#FAFAFA', padding: '1rem', borderRadius: '8px', border: '1px solid #EAEAEA' }}>
+                                * Tus comisiones por cada cierre en Energía o Fibra estarán detalladas específicamente en tu contrato comercial.
+                            </p>
                         </div>
 
-                        {/* Right form */}
-                        <div className="tcn-form-wrapper" style={{
-                            background: '#fff', borderRadius: '24px', padding: '3rem'
-                        }}>
-                            {isSubmitted ? (
-                                <div style={{ textAlign: 'center', padding: '3rem 0' }}>
-                                    <div style={{ width: '72px', height: '72px', background: '#E5393515', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
-                                        <CheckCircle size={36} style={{ color: '#E53935' }} />
-                                    </div>
-                                    <h3 style={{ fontFamily: 'Space Grotesk', fontSize: '1.7rem', fontWeight: 700, color: '#111', marginBottom: '1rem' }}>¡Candidatura recibida!</h3>
-                                    <p style={{ color: '#666' }}>Nuestro equipo de RRHH revisará tu perfil y te contactará pronto.</p>
+                        {/* QUÉ BUSCAMOS */}
+                        <div ref={whatWeLookForRef}>
+                            <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.5rem)', fontWeight: 800, color: '#111', lineHeight: 1.2, marginBottom: '2rem' }}>
+                                📋 ¿Qué buscamos?
+                            </h2>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                <div className="tcn-lookfor-item" style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#fff', padding: '1.25rem', borderRadius: '12px', border: '1px solid #E53935', transition: 'all 0.3s ease', cursor: 'pointer' }}
+                                    onMouseEnter={e => {
+                                        const el = e.currentTarget as HTMLElement; el.style.transform = 'scale(1.02)'; el.style.background = '#111';
+                                        const sp = el.querySelector('.li-text') as HTMLElement; if (sp) sp.style.color = '#fff';
+                                    }}
+                                    onMouseLeave={e => {
+                                        const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.background = '#fff';
+                                        const sp = el.querySelector('.li-text') as HTMLElement; if (sp) sp.style.color = '#333';
+                                    }}
+                                >
+                                    <CheckCircle size={22} style={{ color: '#E53935', flexShrink: 0 }} />
+                                    <span className="li-text" style={{ fontSize: '1.05rem', color: '#333', fontWeight: 500, transition: 'color 0.3s ease' }}>Perfiles con experiencia en ventas (valorable en sector energético o telecomunicaciones).</span>
                                 </div>
-                            ) : (
-                                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-                                        <div className="form-group">
-                                            <label className="form-label" style={{ color: '#333' }}>Nombre completo</label>
-                                            <input type="text" name="name" required className="form-input"
-                                                value={formData.name} onChange={handleChange} placeholder="Tu nombre" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="form-label" style={{ color: '#333' }}>Email</label>
-                                            <input type="email" name="email" required className="form-input"
-                                                value={formData.email} onChange={handleChange} placeholder="tu@email.com" />
-                                        </div>
-                                    </div>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.25rem' }}>
-                                        <div className="form-group">
-                                            <label className="form-label" style={{ color: '#333' }}>Teléfono</label>
-                                            <input type="tel" name="phone" required className="form-input"
-                                                value={formData.phone} onChange={handleChange} placeholder="+34 XXX XXX XXX" />
-                                        </div>
-                                        <div className="form-group">
-                                            <label className="form-label" style={{ color: '#333' }}>Puesto de interés</label>
-                                            <select name="position" required className="form-input"
-                                                value={formData.position} onChange={handleChange}>
-                                                <option value="">Selecciona un puesto</option>
-                                                <option value="comercial">Asesor Comercial</option>
-                                                <option value="tecnico">Servicio Técnico</option>
-                                                <option value="admin">Administración</option>
-                                                <option value="otro">Otro</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label" style={{ color: '#333' }}>Currículum (CV)</label>
-                                        <div style={{ position: 'relative' }}>
-                                            <input type="file" required accept=".pdf,.doc,.docx"
-                                                style={{ opacity: 0, position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: 'pointer', zIndex: 10 }}
-                                                onChange={e => setFileName(e.target.files?.[0]?.name || '')}
-                                            />
-                                            <div className="form-input" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                                <Upload size={18} style={{ color: '#E53935' }} />
-                                                <span style={{ color: fileName ? '#333' : '#aaa', fontSize: '0.9rem' }}>
-                                                    {fileName || 'Seleccionar archivo (PDF o Word)'}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <label className="form-label" style={{ color: '#333' }}>¿Por qué quieres unirte? (opcional)</label>
-                                        <textarea name="message" className="form-textarea" rows={4}
-                                            value={formData.message} onChange={handleChange}
-                                            placeholder="Cuéntanos tu motivación..." />
-                                    </div>
-                                    <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center' }} disabled={isSubmitting}>
-                                        <Send size={18} />
-                                        <span>{isSubmitting ? 'Enviando...' : 'Enviar candidatura'}</span>
-                                    </button>
-                                </form>
-                            )}
+                                <div className="tcn-lookfor-item" style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#fff', padding: '1.25rem', borderRadius: '12px', border: '1px solid #E53935', transition: 'all 0.3s ease', cursor: 'pointer' }}
+                                    onMouseEnter={e => {
+                                        const el = e.currentTarget as HTMLElement; el.style.transform = 'scale(1.02)'; el.style.background = '#111';
+                                        const sp = el.querySelector('.li-text') as HTMLElement; if (sp) sp.style.color = '#fff';
+                                    }}
+                                    onMouseLeave={e => {
+                                        const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.background = '#fff';
+                                        const sp = el.querySelector('.li-text') as HTMLElement; if (sp) sp.style.color = '#333';
+                                    }}
+                                >
+                                    <CheckCircle size={22} style={{ color: '#E53935', flexShrink: 0 }} />
+                                    <span className="li-text" style={{ fontSize: '1.05rem', color: '#333', fontWeight: 500, transition: 'color 0.3s ease' }}>Autónomos con mentalidad emprendedora.</span>
+                                </div>
+                                <div className="tcn-lookfor-item" style={{ display: 'flex', alignItems: 'center', gap: '1rem', background: '#fff', padding: '1.25rem', borderRadius: '12px', border: '1px solid #E53935', transition: 'all 0.3s ease', cursor: 'pointer' }}
+                                    onMouseEnter={e => {
+                                        const el = e.currentTarget as HTMLElement; el.style.transform = 'scale(1.02)'; el.style.background = '#111';
+                                        const sp = el.querySelector('.li-text') as HTMLElement; if (sp) sp.style.color = '#fff';
+                                    }}
+                                    onMouseLeave={e => {
+                                        const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.background = '#fff';
+                                        const sp = el.querySelector('.li-text') as HTMLElement; if (sp) sp.style.color = '#333';
+                                    }}
+                                >
+                                    <CheckCircle size={22} style={{ color: '#E53935', flexShrink: 0 }} />
+                                    <span className="li-text" style={{ fontSize: '1.05rem', color: '#333', fontWeight: 500, transition: 'color 0.3s ease' }}>Capacidad de autogestión y orientación a resultados.</span>
+                                </div>
+                            </div>
+
+                            <div style={{ marginTop: '3rem', padding: '2rem', background: '#fff', borderRadius: '16px', border: '2px dashed #E53935', transition: 'all 0.4s ease', cursor: 'pointer' }}
+                                onMouseEnter={e => {
+                                    const el = e.currentTarget as HTMLElement; el.style.transform = 'scale(1.02)'; el.style.background = '#111'; el.style.borderStyle = 'solid'; el.style.boxShadow = '0 15px 35px rgba(229,57,53,0.2)';
+                                    const t = el.querySelector('.opp-title') as HTMLElement; if (t) t.style.color = '#fff';
+                                    const d = el.querySelector('.opp-desc') as HTMLElement; if (d) d.style.color = 'rgba(255,255,255,0.8)';
+                                }}
+                                onMouseLeave={e => {
+                                    const el = e.currentTarget as HTMLElement; el.style.transform = ''; el.style.background = '#fff'; el.style.borderStyle = 'dashed'; el.style.boxShadow = '';
+                                    const t = el.querySelector('.opp-title') as HTMLElement; if (t) t.style.color = '#111';
+                                    const d = el.querySelector('.opp-desc') as HTMLElement; if (d) d.style.color = '#555';
+                                }}
+                            >
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                                    <Target size={28} style={{ color: '#E53935' }} />
+                                    <h3 className="opp-title" style={{ fontSize: '1.25rem', fontWeight: 800, color: '#111', transition: 'color 0.3s ease' }}>Una oportunidad única</h3>
+                                </div>
+                                <p className="opp-desc" style={{ color: '#555', fontSize: '1rem', lineHeight: 1.6, transition: 'color 0.3s ease' }}>
+                                    No pierdas la oportunidad de formar parte de una marca con proyección internacional y beneficios fiscales únicos. El momento de escalar tus ingresos es ahora.
+                                </p>
+                            </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* ── 4. FORM (Dark Theme) ── */}
+            <section id="application-form" ref={formRef} style={{ padding: '6rem 0', background: '#111' }}>
+                <div className="max-w-[800px] mx-auto px-6 lg:px-12">
+                    <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                        <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#fff', lineHeight: 1.1, marginBottom: '1rem' }}>
+                            📩 ¿Estás listo para <span style={{ color: '#E53935' }}>empezar?</span>
+                        </h2>
+                        <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1rem', lineHeight: 1.6 }}>
+                            Déjanos tus datos y nos pondremos en contacto contigo rápidamente.
+                        </p>
+                    </div>
+
+                    <div className="tcn-form-wrapper" style={{
+                        background: '#0a0a0a', borderRadius: '24px', padding: '3.5rem 3rem',
+                        boxShadow: '0 20px 40px rgba(0,0,0,0.5)', border: '1px solid #222'
+                    }}>
+                        {isSubmitted ? (
+                            <div style={{ textAlign: 'center', padding: '2rem 0' }}>
+                                <div style={{ width: '80px', height: '80px', background: 'rgba(229,57,53,0.15)', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' }}>
+                                    <CheckCircle size={40} style={{ color: '#E53935' }} />
+                                </div>
+                                <h3 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#fff', marginBottom: '1rem' }}>¡Candidatura recibida!</h3>
+                                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.2rem', marginBottom: '3rem' }}>Revisaremos tu perfil y te contactaremos en menos de 48 horas.</p>
+                                <button
+                                    onClick={handleReset}
+                                    style={{
+                                        background: '#E53935',
+                                        color: '#fff',
+                                        padding: '1.2rem 2.5rem',
+                                        borderRadius: '16px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: '0.75rem',
+                                        margin: '0 auto',
+                                        fontWeight: 700,
+                                        fontSize: '1rem',
+                                        cursor: 'pointer',
+                                        border: 'none',
+                                        boxShadow: '0 10px 30px rgba(229,57,53,0.3)'
+                                    }}
+                                >
+                                    <Rocket size={18} />
+                                    Enviar otra solicitud
+                                </button>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
+                                    <div className="form-group">
+                                        <label className="form-label" style={{ color: '#ccc', fontWeight: 600 }}>Nombre completo</label>
+                                        <input type="text" name="name" required className="form-input" style={{ background: '#151515', border: '1px solid #333', color: '#fff' }}
+                                            value={formData.name} onChange={handleChange} placeholder="Tu nombre" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label" style={{ color: '#ccc', fontWeight: 600 }}>Email profesional</label>
+                                        <input type="email" name="email" required className="form-input" style={{ background: '#151515', border: '1px solid #333', color: '#fff' }}
+                                            value={formData.email} onChange={handleChange} placeholder="tu@email.com" />
+                                    </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="form-label" style={{ color: '#ccc', fontWeight: 600 }}>Teléfono</label>
+                                    <input type="tel" name="phone" required className="form-input" style={{ background: '#151515', border: '1px solid #333', color: '#fff' }}
+                                        value={formData.phone} onChange={handleChange} placeholder="+34 XXX XXX XXX" />
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="form-label" style={{ color: '#ccc', fontWeight: 600 }}>Currículum (CV)</label>
+                                    <div style={{ position: 'relative' }}>
+                                        <input type="file" name="attachment" required accept=".pdf,.doc,.docx,.xls,.xlsx"
+                                            style={{ opacity: 0, position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: 'pointer', zIndex: 10 }}
+                                            onChange={e => {
+                                                const file = e.target.files?.[0] || null;
+                                                setFormData({ ...formData, file });
+                                                setFileName(file?.name || '');
+                                            }}
+                                        />
+                                        <div className="form-input" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#151515', border: '1px dashed #444' }}>
+                                            <Upload size={18} style={{ color: '#E53935' }} />
+                                            <span style={{ color: fileName ? '#fff' : '#888', fontSize: '0.95rem', fontWeight: fileName ? 600 : 400 }}>
+                                                {fileName || 'Seleccionar archivo (PDF o Word)'}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="form-label" style={{ color: '#ccc', fontWeight: 600 }}>Mensaje (opcional)</label>
+                                    <textarea name="message" className="form-textarea" rows={4} style={{ background: '#151515', border: '1px solid #333', color: '#fff' }}
+                                        value={formData.message} onChange={handleChange}
+                                        placeholder="Breve presentación de tu experiencia en ventas..." />
+                                </div>
+
+                                {/* Componente Real de Google reCAPTCHA */}
+                                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.5rem' }}>
+                                    <ReCAPTCHA
+                                        ref={recaptchaRef}
+                                        sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // <- Reemplazar por tu clave real de Google reCAPTCHA v2
+                                        theme="dark"
+                                        onChange={(token) => setIsHuman(!!token)}
+                                    />
+                                </div>
+
+                                <button type="submit" className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '1.2rem', fontSize: '1.1rem', marginTop: '1rem', background: '#E53935', color: '#fff' }} disabled={isSubmitting}>
+                                    <Send size={20} style={{ marginRight: '0.5rem' }} />
+                                    <span>{isSubmitting ? 'Enviando...' : 'Solicitar Más Información / Enviar CV'}</span>
+                                </button>
+
+                                <p style={{ textAlign: 'center', fontSize: '0.8rem', color: '#888', marginTop: '0.5rem' }}>
+                                    Al enviar este formulario, aceptas nuestra política de privacidad.
+                                </p>
+                            </form>
+                        )}
                     </div>
                 </div>
             </section>

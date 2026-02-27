@@ -67,8 +67,16 @@ const AvisoLegal = () => {
 
     return (
         <div ref={pageRef} className="overflow-hidden">
-            <section className="page-header" style={{ position: 'relative', overflow: 'hidden', minHeight: '55vh', display: 'flex', alignItems: 'center' }}>
-                <div className="hero-subpage-svg" aria-hidden="true">
+            <section className="page-header hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {/* Background image — legal / trust */}
+                <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                    <img
+                        src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1920&q=80"
+                        alt="Aviso Legal"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.25)' }}
+                    />
+                </div>
+                <div className="hero-subpage-svg" aria-hidden="true" style={{ zIndex: 1 }}>
                     <svg viewBox="0 0 700 500" fill="none">
                         <rect className="al-svg-path" x="200" y="80" width="300" height="360" rx="16" stroke="#E53935" strokeWidth="1.5" strokeDasharray="2000" strokeDashoffset="2000" />
                         <line className="al-svg-path" x1="240" y1="160" x2="460" y2="160" stroke="rgba(229,57,53,0.6)" strokeWidth="1.2" strokeDasharray="2000" strokeDashoffset="2000" />

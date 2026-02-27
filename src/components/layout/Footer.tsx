@@ -13,17 +13,13 @@ const Footer = () => {
 
   useEffect(() => {
     if (footerRef.current) {
-      gsap.fromTo(
-        footerRef.current.querySelectorAll('.footer-reveal'),
-        { y: 40, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out',
-          scrollTrigger: { trigger: footerRef.current, start: 'top 90%' }
-        }
-      );
+      gsap.set(footerRef.current.querySelectorAll('.footer-reveal'), {
+        y: 0,
+        opacity: 1
+      });
     }
 
-    // 3D noise background canvas
+    // Animated red gradient noise canvas
     const canvas = noiseCanvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -42,8 +38,8 @@ const Footer = () => {
       const h = canvas.height;
       ctx.clearRect(0, 0, w, h);
 
-      // Flowing grid lines
-      ctx.strokeStyle = 'rgba(229,57,53,0.04)';
+      // Flowing grid lines with red tint
+      ctx.strokeStyle = 'rgba(229,57,53,0.06)';
       ctx.lineWidth = 1;
       const cols = 20;
       const rows = 8;
@@ -70,6 +66,17 @@ const Footer = () => {
         ctx.stroke();
       }
 
+      // Floating glowing particles
+      for (let p = 0; p < 12; p++) {
+        const px = Math.sin(t * 0.3 + p * 2.1) * w * 0.4 + w * 0.5;
+        const py = Math.cos(t * 0.25 + p * 1.7) * h * 0.3 + h * 0.5;
+        const radius = 2 + Math.sin(t + p) * 1.5;
+        ctx.beginPath();
+        ctx.arc(px, py, radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(229,57,53,${0.15 + Math.sin(t + p) * 0.1})`;
+        ctx.fill();
+      }
+
       t += 0.015;
       animFrameRef.current = requestAnimationFrame(draw);
     };
@@ -86,28 +93,45 @@ const Footer = () => {
     { path: '/quienes-somos', label: 'Nosotros' },
     { path: '/servicios', label: 'Servicios' },
     { path: '/contacto', label: 'Contacto' },
+    { path: '/trabaja-con-nosotros', label: 'Trabaja con nosotros' },
   ];
 
   const services = [
     { path: '/servicios/telecomunicaciones', label: 'Telecomunicaciones' },
     { path: '/servicios/energia', label: 'Energía' },
-    { path: '/trabaja-con-nosotros', label: 'Trabaja con nosotros' },
+  ];
+
+  const legalLinks = [
+    { path: '/aviso-legal', label: 'Aviso Legal' },
+    { path: '/politica-privacidad', label: 'Política de Privacidad' },
   ];
 
   const partners = [
     { name: 'Orange', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg' },
     { name: 'O2', logo: '/images/logo-o2-WJ0ZyWZ8.png' },
     { name: 'Lowi', logo: '/images/lowi.png' },
-    { name: 'Repsol', logo: '/images/repsol-logo-DmRPVn3o.png' },
+    { name: 'Movistar', logo: '/images/movistar.png' },
     { name: 'Niba', logo: '/images/logo_niba_local.svg' },
+    { name: 'Repsol', logo: '/images/repsol-logo-DmRPVn3o.png' },
     { name: 'Naturgy', logo: '/images/logo_naturgy_local.svg' },
+    { name: 'Endesa', logo: 'https://firmar.online/wp-content/uploads/2016/07/Endesa-Logo.png' },
+    { name: 'Iberdrola', logo: '/images/iberdrola-logo-BlFb9Nia.jpg' },
+    { name: 'Audax', logo: '/images/audax-logo-PVxP_0SP.png' },
   ];
 
   const googleMapsReviewsUrl = 'https://www.google.com/maps/place/Importphones.net/@41.5538813,1.9501491,688m/data=!3m2!1e3!4b1!4m6!3m5!1s0x12a492c7fdc4b1ef:0x1f6274004c9fd9e8!8m2!3d41.5538813!4d1.952724!16s%2Fg%2F11b81rv68c?entry=ttu&g_ep=EgoyMDI2MDIxOC4wIKXMDSoASAFQAw%3D%3D';
 
   return (
-    <footer ref={footerRef} className="footer-awwards" style={{ position: 'relative', overflow: 'hidden' }}>
-      {/* 3D animated background canvas */}
+    <footer
+      ref={footerRef}
+      className="footer-awwards"
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        background: 'linear-gradient(170deg, #0a0a0a 0%, #111 40%, #2a0a0a 70%, #1a0505 100%)',
+      }}
+    >
+      {/* Animated background canvas */}
       <canvas
         ref={noiseCanvasRef}
         style={{
@@ -119,6 +143,18 @@ const Footer = () => {
           zIndex: 0,
         }}
       />
+
+      {/* Red glow effects */}
+      <div style={{
+        position: 'absolute', top: '-20%', right: '-10%', width: '50%', height: '60%',
+        background: 'radial-gradient(circle, rgba(229,57,53,0.08) 0%, transparent 70%)',
+        pointerEvents: 'none', zIndex: 0
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '-15%', left: '-5%', width: '40%', height: '50%',
+        background: 'radial-gradient(circle, rgba(229,57,53,0.06) 0%, transparent 65%)',
+        pointerEvents: 'none', zIndex: 0
+      }} />
 
       {/* Main Footer */}
       <div className="footer-top" style={{ position: 'relative', zIndex: 1 }}>
@@ -175,11 +211,22 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Services */}
+            {/* Services + Legal */}
             <div className="footer-reveal">
               <h4 className="footer-title">Servicios</h4>
               <ul className="footer-links">
                 {services.map((link) => (
+                  <li key={link.path}>
+                    <Link to={link.path} className="footer-link-glitch" data-text={link.label}>
+                      <span>{link.label}</span>
+                      <ArrowUpRight size={14} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <h4 className="footer-title" style={{ marginTop: '2rem' }}>Legal</h4>
+              <ul className="footer-links">
+                {legalLinks.map((link) => (
                   <li key={link.path}>
                     <Link to={link.path} className="footer-link-glitch" data-text={link.label}>
                       <span>{link.label}</span>
@@ -193,7 +240,7 @@ const Footer = () => {
             {/* Partners */}
             <div className="footer-reveal">
               <h4 className="footer-title">Partners</h4>
-              <div className="footer-partners">
+              <div className="footer-partners" style={{ gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.6rem' }}>
                 {partners.map((partner, index) => (
                   <div key={index} className="partner-logo" title={partner.name}>
                     <img src={partner.logo} alt={partner.name} />
@@ -205,16 +252,12 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="footer-bottom" style={{ position: 'relative', zIndex: 1 }}>
+      {/* Bottom Bar — single clean copyright line */}
+      <div className="footer-bottom" style={{ position: 'relative', zIndex: 1, borderTop: '1px solid rgba(229,57,53,0.15)' }}>
         <div className="max-w-[1800px] mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="footer-copyright">
             © 2026 IMPORTPHONES.NET — Todos los derechos reservados.
           </p>
-          <div className="flex gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
-            <Link to="/aviso-legal" className="footer-link-glitch hover:text-primary" data-text="Aviso Legal"><span>Aviso Legal</span></Link>
-            <Link to="/politica-privacidad" className="footer-link-glitch hover:text-primary" data-text="Privacidad"><span>Privacidad</span></Link>
-          </div>
           <div className="footer-social">
             <a href={googleMapsReviewsUrl} target="_blank" rel="noopener noreferrer" aria-label="Google Reviews">
               <Star size={20} />

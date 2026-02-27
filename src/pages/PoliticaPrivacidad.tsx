@@ -75,8 +75,16 @@ const PoliticaPrivacidad = () => {
 
     return (
         <div ref={pageRef} className="overflow-hidden">
-            <section className="page-header" style={{ position: 'relative', overflow: 'hidden', minHeight: '55vh', display: 'flex', alignItems: 'center' }}>
-                <div className="hero-subpage-svg" aria-hidden="true">
+            <section className="page-header hero-awwards" style={{ position: 'relative', overflow: 'hidden', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {/* Background image — privacy / security */}
+                <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+                    <img
+                        src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1920&q=80"
+                        alt="Política de Privacidad"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.22)' }}
+                    />
+                </div>
+                <div className="hero-subpage-svg" aria-hidden="true" style={{ zIndex: 1 }}>
                     <svg viewBox="0 0 700 500" fill="none">
                         {/* Shield */}
                         <path className="pp-svg-path"

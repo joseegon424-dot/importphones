@@ -4,10 +4,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, Wifi, Zap, Phone, Shield,
-  CheckCircle, TrendingUp, Clock, Headphones, Star
+  CheckCircle, TrendingUp, Clock, Headphones
 } from 'lucide-react';
 import SplitType from 'split-type';
-import { allTestimonials } from '../data/testimonials';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,8 +22,6 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
   const processRef = useRef<HTMLDivElement>(null);
   const benefRef = useRef<HTMLDivElement>(null);
   const compRef = useRef<HTMLDivElement>(null);
-  const faqRef = useRef<HTMLDivElement>(null);
-  const testiRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -110,24 +107,6 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
         }
       );
 
-      // ── FAQ
-      gsap.fromTo('.faq-item',
-        { y: 40, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power3.out',
-          scrollTrigger: { trigger: faqRef.current, start: 'top 72%' }
-        }
-      );
-
-      // ── Testimonials
-      gsap.fromTo('.testimonial-card-brutal',
-        { y: 60, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.8, stagger: 0.12, ease: 'power3.out',
-          scrollTrigger: { trigger: testiRef.current, start: 'top 72%' }
-        }
-      );
-
       // ── CTA
       gsap.fromTo('.cta-service-content',
         { y: 60, opacity: 0 },
@@ -152,6 +131,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
       features: ['Fibra hasta 1 Gbps simétricos', 'Móvil con datos ilimitados', 'VoIP empresarial', 'Tarifas combinadas'],
       link: '/servicios/telecomunicaciones',
       cta: 'Ver telecomunicaciones',
+      bgImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80' // Tech/Network
     },
     {
       icon: Zap,
@@ -161,6 +141,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
       features: ['Análisis gratuito de consumo', 'Cambio de compañía gestionado', 'Tarifas adaptadas a tu perfil', 'Ahorro garantizado'],
       link: '/servicios/energia',
       cta: 'Ver energía',
+      bgImage: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1200&q=80' // Power/Energy
     },
   ];
 
@@ -174,10 +155,10 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
   ];
 
   const process = [
-    { number: '01', title: 'Contacto', desc: 'Nos cuentas tu situación actual y revisamos tus facturas.' },
-    { number: '02', title: 'Análisis', desc: 'Estudiamos en detalle tu consumo y detectamos el ahorro posible.' },
-    { number: '03', title: 'Propuesta', desc: 'Te presentamos las mejores opciones adaptadas a tu perfil.' },
-    { number: '04', title: 'Gestión', desc: 'Nos encargamos de todos los trámites. Tú solo firmas.' },
+    { number: '01', title: 'Contacto', desc: 'Nos cuentas tu situación actual y revisamos tus facturas.', bgImg: 'https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=600&q=80' },
+    { number: '02', title: 'Análisis', desc: 'Estudiamos en detalle tu consumo y detectamos el ahorro posible.', bgImg: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80' },
+    { number: '03', title: 'Propuesta', desc: 'Te presentamos las mejores opciones adaptadas a tu perfil.', bgImg: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=600&q=80' },
+    { number: '04', title: 'Gestión', desc: 'Nos encargamos de todos los trámites. Tú solo firmas.', bgImg: 'https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=600&q=80' },
   ];
 
   const benefits = [
@@ -189,101 +170,362 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
     'Resolución de incidencias post-contratación',
   ];
 
-  const faq = [
-    {
-      question: '¿Cuánto tarda el cambio de compañía?',
-      answer: 'Una vez firmado el contrato puede durar entre 5 y 20 días el cambio de comercializadora.'
-    },
-    {
-      question: '¿Tengo que pagar algo por el cambio?',
-      answer: 'No, el cambio es un trámite gratuito. Si sube o baja potencia inscrita sí hay un coste regulado por LEY.'
-    },
-    {
-      question: '¿Cuánto puedo ahorrar realmente?',
-      answer: 'Depende de tu tarifa actual y del estudio presentado por nuestro asesor. Toda la información la recibirás cuando un asesor se contacte contigo.'
-    },
-    {
-      question: '¿Cuánto tarda la portabilidad?',
-      answer: 'La portabilidad móvil es de 2 días hábiles sin contar festivos ni fines de semana.'
-    },
-    {
-      question: '¿Pierdo mi número de teléfono?',
-      answer: 'No. La portabilidad mantiene tu número. El cambio se realiza de madrugada entre las 3 y las 6 AM.'
-    },
-    {
-      question: '¿Hay permanencia?',
-      answer: 'Depende de la compañía. Algunas como O2 no tienen permanencia.'
-    },
-  ];
-
-  const testimonials = [allTestimonials[0], allTestimonials[4], allTestimonials[10]];
-
-  const toggleFaq = (index: number) => {
-    document.querySelectorAll('.faq-item').forEach((item, i) => {
-      if (i === index) item.classList.toggle('active');
-      else item.classList.remove('active');
-    });
-  };
-
   return (
     <div ref={pageRef} className="overflow-hidden">
 
       {/* ══════════════════════════════════════════════
           S1 — HERO HEADER  (dark)
       ══════════════════════════════════════════════ */}
-      <section ref={headerRef} className="page-header" style={{ position: 'relative', overflow: 'hidden' }}>
-        {/* Subtle SVG grid */}
-        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.04, pointerEvents: 'none' }}
-          viewBox="0 0 1200 500" preserveAspectRatio="none">
-          {[80, 160, 240, 320, 400].map((y, i) => <line key={i} x1="0" y1={y} x2="1200" y2={y} stroke="#E53935" strokeWidth="1" />)}
-          {[200, 400, 600, 800, 1000].map((x, i) => <line key={i} x1={x} y1="0" x2={x} y2="500" stroke="#E53935" strokeWidth="1" />)}
-        </svg>
+      <section ref={headerRef} className="page-header hero-awwards" style={{
+        position: 'relative',
+        overflow: 'hidden',
+        minHeight: '80vh', // Mismo tamaño que la sección Hero/Nosotros de Home
+        display: 'flex',
+        alignItems: 'center',
+        background: 'var(--color-black)'
+      }}>
+        {/* Background Image with Overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'url("/images/services-hero.png")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.35,
+          filter: 'grayscale(0.4) contrast(1.1)',
+        }} />
 
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12" style={{ position: 'relative', zIndex: 2 }}>
-          <p className="page-header-label">Servicios</p>
-          <h1 className="page-header-title">
-            Nuestros <span style={{ color: '#E53935' }}>servicios</span>
-          </h1>
-          <p className="page-header-subtitle">
-            Ofrecemos asesoramiento integral en telecomunicaciones y energía.
-            Gestionamos todo el proceso para que tú solo disfrutes del ahorro.
-          </p>
+        {/* Animated Gradient Overlay */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to right, var(--color-black) 0%, rgba(0,0,0,0.8) 40%, transparent 100%)',
+          zIndex: 1
+        }} />
+
+        {/* Content Container */}
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 w-full" style={{ position: 'relative', zIndex: 2 }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+            {/* Left Column: Title & Label */}
+            <div>
+              <p className="page-header-label mb-6 inline-block" style={{
+                letterSpacing: '0.4em',
+                fontSize: '0.8rem',
+                color: 'var(--color-primary)',
+                textTransform: 'uppercase',
+                fontWeight: 800
+              }}>
+                — EXPERIENCIA Y EFICACIA —
+              </p>
+              <h1 className="page-header-title text-7xl lg:text-9xl mb-4 leading-[1.1]" style={{
+                fontFamily: 'var(--font-display)',
+                fontWeight: 900,
+                letterSpacing: '-0.03em',
+                color: '#fff'
+              }}>
+                Soluciones de <br />
+                <span style={{ color: '#E53935' }}>Ahorro</span> Real
+              </h1>
+
+              {/* Decorative accent squares for brutalist feel */}
+              <div style={{ display: 'flex', gap: '8px', marginTop: '2rem' }}>
+                <div style={{ width: '12px', height: '12px', background: '#E53935' }} />
+                <div style={{ width: '12px', height: '12px', background: 'rgba(255,255,255,0.2)' }} />
+                <div style={{ width: '12px', height: '12px', background: 'rgba(255,255,255,0.1)' }} />
+              </div>
+            </div>
+
+            {/* Right Column: Subtitle, CTAs & Mini Cards */}
+            <div style={{
+              paddingLeft: 'clamp(0rem, 5vw, 4rem)',
+              borderLeft: '1px solid rgba(255,255,255,0.1)'
+            }}>
+              <p className="page-header-subtitle text-xl mb-10 text-gray-300" style={{
+                lineHeight: 1.7,
+                maxWidth: '600px',
+                fontWeight: 500
+              }}>
+                Transformamos tu consumo en eficiencia. Expertos en optimizar tus facturas
+                de energía y telecomunicaciones con acceso a tarifas exclusivas que no verás en otro lugar.
+              </p>
+
+              <div className="flex flex-wrap gap-6 mb-12">
+                <Link to="/contacto" className="btn-primary" style={{ padding: '1.2rem 2.5rem' }}>
+                  <span>Solicitar Estudio</span>
+                  <ArrowRight size={18} />
+                </Link>
+                <a href="#principales" className="btn-outline" onClick={(e) => {
+                  e.preventDefault();
+                  document.querySelector('#principales')?.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  Explorar Servicios
+                </a>
+              </div>
+
+              {/* Info Squares (Cuadraditos) */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', maxWidth: '500px' }}>
+                {[
+                  { icon: Zap, label: 'Energía', sub: 'Ahorro Real', img: 'https://images.unsplash.com/photo-1466611653911-95282fc3656b?auto=format&fit=crop&w=400&q=80' },
+                  { icon: Wifi, label: 'Telecom', sub: 'Tarifas VIP', img: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80' },
+                ].map((item, i) => (
+                  <div key={i} style={{
+                    background: 'rgba(255,255,255,0.03)',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    padding: '1.5rem',
+                    borderRadius: '2px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    position: 'relative',
+                    overflow: 'hidden'
+                  }}>
+                    {/* Background decoration with mini gradient image */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      backgroundImage: `url("${item.img}")`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      opacity: 0.15,
+                      zIndex: 0
+                    }} />
+                    {/* Image Gradient Technique (darker overlay) */}
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to right, rgba(0,0,0,0.8), transparent)',
+                      zIndex: 1
+                    }} />
+
+                    <div style={{
+                      width: '40px', height: '40px',
+                      background: 'rgba(229,57,53,0.1)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      color: '#E53935',
+                      position: 'relative',
+                      zIndex: 2
+                    }}>
+                      <item.icon size={20} />
+                    </div>
+                    <div style={{ position: 'relative', zIndex: 2 }}>
+                      <div style={{ color: '#fff', fontWeight: 700, fontSize: '0.9rem' }}>{item.label}</div>
+                      <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600 }}>{item.sub}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
         </div>
+
+        {/* Global Bottom Divider */}
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '1px', background: 'rgba(255,255,255,0.06)' }} />
       </section>
 
       {/* ══════════════════════════════════════════════
           S2 — SERVICE CARDS  (WHITE)
       ══════════════════════════════════════════════ */}
-      <section className="section-light" style={{ padding: 'clamp(5rem, 9vw, 8rem) 0' }}>
+      <section id="principales" className="section-light" style={{
+        padding: 'clamp(5rem, 9vw, 10rem) 0',
+        background: 'linear-gradient(to bottom, #fff, #f8f8f8)'
+      }}>
         <div ref={cardsRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header" style={{ marginBottom: '3.5rem' }}>
-            <p className="section-label">ESPECIALIDADES</p>
-            <h2 className="section-title" style={{ color: 'var(--color-text-dark)' }}>
-              Servicios <span>principales</span>
+          <div className="section-header" style={{ marginBottom: '5rem' }}>
+            <p className="section-label" style={{ color: '#E53935', letterSpacing: '0.3em', fontWeight: 800 }}>NUESTRAS ESPECIALIDADES</p>
+            <h2 className="section-title" style={{ color: 'var(--color-text-dark)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.1 }}>
+              Servicios <span>Expertos</span>
             </h2>
+            <div style={{ width: '80px', height: '4px', background: '#E53935', marginTop: '1.5rem' }} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '3rem' }}>
             {mainServices.map((svc, i) => (
-              <div key={i} className="svc-light-card service-card-light">
-                <span className="service-number">{svc.number}</span>
-                <div className="service-icon">
-                  <svc.icon size={24} />
+              <div key={i} className="svc-light-card" style={{
+                background: '#fff',
+                padding: '4rem',
+                border: '1px solid #E53935',
+                position: 'relative',
+                transition: 'all 0.5s var(--ease-expo)',
+                cursor: 'pointer',
+                overflow: 'hidden'
+              }}
+                onMouseEnter={(e) => {
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.transform = 'translateY(-10px)';
+                  target.style.boxShadow = '0 40px 80px rgba(0,0,0,0.3)';
+                  target.style.borderColor = 'rgba(229,57,53,0.3)';
+                  target.style.background = '#0a0a0a'; // NEGRO
+
+                  const bgImg = target.querySelector('.card-bg-image') as HTMLElement;
+                  if (bgImg) bgImg.style.opacity = '0.4';
+
+                  const gradDiv = target.querySelector('.card-gradient') as HTMLElement;
+                  if (gradDiv) gradDiv.style.background = 'linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.95) 100%)';
+
+                  const numSpan = target.querySelector('.card-number') as HTMLElement;
+                  if (numSpan) numSpan.style.color = '#E53935';
+
+                  const iconBox = target.querySelector('.card-icon-box') as HTMLElement;
+                  if (iconBox) {
+                    iconBox.style.background = '#E53935';
+                    iconBox.style.color = '#ffffff';
+                  }
+
+                  const texts = target.querySelectorAll('.text-switch');
+                  texts.forEach(t => { (t as HTMLElement).style.color = '#ffffff'; });
+
+                  const descTexts = target.querySelectorAll('.text-desc-switch');
+                  descTexts.forEach(t => { (t as HTMLElement).style.color = 'rgba(255,255,255,0.7)'; });
+
+                  const ctaBtn = target.querySelector('.card-cta') as HTMLElement;
+                  if (ctaBtn) ctaBtn.style.color = '#ffffff';
+
+                  const accentBar = target.querySelector('.card-accent-bar') as HTMLElement;
+                  if (accentBar) accentBar.style.width = '100%';
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.transform = 'translateY(0)';
+                  target.style.boxShadow = '';
+                  target.style.borderColor = '#E53935';
+                  target.style.background = '#fff';
+
+                  const bgImg = target.querySelector('.card-bg-image') as HTMLElement;
+                  if (bgImg) bgImg.style.opacity = '0';
+
+                  const gradDiv = target.querySelector('.card-gradient') as HTMLElement;
+                  if (gradDiv) gradDiv.style.background = 'linear-gradient(to bottom, #fff 0%, rgba(255,255,255,0.95) 100%)';
+
+                  const numSpan = target.querySelector('.card-number') as HTMLElement;
+                  if (numSpan) numSpan.style.color = '#E53935';
+
+                  const iconBox = target.querySelector('.card-icon-box') as HTMLElement;
+                  if (iconBox) {
+                    iconBox.style.background = 'rgba(229,57,53,0.1)';
+                    iconBox.style.color = '#E53935';
+                  }
+
+                  const texts = target.querySelectorAll('.text-switch');
+                  texts.forEach(t => { (t as HTMLElement).style.color = 'var(--color-text-dark)'; });
+
+                  const descTexts = target.querySelectorAll('.text-desc-switch');
+                  descTexts.forEach(t => { (t as HTMLElement).style.color = 'var(--color-gray-mid)'; });
+
+                  const ctaBtn = target.querySelector('.card-cta') as HTMLElement;
+                  if (ctaBtn) ctaBtn.style.color = '#E53935';
+
+                  const accentBar = target.querySelector('.card-accent-bar') as HTMLElement;
+                  if (accentBar) accentBar.style.width = '0%';
+                }}
+              >
+                {/* Background Image that fades in on hover */}
+                <div className="card-bg-image"
+                  style={{
+                    position: 'absolute', inset: 0,
+                    backgroundImage: `url("${svc.bgImage}")`,
+                    backgroundSize: 'cover', backgroundPosition: 'center',
+                    opacity: 0, transition: 'opacity 0.7s ease', zIndex: 0
+                  }} />
+
+                {/* Gradient overlay - turns dark on hover */}
+                <div className="card-gradient"
+                  style={{
+                    position: 'absolute', inset: 0,
+                    background: 'linear-gradient(to bottom, #fff 0%, rgba(255,255,255,0.95) 100%)',
+                    transition: 'all 0.5s ease', zIndex: 1
+                  }} />
+
+                {/* Number Accent */}
+                <span className="card-number"
+                  style={{
+                    position: 'absolute', top: '-1rem', right: '1rem',
+                    fontSize: '10rem', fontWeight: 900,
+                    fontFamily: 'var(--font-display)', color: '#E53935',
+                    transition: 'color 0.5s ease', pointerEvents: 'none', zIndex: 1
+                  }}>
+                  {svc.number}
+                </span>
+
+                {/* Icon Container */}
+                <div className="card-icon-box"
+                  style={{
+                    width: '60px', height: '60px', borderRadius: '12px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: 'rgba(229,57,53,0.1)', color: '#E53935',
+                    marginBottom: '2.5rem', position: 'relative',
+                    transition: 'all 0.5s ease', zIndex: 2
+                  }}>
+                  <svc.icon size={28} />
                 </div>
-                <h3>{svc.title}</h3>
-                <p>{svc.description}</p>
-                <ul className="feature-list">
-                  {svc.features.map((f, j) => <li key={j}>{f}</li>)}
-                </ul>
-                <Link to={svc.link} style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-                  color: 'var(--color-primary)', fontWeight: 700, fontSize: '0.9rem',
-                  marginTop: '2rem', textDecoration: 'none',
-                  transition: 'gap 0.3s ease',
-                }}>
+
+                {/* Title */}
+                <h3 className="text-switch"
+                  style={{
+                    fontFamily: 'var(--font-display)', fontSize: '2.5rem',
+                    fontWeight: 800, color: 'var(--color-text-dark)',
+                    marginBottom: '1.5rem', position: 'relative',
+                    transition: 'color 0.5s ease', zIndex: 2
+                  }}>
+                  {svc.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-desc-switch"
+                  style={{
+                    color: 'var(--color-gray-mid)', fontSize: '1.1rem',
+                    lineHeight: 1.7, marginBottom: '2.5rem', maxWidth: '90%',
+                    position: 'relative', transition: 'color 0.5s ease', zIndex: 2
+                  }}>
+                  {svc.description}
+                </p>
+
+                {/* Features */}
+                <div style={{ marginBottom: '3rem', position: 'relative', zIndex: 2 }}>
+                  <p className="text-switch"
+                    style={{
+                      fontWeight: 700, fontSize: '0.8rem', textTransform: 'uppercase',
+                      color: 'var(--color-text-dark)', letterSpacing: '0.1em',
+                      marginBottom: '1.25rem', transition: 'color 0.5s ease'
+                    }}>
+                    Incluye:
+                  </p>
+                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {svc.features.map((f, j) => (
+                      <li key={j} className="text-desc-switch"
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          fontSize: '0.95rem', color: 'var(--color-gray-mid)',
+                          transition: 'color 0.5s ease'
+                        }}>
+                        <CheckCircle size={16} color="#E53935" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* CTA Link */}
+                <Link to={svc.link} className="card-cta"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: '1rem',
+                    color: '#E53935', fontWeight: 800, fontSize: '0.9rem',
+                    textDecoration: 'none', textTransform: 'uppercase',
+                    letterSpacing: '0.1em', position: 'relative',
+                    transition: 'color 0.5s ease', zIndex: 2
+                  }}>
                   <span>{svc.cta}</span>
-                  <ArrowRight size={16} />
+                  <ArrowRight size={18} />
                 </Link>
+
+                {/* Red Accent Bar */}
+                <div className="card-accent-bar"
+                  style={{
+                    position: 'absolute', bottom: 0, left: 0, height: '4px',
+                    width: '0%', background: '#E53935',
+                    transition: 'width 0.5s var(--ease-expo)', zIndex: 10
+                  }} />
               </div>
             ))}
           </div>
@@ -293,56 +535,118 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
       {/* ══════════════════════════════════════════════
           S3 — FEATURES/PILLS  (WHITE tinted)
       ══════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--color-section-light-2)', padding: 'clamp(4rem, 7vw, 6rem) 0' }}>
-        <div ref={featRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header" style={{ marginBottom: '3rem' }}>
-            <p className="section-label">CARACTERÍSTICAS</p>
-            <h2 className="section-title" style={{ color: 'var(--color-text-dark)' }}>
-              Por qué <span>funciona</span>
+      <section style={{
+        background: 'var(--color-black)',
+        padding: 'clamp(5rem, 8vw, 10rem) 0',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        {/* Background Pattern */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundSize: '100px 100px',
+          backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)',
+          opacity: 0.5,
+          zIndex: 0
+        }} />
+
+        <div ref={featRef} className="max-w-[1800px] mx-auto px-6 lg:px-12" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="section-header" style={{ marginBottom: '6rem', position: 'relative' }}>
+            {/* Elemento decorativo brutalista */}
+            <div style={{ position: 'absolute', left: '-2rem', top: '-1rem', fontSize: '10rem', fontWeight: 900, color: 'rgba(255,255,255,0.02)', fontFamily: 'var(--font-display)', pointerEvents: 'none', lineHeight: 0.8 }}>
+              #VD
+            </div>
+
+            <p className="section-label" style={{ color: '#E53935', letterSpacing: '0.4em', fontWeight: 800 }}>VALOR DIFERENCIAL</p>
+            <h2 className="section-title" style={{ color: '#fff', fontSize: 'clamp(3rem, 6vw, 4.5rem)', textTransform: 'uppercase', lineHeight: 1 }}>
+              Por qué <br />
+              <span style={{ color: '#E53935', display: 'inline-block', marginTop: '1rem' }}>Elegirnos</span>
             </h2>
+            <div style={{ width: '80px', height: '6px', background: '#E53935', marginTop: '2.5rem' }} />
           </div>
 
-          {/* Grid of pill cards */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1.25rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '2rem' }}>
             {features.map((feat, i) => (
-              <div key={i} className="svc-feature-pill" style={{
-                background: '#fff',
-                border: '1px solid rgba(0,0,0,0.07)',
-                borderRadius: '18px',
-                padding: '1.75rem',
+              <div key={i} className="svc-feature-pill group relative overflow-hidden" style={{
+                background: 'rgba(15, 15, 15, 0.9)',
+                border: '1px solid rgba(255,255,255,0.05)',
+                padding: '4rem 3rem',
                 display: 'flex',
-                flexDirection: 'column',
-                gap: '0.75rem',
-                transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
-                cursor: 'default',
+                alignItems: 'flex-start',
+                gap: '2rem',
+                transition: 'all 0.5s var(--ease-expo)',
+                cursor: 'pointer',
               }}
                 onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)';
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 12px 30px rgba(0,0,0,0.09)';
-                  (e.currentTarget as HTMLElement).style.borderColor = 'rgba(229,57,53,0.25)';
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.background = '#111';
+                  target.style.borderColor = '#E53935';
+                  target.style.transform = 'translateY(-10px) scale(1.02)';
+                  target.style.boxShadow = '0 20px 40px rgba(229,57,53,0.15)';
+
+                  // Reveal corner accent
+                  const corner = target.querySelector('.corner-accent') as HTMLElement;
+                  if (corner) corner.style.opacity = '1';
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.transform = '';
-                  (e.currentTarget as HTMLElement).style.boxShadow = '';
-                  (e.currentTarget as HTMLElement).style.borderColor = '';
-                }}
-              >
-                <div style={{
-                  width: '42px', height: '42px',
-                  background: 'rgba(229,57,53,0.08)',
-                  borderRadius: '12px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: '#E53935',
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.background = 'rgba(15, 15, 15, 0.9)';
+                  target.style.borderColor = 'rgba(255,255,255,0.05)';
+                  target.style.transform = 'translateY(0) scale(1)';
+                  target.style.boxShadow = 'none';
+
+                  // Hide corner accent
+                  const corner = target.querySelector('.corner-accent') as HTMLElement;
+                  if (corner) corner.style.opacity = '0';
                 }}>
-                  <feat.icon size={20} />
+
+                {/* Brutalist Corner Accent */}
+                <div className="corner-accent" style={{
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  width: '60px',
+                  height: '60px',
+                  background: 'linear-gradient(135deg, transparent 50%, #E53935 50%)',
+                  opacity: 0,
+                  transition: 'opacity 0.4s var(--ease-expo)'
+                }} />
+
+                {/* Gran número de fondo decorativo */}
+                <span style={{
+                  position: 'absolute',
+                  bottom: '-1rem',
+                  right: '1rem',
+                  fontSize: '8rem',
+                  fontWeight: 900,
+                  color: 'rgba(255,255,255,0.02)',
+                  fontFamily: 'var(--font-display)',
+                  pointerEvents: 'none'
+                }}>
+                  0{i + 1}
+                </span>
+
+                <div style={{
+                  width: '70px', height: '70px',
+                  background: '#E53935',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: '#fff',
+                  flexShrink: 0,
+                  position: 'relative',
+                  zIndex: 2,
+                  boxShadow: '4px 4px 0 rgba(255,255,255,1)'
+                }}>
+                  <feat.icon size={32} />
                 </div>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1rem', color: 'var(--color-text-dark)' }}>
+
+                <div style={{ position: 'relative', zIndex: 2 }}>
+                  <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: '1.6rem', color: '#fff', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     {feat.label}
-                  </div>
-                  <div style={{ fontSize: '0.82rem', color: 'var(--color-gray-mid)', marginTop: '0.25rem', lineHeight: 1.5 }}>
+                  </h3>
+                  <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
                     {feat.sub}
-                  </div>
+                  </p>
                 </div>
               </div>
             ))}
@@ -351,67 +655,104 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
       </section>
 
       {/* ══════════════════════════════════════════════
-          S4 — PROCESS TIMELINE  (WHITE)
+          S4 — PROCESS TIMELINE  (WHITE / Brutalist)
       ══════════════════════════════════════════════ */}
-      <section className="section-light" style={{ padding: 'clamp(5rem, 9vw, 8rem) 0' }}>
+      <section className="section-light" style={{ padding: 'clamp(6rem, 10vw, 12rem) 0' }}>
         <div ref={processRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header" style={{ marginBottom: '4rem' }}>
-            <p className="section-label">METODOLOGÍA</p>
-            <h2 className="section-title" style={{ color: 'var(--color-text-dark)' }}>
-              Cómo <span>trabajamos</span>
+          <div className="section-header" style={{ marginBottom: '6rem' }}>
+            <p className="section-label" style={{ color: '#E53935', letterSpacing: '0.3em' }}>NUESTRO MÉTODO</p>
+            <h2 className="section-title" style={{ color: 'var(--color-text-dark)', fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
+              Proceso de <span>Optimización</span>
             </h2>
           </div>
 
-          <div style={{ display: 'flex', gap: '4rem', alignItems: 'flex-start' }}>
-            {/* Left: animated vertical red line */}
-            <div className="process-svg-line" style={{ flexShrink: 0 }}>
-              <div className="process-svg-line-fill" />
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1px', background: 'rgba(0,0,0,0.05)', border: '1px solid rgba(0,0,0,0.05)' }}>
+            {process.map((step, i) => (
+              <div key={i} className="svc-process-step group" style={{
+                padding: '4rem 3rem',
+                background: '#fff',
+                transition: 'all 0.4s var(--ease-expo)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+                onMouseEnter={e => {
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.background = '#fafafa';
+                  const img = target.querySelector('.step-bg-img') as HTMLElement;
+                  if (img) img.style.opacity = '1';
+                  if (img) img.style.filter = 'grayscale(0%)';
 
-            <div style={{ flex: 1 }}>
-              {process.map((step, i) => (
-                <div key={i} className="svc-process-step" style={{
-                  display: 'flex',
-                  gap: '2rem',
-                  alignItems: 'flex-start',
-                  marginBottom: i < process.length - 1 ? '3rem' : 0,
-                  padding: '1.75rem 2rem',
-                  background: '#fff',
-                  border: '1px solid rgba(0,0,0,0.06)',
-                  borderRadius: '20px',
-                  transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
+                  const num = target.querySelector('.step-num') as HTMLElement;
+                  if (num) num.style.color = '#fff';
+
+                  const title = target.querySelector('.step-title') as HTMLElement;
+                  if (title) title.style.color = '#fff';
+
+                  const desc = target.querySelector('.step-desc') as HTMLElement;
+                  if (desc) desc.style.color = 'rgba(255,255,255,0.9)';
                 }}
-                  onMouseEnter={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = 'rgba(229,57,53,0.25)';
-                    (e.currentTarget as HTMLElement).style.boxShadow = '0 8px 24px rgba(0,0,0,0.07)';
-                  }}
-                  onMouseLeave={e => {
-                    (e.currentTarget as HTMLElement).style.borderColor = '';
-                    (e.currentTarget as HTMLElement).style.boxShadow = '';
-                  }}
-                >
-                  <div style={{
+                onMouseLeave={e => {
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.background = '#fff';
+                  const img = target.querySelector('.step-bg-img') as HTMLElement;
+                  if (img) img.style.opacity = '0';
+                  if (img) img.style.filter = 'grayscale(100%)';
+
+                  const num = target.querySelector('.step-num') as HTMLElement;
+                  if (num) num.style.color = '#E53935';
+
+                  const title = target.querySelector('.step-title') as HTMLElement;
+                  if (title) title.style.color = 'var(--color-text-dark)';
+
+                  const desc = target.querySelector('.step-desc') as HTMLElement;
+                  if (desc) desc.style.color = 'var(--color-gray-mid)';
+                }}>
+
+                {/* Imagen de fondo revelada al hover */}
+                <div className="step-bg-img" style={{
+                  position: 'absolute', inset: 0,
+                  backgroundImage: `linear-gradient(rgba(229,57,53,0.8), rgba(10,10,10,0.9)), url("${step.bgImg}")`,
+                  backgroundSize: 'cover', backgroundPosition: 'center',
+                  opacity: 0,
+                  transition: 'all 0.5s ease',
+                  zIndex: 0
+                }} />
+
+                <div className="step-num" style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '8rem',
+                  fontWeight: 900,
+                  color: '#E53935', // ROJO PERMANENTE POR DEFECTO
+                  lineHeight: 0.8,
+                  position: 'absolute',
+                  top: '-1rem',
+                  right: '1rem',
+                  transition: 'all 0.4s ease',
+                  pointerEvents: 'none',
+                  zIndex: 1
+                }}>{step.number}</div>
+
+                <div style={{ position: 'relative', zIndex: 2, marginTop: '5rem' }}>
+                  <img src={step.bgImg} alt={step.title} style={{ width: '100%', height: '180px', objectFit: 'cover', marginBottom: '2rem', filter: 'grayscale(100%) brightness(0.9)', boxShadow: '10px 10px 0 rgba(0,0,0,0.05)' }} />
+
+                  <h3 className="step-title" style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: '2.5rem',
+                    fontSize: '1.8rem',
                     fontWeight: 900,
-                    color: '#E53935',
-                    lineHeight: 1,
-                    flexShrink: 0,
-                    minWidth: '3rem',
-                  }}>{step.number}</div>
-                  <div>
-                    <h3 style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: '1.2rem',
-                      fontWeight: 700,
-                      color: 'var(--color-text-dark)',
-                      marginBottom: '0.5rem',
-                    }}>{step.title}</h3>
-                    <p style={{ color: 'var(--color-gray-mid)', lineHeight: 1.7, fontSize: '0.95rem' }}>{step.desc}</p>
-                  </div>
+                    textTransform: 'uppercase',
+                    color: 'var(--color-text-dark)',
+                    marginBottom: '1rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    transition: 'all 0.4s ease'
+                  }}>
+                    {step.title}
+                  </h3>
+                  <p className="step-desc" style={{ color: 'var(--color-gray-mid)', lineHeight: 1.7, fontSize: '1rem', transition: 'all 0.4s ease' }}>{step.desc}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -419,310 +760,282 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
       {/* ══════════════════════════════════════════════
           S5 — BENEFITS + REAL PHOTO  (WHITE)
       ══════════════════════════════════════════════ */}
-      <section style={{ background: 'var(--color-section-light-2)', padding: 'clamp(5rem, 9vw, 8rem) 0' }}>
+      <section style={{
+        background: 'var(--color-black)', // FONDO NEGRO EXTREMO
+        padding: 'clamp(6rem, 10vw, 12rem) 0',
+        overflow: 'hidden',
+        color: '#fff' // COLOR TEXTO BASE BLANCO
+      }}>
         <div ref={benefRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '5rem',
+            gridTemplateColumns: '1.2fr 1fr',
+            gap: '6rem',
             alignItems: 'center',
           }}>
             {/* Left: benefits list */}
             <div>
-              <span style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em', color: '#E53935', textTransform: 'uppercase', display: 'block', marginBottom: '1rem' }}>VENTAJAS</span>
+              <span style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '0.4em', color: '#E53935', textTransform: 'uppercase', display: 'block', marginBottom: '1.5rem' }}>POR QUÉ NOSOTROS</span>
               <h2 style={{
                 fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(2rem, 4vw, 3rem)',
-                fontWeight: 800,
-                color: 'var(--color-text-dark)',
-                lineHeight: 1.2,
-                marginBottom: '2.5rem',
+                fontSize: 'clamp(3rem, 6vw, 4.5rem)',
+                fontWeight: 900,
+                color: '#fff', // TITULO PRINCIPAL MODO OSCURO
+                lineHeight: 1,
+                marginBottom: '3.5rem',
+                letterSpacing: '-0.02em'
               }}>
-                Beneficios de<br /><span style={{ color: '#E53935' }}>trabajar con nosotros</span>
+                El impacto de un <br />
+                <span style={{ color: '#E53935' }}>Asesoramiento Real</span>
               </h2>
 
-              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
                 {benefits.map((item, i) => (
-                  <li key={i} className="svc-benefit-item" style={{
-                    display: 'flex',
-                    gap: '0.75rem',
-                    alignItems: 'flex-start',
-                    padding: '1rem 1.25rem',
-                    background: '#fff',
-                    borderRadius: '12px',
-                    border: '1px solid rgba(0,0,0,0.05)',
-                    color: 'var(--color-text-dark)',
-                    fontWeight: 500,
-                    fontSize: '0.95rem',
-                  }}>
-                    <CheckCircle size={18} style={{ color: '#E53935', flexShrink: 0, marginTop: '2px' }} />
-                    <span>{item}</span>
-                  </li>
+                  <div key={i} className="svc-benefit-item" style={{
+                    padding: '2rem',
+                    background: 'rgba(255,255,255,0.03)', // LIGERA TRANSPARENCIA OSCURA
+                    border: '1px solid rgba(255,255,255,0.05)',
+                    borderLeft: '4px solid #E53935',
+                    transition: 'all 0.3s ease'
+                  }}
+                    onMouseEnter={e => {
+                      const target = e.currentTarget as HTMLElement;
+                      target.style.background = 'rgba(229,57,53,0.1)';
+                    }}
+                    onMouseLeave={e => {
+                      const target = e.currentTarget as HTMLElement;
+                      target.style.background = 'rgba(255,255,255,0.03)';
+                    }}
+                  >
+                    <CheckCircle size={20} style={{ color: '#E53935', marginBottom: '1rem' }} />
+                    <p style={{
+                      color: 'rgba(255,255,255,0.85)',
+                      fontWeight: 700,
+                      fontSize: '1rem',
+                      lineHeight: 1.4
+                    }}>{item}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
 
-            {/* Right: real photo with overlay stat */}
+            {/* Right: real photo with creative framing */}
             <div style={{ position: 'relative' }}>
               <div style={{
-                borderRadius: '24px',
+                position: 'relative',
+                zIndex: 2,
+                borderRadius: '4px',
                 overflow: 'hidden',
-                aspectRatio: '4/3',
-                boxShadow: '0 30px 60px rgba(0,0,0,0.1)',
+                aspectRatio: '1',
+                boxShadow: '40px 40px 0px rgba(229,57,53,0.05)',
               }}>
                 <img
                   src="/images/service-energy.jpg"
                   alt="Ahorra en energía y telecomunicaciones"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
-                {/* Overlay gradient */}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(135deg, rgba(229,57,53,0.25) 0%, transparent 60%)',
-                }} />
               </div>
 
-              {/* Floating stat card: 40% */}
+              {/* Floating large text background - NOW BLACK */}
               <div style={{
                 position: 'absolute',
-                bottom: '-1.5rem',
-                right: '-1.5rem',
-                background: '#E53935',
-                color: '#fff',
-                borderRadius: '20px',
-                padding: '1.75rem 2rem',
-                boxShadow: '0 20px 40px rgba(229,57,53,0.3)',
-                textAlign: 'center',
-              }}>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '2.5rem', fontWeight: 900, lineHeight: 1 }}>40%</div>
-                <div style={{ fontSize: '0.75rem', fontWeight: 600, opacity: 0.85, marginTop: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                  Ahorro promedio
-                </div>
-              </div>
-
-              {/* Top-left floating card */}
-              <div style={{
-                position: 'absolute',
-                top: '-1.5rem',
-                left: '-1.5rem',
-                background: '#fff',
-                borderRadius: '16px',
-                padding: '1.25rem 1.5rem',
-                boxShadow: '0 12px 30px rgba(0,0,0,0.1)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-              }}>
-                <div style={{ width: '36px', height: '36px', background: 'rgba(229,57,53,0.1)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#E53935' }}>
-                  <CheckCircle size={18} />
-                </div>
-                <div>
-                  <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '0.9rem', color: 'var(--color-text-dark)' }}>Sin coste</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-gray-mid)' }}>Análisis gratuito</div>
-                </div>
-              </div>
+                top: '-2rem',
+                right: '-2rem',
+                fontSize: '12rem',
+                fontWeight: 900,
+                color: 'rgba(0,0,0,0.1)', // COLOR NEGRO VISIBLE
+                fontFamily: 'var(--font-display)',
+                lineHeight: 1,
+                zIndex: 1,
+                pointerEvents: 'none'
+              }}>40%</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════
-          S6 — ANTES vs DESPUÉS — RUPTURA  (WHITE)
+          S6 — ANTES vs DESPUÉS
       ══════════════════════════════════════════════ */}
-      <section className="section-light" style={{ padding: 'clamp(5rem, 9vw, 8rem) 0' }}>
+      <section className="section-light" style={{
+        padding: 'clamp(6rem, 10vw, 12rem) 0',
+        background: '#f8f8f8'
+      }}>
         <div ref={compRef} className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header" style={{ marginBottom: '4rem' }}>
-            <p className="section-label">RESULTADOS REALES</p>
-            <h2 className="section-title" style={{ color: 'var(--color-text-dark)' }}>
-              Antes <span>vs</span> Después
+          <div className="section-header" style={{ marginBottom: '6rem', textAlign: 'center' }}>
+            <p className="section-label" style={{ color: '#E53935', letterSpacing: '0.4em' }}>DEMOSTRACIÓN</p>
+            <h2 className="section-title" style={{ color: 'var(--color-text-dark)', fontSize: 'clamp(2.5rem, 5vw, 4rem)' }}>
+              Resultados <span>Tangibles</span>
             </h2>
           </div>
 
-          {/* Split comparison */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: '1fr auto 1fr',
-            gap: '0',
-            maxWidth: '860px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '2rem',
+            maxWidth: '1200px',
             margin: '0 auto',
             alignItems: 'stretch',
-            borderRadius: '24px',
-            overflow: 'hidden',
-            boxShadow: '0 24px 60px rgba(0,0,0,0.1)',
           }}>
-            {/* BEFORE */}
             <div className="comp-before" style={{
-              background: '#f5f5f5',
-              padding: '3rem 2.5rem',
-              textAlign: 'center',
-              borderRight: '1px solid rgba(0,0,0,0.06)',
+              background: '#fff',
+              padding: '5rem 3rem',
+              border: '1px solid rgba(0,0,0,0.05)',
+              position: 'relative'
             }}>
-              <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#999', marginBottom: '1.5rem' }}>ANTES</p>
-              <div style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '4rem',
-                fontWeight: 900,
-                color: '#ccc',
-                textDecoration: 'line-through',
-                lineHeight: 1,
-              }}>120€</div>
-              <p style={{ color: '#aaa', marginTop: '1rem', fontSize: '0.9rem' }}>Factura mensual promedio</p>
-              <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {['Tarifa de mercado libre', 'Sin asesoramiento', 'Soporte limitado'].map((t, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#bbb', fontSize: '0.85rem', justifyContent: 'center' }}>
-                    <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: '#e5e5e5', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.6rem', color: '#999' }}>✗</span>
-                    {t}
+              <div style={{ position: 'absolute', top: '1.5rem', left: '1.5rem', color: '#E53935', fontWeight: 900, fontSize: '0.8rem', letterSpacing: '0.2em' }}>BEFORE</div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '5rem',
+                  fontWeight: 900,
+                  color: '#111', // NUMERO NEGRO SOLIDO
+                  textDecoration: 'line-through',
+                  textDecorationColor: '#E53935',
+                  textDecorationThickness: '4px',
+                  lineHeight: 1,
+                  marginBottom: '1rem'
+                }}>120€</div>
+                <p style={{ color: '#111', fontSize: '1rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Gasto Mensual</p>
+              </div>
+
+              <div style={{ marginTop: '4rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                {['Tarifas desactualizadas', 'Sin soporte experto', 'Consumo ineficiente'].map((t, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#111' }}> {/* TEXTO NEGRO 100% VISIBLE */}
+                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#ffeded', border: '1px solid #E53935', color: '#E53935', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontWeight: 900 }}>✕</div>
+                    <span style={{ fontSize: '1rem', fontWeight: 600 }}>{t}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Divider with VS badge */}
-            <div style={{
-              background: '#fff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '0 1.5rem',
+            <div className="comp-after" style={{
+              background: 'var(--color-black)',
+              padding: '5rem 3rem',
+              border: '1px solid var(--color-primary)',
               position: 'relative',
-              zIndex: 2,
+              boxShadow: '0 30px 60px rgba(229,57,53,0.15)'
             }}>
+              <div style={{ position: 'absolute', top: '1.5rem', right: '1.5rem', color: '#E53935', fontWeight: 900, fontSize: '0.8rem', letterSpacing: '0.2em' }}>AFTER</div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: '6rem',
+                  fontWeight: 900,
+                  color: '#E53935',
+                  lineHeight: 1,
+                  marginBottom: '1rem'
+                }}>65€</div>
+                <p style={{ color: '#fff', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Ahorro Máximo</p>
+              </div>
+
+              <div style={{ marginTop: '4rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {['Auditoría completa', 'Tarifas exclusivas', 'Soporte prioritario'].map((t, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: '#fff' }}>
+                    <CheckCircle size={20} style={{ color: '#E53935' }} />
+                    <span style={{ fontSize: '0.95rem', fontWeight: 600 }}>{t}</span>
+                  </div>
+                ))}
+              </div>
+
               <div style={{
-                width: '52px',
-                height: '52px',
-                background: '#E53935',
-                borderRadius: '50%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                marginTop: '4rem',
+                padding: '1.5rem',
+                background: 'rgba(229,57,53,0.1)',
+                border: '1px dashed rgba(229,57,53,0.3)',
+                textAlign: 'center'
+              }}>
+                <span style={{ color: '#E53935', fontSize: '1.5rem', fontWeight: 900 }}>− 46%</span>
+                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', textTransform: 'uppercase', marginTop: '0.25rem' }}>Reducción de coste</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════
+          S7 — BRUTALIST CTA
+      ══════════════════════════════════════════════ */}
+      <section ref={ctaRef} style={{
+        background: '#E53935',
+        position: 'relative',
+        padding: 'clamp(8rem, 15vw, 15rem) 0',
+        overflow: 'hidden'
+      }}>
+        <div style={{
+          position: 'absolute',
+          top: '-20%',
+          right: '-5%',
+          fontSize: '40vw',
+          fontWeight: 900,
+          color: 'rgba(0,0,0,0.06)',
+          fontFamily: 'var(--font-display)',
+          lineHeight: 0.8,
+          pointerEvents: 'none',
+          zIndex: 0
+        }}>?</div>
+
+        <div className="max-w-[1800px] mx-auto px-6 lg:px-12 position-relative" style={{ zIndex: 1 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '4rem', alignItems: 'center' }}>
+            <div>
+              <p style={{ fontSize: '1.2rem', fontWeight: 900, letterSpacing: '0.4em', textTransform: 'uppercase', color: '#111', marginBottom: '2rem' }}>
+                — EMPIEZA HOY, ES GRATIS
+              </p>
+              <h2 className="cta-service-content" style={{
                 fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(4rem, 8vw, 7rem)',
                 fontWeight: 900,
-                fontSize: '0.9rem',
                 color: '#fff',
-                boxShadow: '0 8px 24px rgba(229,57,53,0.4)',
-              }}>VS</div>
+                lineHeight: 0.9,
+                textTransform: 'uppercase',
+                marginBottom: '2rem'
+              }}>
+                ¿EMPEZAMOS<br />
+                <span style={{ color: '#111' }}>A AHORRAR?</span>
+              </h2>
             </div>
 
-            {/* AFTER */}
-            <div className="comp-after" style={{
-              background: '#fff',
-              padding: '3rem 2.5rem',
-              textAlign: 'center',
-              border: '2px solid #E53935',
-              position: 'relative',
-            }}>
-              <div style={{
-                position: 'absolute', top: '1rem', right: '1rem',
-                background: '#E53935',
+            <div className="cta-service-content" style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
+              <p style={{
+                fontSize: '1.35rem',
+                color: 'rgba(255,255,255,0.95)',
+                lineHeight: 1.6,
+                maxWidth: '600px',
+                fontWeight: 500
+              }}>
+                Contacta con nosotros y descubre cuánto puedes ahorrar. El análisis es gratuito y sin compromiso.
+              </p>
+              <Link to="/contacto" className="group" style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                background: '#111',
                 color: '#fff',
-                fontSize: '0.7rem',
-                fontWeight: 700,
-                padding: '0.3rem 0.75rem',
-                borderRadius: '20px',
+                padding: '1.5rem 3rem',
+                fontSize: '1.1rem',
+                fontWeight: 800,
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
-              }}>− 46%</div>
-              <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#E53935', marginBottom: '1.5rem' }}>DESPUÉS</p>
-              <div style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '4rem',
-                fontWeight: 900,
-                color: '#E53935',
-                lineHeight: 1,
-              }}>65€</div>
-              <p style={{ color: 'var(--color-gray-mid)', marginTop: '1rem', fontSize: '0.9rem' }}>Factura mensual con nosotros</p>
-              <div style={{ marginTop: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {['Tarifa exclusiva negociada', 'Asesor personal asignado', 'Soporte 6 días a la semana'].map((t, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--color-text-dark)', fontSize: '0.85rem', fontWeight: 500 }}>
-                    <CheckCircle size={16} style={{ color: '#E53935', flexShrink: 0 }} />
-                    {t}
-                  </div>
-                ))}
-              </div>
+                textDecoration: 'none',
+                width: 'fit-content',
+                transition: 'all 0.4s var(--ease-expo)',
+                boxShadow: '15px 15px 0 rgba(255,255,255,1)'
+              }}
+                onMouseEnter={e => {
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.transform = 'translate(5px, 5px)';
+                  target.style.boxShadow = '10px 10px 0 rgba(255,255,255,1)';
+                }}
+                onMouseLeave={e => {
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.transform = 'translate(0, 0)';
+                  target.style.boxShadow = '15px 15px 0 rgba(255,255,255,1)';
+                }}>
+                <span>Solicitar análisis</span>
+                <Phone size={24} style={{ marginLeft: '2rem', color: '#E53935' }} />
+              </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          S7 — FAQ  (dark)
-      ══════════════════════════════════════════════ */}
-      <section ref={faqRef} className="section-awwards faq-section">
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header">
-            <p className="section-label">Preguntas frecuentes</p>
-            <h2 className="section-title">Resolvemos tus <span>dudas</span></h2>
-          </div>
-          <div className="faq-list">
-            {faq.map((item, i) => (
-              <div key={i} className="faq-item">
-                <button className="faq-question" onClick={() => toggleFaq(i)}>
-                  <span>{item.question}</span>
-                  <span className="faq-icon">+</span>
-                </button>
-                <div className="faq-answer"><p>{item.answer}</p></div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          S8 — TESTIMONIALS  (dark)
-      ══════════════════════════════════════════════ */}
-      <section ref={testiRef} className="section-awwards testimonials-section">
-        <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
-          <div className="section-header">
-            <p className="section-label">Google Reviews</p>
-            <h2 className="section-title">Casos reales de <span>éxito</span></h2>
-          </div>
-          <div className="testimonials-grid">
-            {testimonials.map((t, i) => (
-              <div key={i} className="testimonial-card-brutal">
-                <div className="google-review-badge">
-                  <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
-                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05" />
-                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-                  </svg>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Opinión Real</span>
-                </div>
-                <div className="google-review-stars">
-                  {[...Array(5)].map((_, j) => <Star key={j} size={14} fill="#FBBC05" stroke="none" />)}
-                </div>
-                <div className="testimonial-quote-google">"</div>
-                <p className="testimonial-text-google">{t.text}</p>
-                <div className="testimonial-author-google">
-                  <div className="testimonial-avatar-google">{t.name.charAt(0)}</div>
-                  <div className="testimonial-info-google">
-                    <span className="testimonial-name-google">{t.name}</span>
-                    <span className="testimonial-role-google">{t.role}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════════
-          S9 — CTA  (dark)
-      ══════════════════════════════════════════════ */}
-      <section ref={ctaRef} className="cta-section">
-        <div className="cta-service-content cta-content">
-          <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '1rem' }}>
-            — Empieza hoy, es gratis —
-          </p>
-          <h2 className="cta-title">¿Empezamos<br />a ahorrar?</h2>
-          <p className="cta-text">
-            Contacta con nosotros y descubre cuánto puedes ahorrar.
-            El análisis es gratuito y sin compromiso.
-          </p>
-          <Link to="/contacto" className="cta-button">
-            <Phone size={20} />
-            <span>Solicitar análisis gratuito</span>
-          </Link>
         </div>
       </section>
 

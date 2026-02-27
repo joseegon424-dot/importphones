@@ -12,7 +12,7 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
 
   useEffect(() => {
     // Simulate loading progress
-    const duration = 2500;
+    const duration = 1000;
     const startTime = Date.now();
 
     const updateProgress = () => {
@@ -30,8 +30,8 @@ const Preloader = ({ onComplete }: PreloaderProps) => {
           setIsExiting(true);
           setTimeout(() => {
             onComplete();
-          }, 1200);
-        }, 300);
+          }, 700);
+        }, 150);
       }
     };
 
