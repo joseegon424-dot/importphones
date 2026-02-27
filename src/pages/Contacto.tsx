@@ -78,39 +78,42 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
     setIsSubmitting(true);
 
     try {
-      let fileUrl = 'No se adjuntó archivo';
+      let filePath = '';
 
-      // 1. Subir a Cloudinary si hay archivo
+      // 1. Obtener URL firmada y subir a Supabase
       if (formData.file) {
-        const cloudinaryData = new FormData();
-        cloudinaryData.append('file', formData.file);
-        cloudinaryData.append('upload_preset', 'u5ic0lzm');
+        const ext = formData.file.name.split('.').pop();
+        filePath = `contacto/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-        const cloudinaryRes = await fetch('https://api.cloudinary.com/v1_1/drprrdhyp/auto/upload', {
-          method: 'POST',
-          body: cloudinaryData
+        // Solicitar URL de subida
+        const urlRes = await fetch(`/api/upload-url?path=${filePath}`);
+        if (!urlRes.ok) throw new Error('Error obteniendo URL de subida');
+        const { signedUrl } = await urlRes.json();
+
+        // Subir archivo a Supabase Storage
+        const uploadRes = await fetch(signedUrl, {
+          method: 'PUT',
+          body: formData.file,
+          headers: { 'Content-Type': formData.file.type || 'application/octet-stream' }
         });
 
-        const cloudinaryJson = await cloudinaryRes.json();
-        fileUrl = cloudinaryJson.secure_url || fileUrl;
+        if (!uploadRes.ok) throw new Error('Error subiendo archivo adjunto');
       }
 
-      // 2. Enviar datos a FormSubmit con el link de Cloudinary
-      const data = new FormData();
-      data.append('Nombre', formData.name);
-      data.append('Email', formData.email);
-      data.append('Teléfono', formData.phone);
-      data.append('Servicio', formData.service);
-      data.append('Mensaje', formData.message || 'Sin mensaje');
-      data.append('ARCHIVO_ADJUNTO_LINK', fileUrl);
-
-      data.append('_subject', `NUEVA CONSULTA IMPORTPHONES: ${formData.name}`);
-      data.append('_template', 'table');
-      data.append('_captcha', 'false');
-
-      const res = await fetch('https://formsubmit.co/ajax/joseegon424@gmail.com', {
+      // 2. Enviar email a través de nuestra API Vercel (Resend)
+      const res = await fetch('/api/contact', {
         method: 'POST',
-        body: data
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message || 'Sin mensaje adicional',
+          filePath: filePath || null
+        })
       });
 
       if (res.ok) {
