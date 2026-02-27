@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Target, Eye, Heart, Users, Award, TrendingUp, CheckCircle, Star } from 'lucide-react';
-import SplitType from 'split-type';
 import { allTestimonials } from '../data/testimonials';
 
 gsap.registerPlugin(ScrollTrigger);

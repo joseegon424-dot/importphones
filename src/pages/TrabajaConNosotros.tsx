@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Rocket, Trophy, Zap, ShieldCheck, CheckCircle, Send, Upload, Target, LineChart, ArrowRight } from 'lucide-react';
+import { Rocket, Trophy, Zap, ShieldCheck, CheckCircle, Send, Upload, Target, LineChart } from 'lucide-react';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 gsap.registerPlugin(ScrollTrigger);

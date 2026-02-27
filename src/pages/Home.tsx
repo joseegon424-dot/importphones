@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Phone, CheckCircle, Star, Award, TrendingDown, Smartphone, Zap } from 'lucide-react';
-import SplitType from 'split-type';
 import { allTestimonials } from '../data/testimonials';
 import { ParticleCanvas } from '../components/ui/ParticleCanvas';
 
@@ -73,12 +72,11 @@ const Home = ({ isLoaded }: HomeProps) => {
       );
       const svcHeading = servicesRef.current?.querySelector<HTMLElement>('h2');
       if (svcHeading) {
-        svcHeading.classList.add('split-target');
-        const sp = new SplitType(svcHeading, { types: 'words,chars' });
-        gsap.fromTo(sp.chars,
-          { y: '110%', opacity: 0 },
+        const words = svcHeading.querySelectorAll('.hero-word-line');
+        gsap.fromTo(words,
+          { y: '110%', opacity: 0, skewY: 3 },
           {
-            y: '0%', opacity: 1, duration: 0.7, stagger: 0.02, ease: 'power3.out',
+            y: '0%', opacity: 1, skewY: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out',
             scrollTrigger: { trigger: svcHeading, start: 'top 80%' }
           }
         );
@@ -396,7 +394,24 @@ const Home = ({ isLoaded }: HomeProps) => {
         <div className="max-w-[1800px] mx-auto px-6 lg:px-12 text-center">
           <div className="section-header" style={{ marginBottom: '2.5rem' }}>
             <h2 className="section-title" style={{ color: 'var(--color-text-dark)', fontSize: 'clamp(2.5rem, 5vw, 4rem)', maxWidth: '1000px', margin: '0 auto', lineHeight: 1.1 }}>
-              Tu Comparador de Tarifas de Luz y Fibra de <span style={{ color: '#E53935' }}>Confianza</span>
+              {[
+                { text: 'Tu', red: false },
+                { text: 'Comparador', red: false },
+                { text: 'de', red: false },
+                { text: 'Tarifas', red: false },
+                { text: 'de', red: false },
+                { text: 'Luz', red: false },
+                { text: 'y', red: false },
+                { text: 'Fibra', red: false },
+                { text: 'de', red: false },
+                { text: 'Confianza', red: true }
+              ].map((word, i) => (
+                <div key={i} style={{ overflow: 'hidden', display: 'inline-block', margin: '0 0.15em' }}>
+                  <span className="hero-word-line" style={{ display: 'block', color: word.red ? '#E53935' : 'inherit' }}>
+                    {word.text}
+                  </span>
+                </div>
+              ))}
             </h2>
           </div>
 
@@ -448,7 +463,21 @@ const Home = ({ isLoaded }: HomeProps) => {
         <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
           <div className="section-header" style={{ marginBottom: '4rem' }}>
             <h2 className="section-title" style={{ color: '#ffffff', fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-              Soluciones de Eficiencia Energética en el <span style={{ color: '#E53935' }}>Hogar</span>
+              {[
+                { text: 'Soluciones', red: false },
+                { text: 'de', red: false },
+                { text: 'Eficiencia', red: false },
+                { text: 'Energética', red: false },
+                { text: 'en', red: false },
+                { text: 'el', red: false },
+                { text: 'Hogar', red: true }
+              ].map((word, i) => (
+                <div key={i} style={{ overflow: 'hidden', display: 'inline-block', margin: '0 0.25em' }}>
+                  <span className="hero-word-line" style={{ display: 'block', color: word.red ? '#E53935' : 'inherit' }}>
+                    {word.text}
+                  </span>
+                </div>
+              ))}
             </h2>
           </div>
 
@@ -566,7 +595,20 @@ const Home = ({ isLoaded }: HomeProps) => {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '4rem', marginBottom: '4rem', flexWrap: 'wrap' }}>
             <div style={{ flex: '1 1 400px' }}>
               <h2 className="section-title" style={{ color: 'var(--color-text-dark)', fontSize: 'clamp(2rem, 4vw, 3.5rem)', textAlign: 'left' }}>
-                Energía y Ahorro Energético en <span style={{ color: '#E53935' }}>Empresas</span>
+                {[
+                  { text: 'Energía', red: false },
+                  { text: 'y', red: false },
+                  { text: 'Ahorro', red: false },
+                  { text: 'Energético', red: false },
+                  { text: 'en', red: false },
+                  { text: 'Empresas', red: true }
+                ].map((word, i) => (
+                  <div key={i} style={{ overflow: 'hidden', display: 'inline-block', margin: '0 0.25em 0 0' }}>
+                    <span className="hero-word-line" style={{ display: 'block', color: word.red ? '#E53935' : 'inherit' }}>
+                      {word.text}
+                    </span>
+                  </div>
+                ))}
               </h2>
               <p style={{ color: '#333', fontSize: '1.25rem', lineHeight: '1.8', marginTop: '1.5rem', fontWeight: 500 }}>
                 Entendemos que la competitividad de tu negocio depende de sus costes operativos. Por ello, ofrecemos servicios especializados para el sector profesional:
@@ -785,7 +827,19 @@ const Home = ({ isLoaded }: HomeProps) => {
         <div className="max-w-[1800px] mx-auto px-6 lg:px-12 text-center">
           <div className="section-header" style={{ marginBottom: '3.5rem' }}>
             <h2 className="section-title" style={{ color: 'var(--color-text-dark)', fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
-              ¿Por qué elegir a <span style={{ color: '#E53935' }}>ImportPhones</span>?
+              {[
+                { text: '¿Por', red: false },
+                { text: 'qué', red: false },
+                { text: 'elegir', red: false },
+                { text: 'a', red: false },
+                { text: 'ImportPhones?', red: true }
+              ].map((word, i) => (
+                <div key={i} style={{ overflow: 'hidden', display: 'inline-block', margin: '0 0.15em' }}>
+                  <span className="hero-word-line" style={{ display: 'block', color: word.red ? '#E53935' : 'inherit' }}>
+                    {word.text}
+                  </span>
+                </div>
+              ))}
             </h2>
           </div>
 
@@ -838,7 +892,18 @@ const Home = ({ isLoaded }: HomeProps) => {
           <div className="section-header">
             <p className="section-label">Google Reviews</p>
             <h2 className="section-title">
-              Información <span>real y transparente</span>
+              {[
+                { text: 'Información', red: false },
+                { text: 'real', red: true },
+                { text: 'y', red: false },
+                { text: 'transparente', red: true }
+              ].map((word, i) => (
+                <div key={i} style={{ overflow: 'hidden', display: 'inline-block', margin: '0 0.25em' }}>
+                  <span className="hero-word-line" style={{ display: 'block', color: word.red ? '#E53935' : 'inherit' }}>
+                    {word.text}
+                  </span>
+                </div>
+              ))}
             </h2>
             <p style={{ color: '#888', marginTop: '1rem', maxWidth: '600px' }}>
               Más de 881 reseñas reales de clientes que ahorraron con nuestra ayuda.

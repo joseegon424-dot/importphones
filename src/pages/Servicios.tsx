@@ -6,7 +6,6 @@ import {
   ArrowRight, Wifi, Zap, Phone, Shield,
   CheckCircle, TrendingUp, Clock, Headphones
 } from 'lucide-react';
-import SplitType from 'split-type';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,8 +14,8 @@ interface ServiciosProps {
 }
 
 const Servicios = ({ isLoaded }: ServiciosProps) => {
-  const pageRef = useRef<HTMLDivElement>(null);
-  const headerRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const featRef = useRef<HTMLDivElement>(null);
   const processRef = useRef<HTMLDivElement>(null);
@@ -30,12 +29,11 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
     const ctx = gsap.context(() => {
 
       // ── Hero header
-      const title = headerRef.current?.querySelector<HTMLElement>('.page-header-title');
-      if (title) {
-        const sp = new SplitType(title, { types: 'words,chars' });
-        gsap.fromTo(sp.chars,
-          { y: '110%', opacity: 0 },
-          { y: '0%', opacity: 1, duration: 0.8, stagger: 0.02, ease: 'power3.out', delay: 0.4 }
+      if (titleRef.current) {
+        const words = titleRef.current.querySelectorAll('.hero-word-line');
+        gsap.fromTo(words,
+          { y: '110%', opacity: 0, skewY: 3 },
+          { y: '0%', opacity: 1, skewY: 0, duration: 0.9, stagger: 0.1, ease: 'power3.out', delay: 0.4 }
         );
       }
       gsap.fromTo('.page-header-subtitle',
@@ -116,7 +114,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
         }
       );
 
-    }, pageRef);
+    }, heroRef);
 
     return () => ctx.revert();
   }, [isLoaded]);
@@ -171,12 +169,12 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
   ];
 
   return (
-    <div ref={pageRef} className="overflow-hidden">
+    <div ref={heroRef} className="overflow-hidden">
 
       {/* ══════════════════════════════════════════════
           S1 — HERO HEADER  (dark)
       ══════════════════════════════════════════════ */}
-      <section ref={headerRef} className="page-header hero-awwards" style={{
+      <section className="page-header hero-awwards" style={{
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
@@ -217,7 +215,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
               }}>
                 — EXPERIENCIA Y EFICACIA —
               </p>
-              <h1 className="hero-title-brutal mb-8" style={{ color: '#fff' }}>
+              <h1 ref={titleRef} className="hero-title-brutal mb-8" style={{ color: '#fff' }}>
                 Soluciones de <br />
                 <span style={{ color: '#E53935' }}>Ahorro</span> Real
               </h1>
