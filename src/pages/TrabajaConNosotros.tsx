@@ -113,21 +113,18 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
         try {
             let filePath = '';
 
-            // 1. Obtener URL firmada y subir a Supabase
+            // 1. Subir archivo a Supabase vía nuestra API
             if (formData.file) {
                 const ext = formData.file.name.split('.').pop();
                 filePath = `empleo/${Date.now()}_${Math.random().toString(36).substring(7)}.${ext}`;
 
-                // Solicitar URL de subida
-                const urlRes = await fetch(`/api/upload-url?path=${filePath}`);
-                if (!urlRes.ok) throw new Error('Error obteniendo URL de subida');
-                const { signedUrl } = await urlRes.json();
+                const uploadData = new FormData();
+                uploadData.append('file', formData.file);
+                uploadData.append('filePath', filePath);
 
-                // Subir archivo a Supabase Storage
-                const uploadRes = await fetch(signedUrl, {
-                    method: 'PUT',
-                    body: formData.file,
-                    headers: { 'Content-Type': formData.file.type || 'application/octet-stream' }
+                const uploadRes = await fetch('/api/upload-url', {
+                    method: 'POST',
+                    body: uploadData,
                 });
 
                 if (!uploadRes.ok) throw new Error('Error subiendo CV');
