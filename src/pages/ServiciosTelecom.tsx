@@ -461,14 +461,13 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
                   Trabajamos con los <span>mejores</span>
                 </h2>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
+              <div className="tc-operators-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
                 {operators.map((op, i) => (
                   <div key={i} className="tc-operator-item" style={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '0.75rem',
-                    gridColumn: op.name === 'Orange' ? 'span 2' : 'span 1'
+                    gap: '0.75rem'
                   }}>
                     <div style={{
                       width: '100%', background: 'var(--color-black)',

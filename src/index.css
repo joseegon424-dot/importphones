@@ -171,7 +171,8 @@
 
   /* Mostrar todos los Partners en 2 columnas (para que no queden 4) */
   .partners-grid-3x2,
-  .partners-grid {
+  .partners-grid,
+  .tc-operators-grid {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 1rem !important;
