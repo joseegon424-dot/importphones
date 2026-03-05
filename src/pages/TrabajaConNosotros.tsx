@@ -49,20 +49,6 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
                 { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out', delay: 1.1 }
             );
 
-            // Smooth scroll for anchors
-            const anchors = document.querySelectorAll('a[href^="#"]');
-            anchors.forEach(anchor => {
-                anchor.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const target = e.currentTarget as HTMLAnchorElement;
-                    const targetId = target.getAttribute('href')?.substring(1);
-                    const targetElement = document.getElementById(targetId || '');
-                    if (targetElement) {
-                        targetElement.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-
             // Benefits Animations
             gsap.fromTo('.tcn-benefit-card',
                 { y: 50, opacity: 0 },

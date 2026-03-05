@@ -7,6 +7,7 @@ const Navbar = () => {
   const [currentTime, setCurrentTime] = useState('');
   const [isScrolled, setIsScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navRef = useRef<HTMLElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -61,6 +62,24 @@ const Navbar = () => {
           <img src="/images/logo_importphones.png" alt="Importphones Logo" />
         </div>
       </Link>
+
+      <button 
+        className={`mobile-menu-btn ${mobileMenuOpen ? 'active' : ''}`} 
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div className={`mobile-menu ${mobileMenuOpen ? 'active' : ''}`}>
+        <Link to="/" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Inicio</Link>
+        <Link to="/quienes-somos" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Nosotros</Link>
+        <Link to="/servicios" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Servicios</Link>
+        <Link to="/trabaja-con-nosotros" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Trabaja con nosotros</Link>
+        <Link to="/contacto" className="nav-link" onClick={() => setMobileMenuOpen(false)}>Contacto</Link>
+      </div>
 
       <div className="nav-links">
         <Link to="/" className={`nav-link ${isActive('/') && location.pathname === '/' ? 'active' : ''}`}>

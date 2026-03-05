@@ -13,11 +13,33 @@ export function setOverlayRef(el: HTMLElement | null) {
     overlayEl = el;
 }
 
+let currentTl: gsap.core.Timeline | null = null;
+let pendingResolve: (() => void) | null = null;
+
+function cleanupPrevious() {
+    if (currentTl) {
+        currentTl.kill();
+        currentTl = null;
+    }
+    if (pendingResolve) {
+        pendingResolve();
+        pendingResolve = null;
+    }
+}
+
 /** Call before leaving current page */
 export async function pageTransitionOut(): Promise<void> {
     if (!overlayEl) return;
+    cleanupPrevious();
+
     return new Promise<void>((resolve) => {
-        gsap.timeline({ onComplete: resolve })
+        pendingResolve = resolve;
+        currentTl = gsap.timeline({
+            onComplete: () => {
+                if (pendingResolve === resolve) pendingResolve = null;
+                resolve();
+            }
+        })
             .set(overlayEl!, { scaleY: 0, transformOrigin: 'bottom' })
             .to(overlayEl!, { scaleY: 1, duration: 0.55, ease: 'power3.inOut' });
     });
@@ -26,8 +48,16 @@ export async function pageTransitionOut(): Promise<void> {
 /** Call when entering new page */
 export async function pageTransitionIn(): Promise<void> {
     if (!overlayEl) return;
+    cleanupPrevious();
+
     return new Promise<void>((resolve) => {
-        gsap.timeline({ onComplete: resolve })
+        pendingResolve = resolve;
+        currentTl = gsap.timeline({
+            onComplete: () => {
+                if (pendingResolve === resolve) pendingResolve = null;
+                resolve();
+            }
+        })
             .set(overlayEl!, { scaleY: 1, transformOrigin: 'top' })
             .to(overlayEl!, { scaleY: 0, duration: 0.55, ease: 'power3.inOut', delay: 0.1 });
     });

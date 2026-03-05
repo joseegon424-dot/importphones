@@ -74,8 +74,10 @@ const AppContent = () => {
 
   // Page transition + scroll reset on route change
   useEffect(() => {
+    let isCancelled = false;
     const runTransition = async () => {
       await pageTransitionOut();
+      if (isCancelled) return;
       if (lenisRef.current) {
         lenisRef.current.scrollTo(0, { immediate: true });
       }
@@ -83,6 +85,9 @@ const AppContent = () => {
       await pageTransitionIn();
     };
     runTransition();
+    return () => {
+      isCancelled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname]);
 

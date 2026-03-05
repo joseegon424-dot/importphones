@@ -516,8 +516,8 @@ const Home = ({ isLoaded }: HomeProps) => {
             <div className="eficiencia-card-brutal" style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="eficiencia-img-wrapper" style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
                 <img
-                  src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Estudio de potencia eléctrica"
+                  src="/images/factura_potencia.png"
+                  alt="Estudio de potencia eléctrica factura grafica"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <div className="eficiencia-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(229,57,53,0.85)', opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.4s ease' }}>

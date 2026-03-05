@@ -25,7 +25,7 @@ canvas {
    NAVBAR — RESPONSIVE
    ============================================ */
 @media (max-width: 991px) {
-    .navbar-awwards {
+    .nav-awwards {
         padding: 0 1.25rem;
         height: 70px;
     }
@@ -50,7 +50,7 @@ canvas {
 }
 
 @media (max-width: 575px) {
-    .navbar-awwards {
+    .nav-awwards {
         padding: 0 1rem;
         height: 64px;
     }
