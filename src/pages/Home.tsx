@@ -573,14 +573,8 @@ const Home = ({ isLoaded }: HomeProps) => {
               transition: 'all 0.3s ease',
               boxShadow: '8px 8px 0 rgba(255,255,255,0.1)'
             }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = '10px 10px 0 rgba(255,255,255,0.2)';
-                (e.currentTarget as HTMLElement).style.transform = 'translate(-2px, -2px)';
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = '8px 8px 0 rgba(255,255,255,0.1)';
-                (e.currentTarget as HTMLElement).style.transform = 'translate(0, 0)';
-              }}>
+              
+              >
               “Solicita ahora tu análisis energético gratuito y empieza a ahorrar.” 📊
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>

@@ -100,14 +100,8 @@ const CookieConsent = () => {
                         onClick={handleAccept}
                         className="group relative px-8 py-3 bg-white text-black font-bold flex items-center gap-2 overflow-hidden"
                         style={{ transition: 'all 0.3s cubic-bezier(0.23, 1, 0.32, 1)' }}
-                        onMouseEnter={(e) => {
-                            (e.currentTarget as HTMLElement).style.boxShadow = '8px 8px 0 #E53935';
-                            (e.currentTarget as HTMLElement).style.transform = 'translate(-4px, -4px)';
-                        }}
-                        onMouseLeave={(e) => {
-                            (e.currentTarget as HTMLElement).style.boxShadow = 'none';
-                            (e.currentTarget as HTMLElement).style.transform = 'translate(0, 0)';
-                        }}
+                        
+                        
                     >
                         <Check size={18} />
                         <span style={{ fontSize: '0.85rem', textTransform: 'uppercase' }}>Aceptar Todas</span>

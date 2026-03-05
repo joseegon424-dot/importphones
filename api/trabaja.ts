@@ -2,7 +2,7 @@ import { Resend } from 'resend';
 import { createClient } from '@supabase/supabase-js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const toEmail = process.env.CONTACT_EMAIL || 'joseegon424@gmail.com';
+const toEmail = process.env.CONTACT_EMAIL || 'info@importphones.net';
 
 export default async function handler(req, res) {
   // CORS handles

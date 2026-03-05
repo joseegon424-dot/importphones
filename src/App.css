@@ -4488,3 +4488,59 @@ main {
   flex-shrink: 0;
   width: 100%;
 }
+
+/* ============================================
+   MOBILE TOUCH & HOVER ADAPTATIONS
+   ============================================ */
+
+/* Primary Button active states for mobile tap */
+.btn-primary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+.btn-primary:active::before {
+  transform: translateX(0);
+}
+
+/* Cards active state for mobile */
+@media (hover: none) and (pointer: coarse) {
+  /* On mobile, we keep the cards slightly lifted or allow tapping
+     to reveal the effect since we can't hover */
+  .eficiencia-overlay {
+    opacity: 0.1 !important; /* Subtle constant hint of the overlay */
+  }
+  .eficiencia-card-brutal:active .eficiencia-overlay {
+    opacity: 0.85 !important;
+  }
+  .eficiencia-card-brutal:active .eficiencia-img-wrapper img {
+    transform: scale(1.05);
+  }
+  
+  .empresa-card-brutal:active {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  }
+  
+  .comparador-card-brutal:active {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    border-color: var(--color-primary);
+  }
+}
+
+/* Replace inline style hover for CTA */
+.hero-cta-button {
+  transition: all 0.3s ease;
+  box-shadow: 8px 8px 0 rgba(255,255,255,0.1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-cta-button:hover {
+    box-shadow: 10px 10px 0 rgba(255,255,255,0.2) !important;
+    transform: translate(-2px, -2px) !important;
+  }
+}
+
+.hero-cta-button:active {
+    box-shadow: 4px 4px 0 rgba(255,255,255,0.3) !important;
+    transform: translate(2px, 2px) !important;
+}
