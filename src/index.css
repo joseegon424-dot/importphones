@@ -143,8 +143,7 @@
   .alt-layout-image img,
   .tc-hero-logo-img {
     max-width: 85% !important;
-    max-height: 24px !important;
-    /* Más pequeño para dar aire */
+    max-height: 32px !important;
     height: auto !important;
     width: auto !important;
     object-fit: contain !important;
@@ -159,8 +158,10 @@
   .partner-logo-inner,
   .tc-hero-logo-card {
     height: auto !important;
-    padding: 1.5rem !important;
-    /* Un poco más de aire para que la imagen no parezca apretada */
+    aspect-ratio: 1/1 !important;
+    /* Forzar forma cuadrada como en Inicio */
+    padding: 1rem !important;
+    /* Más compacto */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;

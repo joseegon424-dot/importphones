@@ -265,7 +265,7 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
                 Fibra óptica de alta velocidad, planes móviles con datos ilimitados y las mejores plataformas de streaming integradas. Todo lo que necesitas para estar conectado.
               </p>
 
-              <div className="grid grid-cols-2 gap-6 mt-8 max-w-[420px]">
+              <div className="grid grid-cols-2 gap-4 mt-8 max-w-[420px]">
                 {[
                   { src: '/images/logo_disney.png', alt: 'Disney+' },
                   { src: '/images/netflix.png', alt: 'Netflix' },
@@ -277,7 +277,7 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
                       width: '100%', background: '#111',
                       border: '1px solid #333',
                       padding: '2rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      aspectRatio: '16/9', overflow: 'hidden',
+                      aspectRatio: '1/1', overflow: 'hidden',
                       transition: 'all 0.35s ease',
                       boxShadow: '10px 10px 0 #E53935'
                     }}
