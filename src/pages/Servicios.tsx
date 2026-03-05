@@ -566,7 +566,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
             <div style={{ width: '80px', height: '6px', background: '#E53935', marginTop: '2.5rem' }} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '2rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '2rem' }}>
             {features.map((feat, i) => (
               <div key={i} className="svc-feature-pill group relative overflow-hidden" style={{
                 background: 'rgba(15, 15, 15, 0.9)',
@@ -871,7 +871,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
             gap: '2rem',
             maxWidth: '1200px',
             margin: '0 auto',

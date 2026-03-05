@@ -344,9 +344,9 @@ const Home = ({ isLoaded }: HomeProps) => {
             </div>
 
             {/* Custom Photography Column with Experience Badge */}
-            <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ position: 'relative', width: '100%', overflow: 'hidden' }}>
 
-              <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 30px 60px rgba(0,0,0,0.1)' }}>
+              <div style={{ position: 'relative', width: '100%', aspectRatio: '4/3', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 30px 60px rgba(0,0,0,0.1)' }}>
                 <img
                   src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                   alt="Equipo de consultoría energética y telecomunicaciones"
@@ -355,14 +355,14 @@ const Home = ({ isLoaded }: HomeProps) => {
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)' }} />
               </div>
 
-              {/* Floating Badge overlay for extra trust */}
-              <div style={{ position: 'absolute', bottom: '-20px', right: '-20px', background: '#fff', padding: '1.5rem', borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: '1rem', border: '1px solid rgba(0,0,0,0.05)' }}>
-                <div style={{ width: '50px', height: '50px', borderRadius: '50%', background: 'rgba(229,57,53,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#E53935' }}>
-                  <Award size={28} />
+              {/* Experience Badge — relative position to avoid mobile overflow */}
+              <div className="hero-badge" style={{ marginTop: '1rem', background: '#fff', padding: 'clamp(0.75rem, 2vw, 1.5rem)', borderRadius: '16px', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', display: 'inline-flex', alignItems: 'center', gap: '0.75rem', border: '1px solid rgba(0,0,0,0.05)' }}>
+                <div style={{ width: 'clamp(36px, 8vw, 50px)', height: 'clamp(36px, 8vw, 50px)', borderRadius: '50%', background: 'rgba(229,57,53,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#E53935', flexShrink: 0 }}>
+                  <Award size={24} />
                 </div>
                 <div>
-                  <div style={{ fontSize: '1.5rem', fontWeight: 900, color: '#111', lineHeight: 1 }}>10+ Años</div>
-                  <div style={{ fontSize: '0.9rem', color: '#666', fontWeight: 500, marginTop: '2px' }}>Experiencia en ahorro</div>
+                  <div style={{ fontSize: 'clamp(1.1rem, 3vw, 1.5rem)', fontWeight: 900, color: '#111', lineHeight: 1 }}>10+ Años</div>
+                  <div style={{ fontSize: 'clamp(0.75rem, 2vw, 0.9rem)', color: '#666', fontWeight: 500, marginTop: '2px' }}>Experiencia en ahorro</div>
                 </div>
               </div>
 
@@ -419,7 +419,7 @@ const Home = ({ isLoaded }: HomeProps) => {
             No todas las facturas son iguales. Como comparador de tarifas de luz líder, analizamos tu consumo para ofrecerte un ahorro real.
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem', textAlign: 'left' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '2rem', textAlign: 'left' }}>
             <div className="comparador-card-brutal">
               <div className="card-icon-container">
                 <TrendingDown size={32} />
@@ -489,7 +489,7 @@ const Home = ({ isLoaded }: HomeProps) => {
             “En más del 40% de los contratos eléctricos la potencia contratada es superior a la necesaria. Analizamos tu curva de consumo y optimizamos tus kW para que solo pagues por la energía que realmente utilizas.”
           </p>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 'clamp(1.5rem, 3vw, 2.5rem)' }}>
             {/* Card 01 */}
             <div className="eficiencia-card-brutal">
               <div className="eficiencia-img-wrapper" style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
@@ -573,8 +573,8 @@ const Home = ({ isLoaded }: HomeProps) => {
               transition: 'all 0.3s ease',
               boxShadow: '8px 8px 0 rgba(255,255,255,0.1)'
             }}
-              
-              >
+
+            >
               “Solicita ahora tu análisis energético gratuito y empieza a ahorrar.” 📊
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </Link>
