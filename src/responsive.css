@@ -1,12 +1,13 @@
-/* ============================================
-   IMPORTPHONES.NET — RESPONSIVE CSS v3
-   Additive overrides. Do NOT modify App.css.
-   Covers 300px → 4K
-   ============================================ */
+/* ================================================================
+   IMPORTPHONES.NET — RESPONSIVE CSS DEFINITIVO
+   Solución completa para TODOS los dispositivos móviles.
+   Cubre desde 300px hasta 4K.
+   NO MODIFICA App.css — solo sobreescribe donde es necesario.
+   ================================================================ */
 
-/* ============================================
-   BASE MOBILE SAFETY
-   ============================================ */
+/* ================================================================
+   RESET GLOBAL: Prevenir desbordamientos en TODOS los dispositivos
+   ================================================================ */
 html,
 body {
     overflow-x: hidden !important;
@@ -23,100 +24,38 @@ body {
 img,
 svg,
 video,
-canvas {
+canvas,
+iframe {
     max-width: 100%;
     height: auto;
 }
 
-/* ============================================
-   BODY SCROLL LOCK (when mobile menu is open)
-   ============================================ */
+/* ================================================================
+   BODY SCROLL LOCK (cuando el menú móvil está abierto)
+   ================================================================ */
 body.menu-open {
     overflow: hidden !important;
     position: fixed !important;
     width: 100% !important;
     height: 100% !important;
     touch-action: none;
-    -webkit-overflow-scrolling: none;
 }
 
-/* ============================================
-   COOKIE CONSENT — MOBILE FIX
-   Force compact layout on all mobile sizes
-   ============================================ */
-@media (max-width: 992px) {
-    .fixed.bottom-0[class*="z-"] {
-        padding: 0.75rem !important;
-    }
-
-    .fixed.bottom-0[class*="z-"]>div {
-        flex-direction: column !important;
-        gap: 0.75rem !important;
-        padding: 1rem !important;
-        align-items: stretch !important;
-    }
-
-    /* Cookie icon smaller */
-    .fixed.bottom-0[class*="z-"] [style*="width: '50px'"],
-    .fixed.bottom-0[class*="z-"] [style*="width: 50px"],
-    .fixed.bottom-0[class*="z-"] div[style*="50px"] {
-        width: 36px !important;
-        height: 36px !important;
-        min-width: 36px !important;
-    }
-
-    .fixed.bottom-0[class*="z-"] [style*="50px"] svg {
-        width: 20px !important;
-        height: 20px !important;
-    }
-
-    /* Cookie heading */
-    .fixed.bottom-0[class*="z-"] h4 {
-        font-size: 0.95rem !important;
-        margin-bottom: 0.25rem !important;
-    }
-
-    /* Cookie text */
-    .fixed.bottom-0[class*="z-"] p {
-        font-size: 0.75rem !important;
-        line-height: 1.4 !important;
-    }
-
-    /* Cookie buttons side by side */
-    .fixed.bottom-0[class*="z-"] .flex.flex-wrap {
-        flex-wrap: nowrap !important;
-        gap: 0.5rem !important;
-        width: 100% !important;
-    }
-
-    .fixed.bottom-0[class*="z-"] .flex.flex-wrap button {
-        flex: 1 !important;
-        text-align: center !important;
-        justify-content: center !important;
-        padding: 0.6rem 1rem !important;
-        font-size: 0.75rem !important;
-        min-height: 40px;
-    }
-}
-
-@media (max-width: 400px) {
-    .fixed.bottom-0[class*="z-"]>div {
-        padding: 0.75rem !important;
-    }
-
-    .fixed.bottom-0[class*="z-"] .flex.items-center.gap-4 {
-        display: none !important;
-    }
-}
-
-/* ============================================
-   NAVBAR — RESPONSIVE
-   Match App.css breakpoint exactly: 992px
-   ============================================ */
+/* ================================================================
+   NAVBAR — FIJO EN MÓVIL (nunca se pierde al hacer scroll)
+   ================================================================ */
 @media (max-width: 992px) {
     .nav-awwards {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        background: rgba(10, 10, 10, 0.97) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
         padding: 0 1.25rem !important;
         height: 70px !important;
+        z-index: 100 !important;
     }
 
     .nav-links,
@@ -124,23 +63,13 @@ body.menu-open {
         display: none !important;
     }
 
-    .mobile-menu-btn {
-        display: flex !important;
-        z-index: 1100 !important;
-        min-width: 48px;
-        min-height: 48px;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 6px;
-        padding: 10px;
-        background: none;
-        border: none;
-        cursor: pointer;
+    .logo-container {
+        max-width: 130px;
     }
 
-    .logo-container {
-        max-width: 140px;
+    /* Espacio para el navbar fijo */
+    .barba-container {
+        padding-top: 0;
     }
 }
 
@@ -155,133 +84,79 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   MOBILE MENU — FULL SCREEN OVERLAY
-   ============================================ */
+/* ================================================================
+   TEXTOS: Prevenir "mochos" y desbordamientos en TODAS las páginas
+   ================================================================ */
 @media (max-width: 992px) {
-    .mobile-menu {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        bottom: 0 !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        height: 100dvh !important;
-        background: rgba(10, 10, 10, 0.98) !important;
-        z-index: 1050 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 0 !important;
-        padding: 6rem 2rem 3rem !important;
-        transform: translateX(100%) !important;
-        opacity: 0 !important;
-        visibility: hidden !important;
-        pointer-events: none !important;
-        transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-            opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-            visibility 0.5s !important;
-        overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch;
-    }
 
-    .mobile-menu.active {
-        transform: translateX(0) !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        pointer-events: auto !important;
-    }
-
-    .mobile-menu .nav-link {
-        font-size: 1.8rem !important;
-        font-weight: 700 !important;
-        padding: 1rem 0 !important;
-        min-height: 52px !important;
-        display: flex !important;
-        align-items: center !important;
-        text-align: center !important;
-        justify-content: center !important;
-        width: 100% !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        color: white !important;
-        text-decoration: none !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.08em !important;
-        transition: color 0.3s ease, transform 0.3s ease !important;
-        overflow: visible !important;
-    }
-
-    .mobile-menu .nav-link:last-child {
-        border-bottom: none !important;
-    }
-
-    .mobile-menu .nav-link:active {
-        color: #E53935 !important;
-        transform: scale(0.97) !important;
-    }
-
-    /* Kill the underline effect from desktop */
-    .mobile-menu .nav-link::after {
-        display: none !important;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    a,
+    li,
+    td,
+    th,
+    label,
+    .hero-title-brutal,
+    .section-title,
+    .cta-brutal-title,
+    .hero-title,
+    .page-header-title,
+    .card-title,
+    .trust-card-title,
+    .vdc-title,
+    .service-card-title {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        white-space: normal !important;
     }
 }
 
-@media (max-width: 575px) {
-    .mobile-menu {
-        padding: 5rem 1.5rem 2rem !important;
-    }
-
-    .mobile-menu .nav-link {
-        font-size: 1.4rem !important;
-        padding: 0.85rem 0 !important;
-    }
-}
-
-@media (max-width: 359px) {
-    .mobile-menu .nav-link {
-        font-size: 1.2rem !important;
-    }
-}
-
-/* ============================================
-   HERO SECTIONS — RESPONSIVE
-   ============================================ */
-@media (max-width: 1199px) {
-    .hero-awwards {
-        padding: 9rem 2rem 5rem !important;
-    }
-}
-
+/* ================================================================
+   HERO SECTIONS — RESPONSIVO EN TODAS LAS PÁGINAS
+   ================================================================ */
 @media (max-width: 992px) {
-    .hero-awwards {
-        padding: 7rem 1.5rem 3.5rem !important;
+
+    .hero-awwards,
+    .page-header,
+    .hero-subpage {
+        padding: 7rem 1.5rem 3rem !important;
         min-height: auto !important;
     }
 
     .hero-title-brutal {
-        font-size: clamp(2.2rem, 7vw, 4rem) !important;
-        letter-spacing: -0.02em;
-        word-break: break-word;
+        font-size: clamp(2rem, 8vw, 3.5rem) !important;
+        line-height: 1.08 !important;
     }
 
-    .hero-subtitle {
-        font-size: clamp(0.9rem, 2.5vw, 1.05rem) !important;
+    .hero-subtitle,
+    .page-header-subtitle {
+        font-size: clamp(0.9rem, 3vw, 1.1rem) !important;
         max-width: 100% !important;
+        line-height: 1.65 !important;
     }
 
-    .hero-label {
+    .hero-label,
+    .page-header-label {
         font-size: 0.65rem !important;
+        letter-spacing: 0.2em !important;
     }
 
-    /* Hero SVG decorations on tablets */
-    .hero-subpage-svg {
-        width: 45% !important;
-        right: -5% !important;
-        opacity: 0.2 !important;
+    /* SVGs decorativos del hero: OCULTAR en móvil para evitar desbordamientos */
+    .hero-subpage-svg,
+    .hero-svg-wrapper,
+    .svg-energy-container,
+    .cta-bg-svg {
+        display: none !important;
     }
 
+    /* Hero CTAs: apilar verticalmente */
     .hero-cta {
         flex-direction: column !important;
         gap: 0.75rem !important;
@@ -290,21 +165,37 @@ body.menu-open {
 
     .hero-cta-button,
     .btn-primary,
-    .btn-outline {
+    .btn-outline,
+    .cta-btn-brutal,
+    .cta-btn-outline-brutal {
         width: 100% !important;
         justify-content: center !important;
-        padding: 1rem 2rem !important;
         text-align: center !important;
+        padding: 1rem 1.5rem !important;
+        font-size: 0.85rem !important;
     }
 
-    /* CRITICAL FIX: Hero grid stacking on tablet/mobile (Tailwind lg:grid-cols-2) */
+    .hero-cta-button {
+        box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Hero stats row */
+    .hero-stats-row {
+        flex-wrap: wrap !important;
+        gap: 1rem !important;
+    }
+
+    .hero-stat-item {
+        min-width: 40% !important;
+    }
+
+    /* Grid del hero (Tailwind) */
     .grid.lg\:grid-cols-2,
     .grid.grid-cols-1.lg\:grid-cols-2 {
         grid-template-columns: 1fr !important;
         gap: 2rem !important;
     }
 
-    /* Remove left border on subtitle column */
     .lg\:pl-12,
     [class*="lg:pl-12"] {
         padding-left: 0 !important;
@@ -315,46 +206,22 @@ body.menu-open {
         border-left: none !important;
     }
 
-    /* Hero content z-index area */
     .hero-content-z {
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }
-}
-
-@media (max-width: 767px) {
-    .hero-awwards {
-        padding: 6.5rem 1.25rem 3rem !important;
+        padding: 0 0.5rem !important;
     }
 
-    .hero-title-brutal {
-        font-size: clamp(1.8rem, 8vw, 3rem) !important;
-        line-height: 1.08 !important;
-    }
-
-    .hero-subpage-svg {
-        width: 60% !important;
-        bottom: 0 !important;
-        top: auto !important;
-        right: -10% !important;
-        opacity: 0.12 !important;
-        pointer-events: none !important;
-    }
-
-    .hero-subpage-svg svg {
-        transform: scale(0.65) !important;
-        transform-origin: right bottom !important;
-    }
-
-    .hero-subtitle {
-        font-size: clamp(0.85rem, 3.5vw, 1rem) !important;
-        line-height: 1.65 !important;
-        margin-bottom: 1.5rem !important;
+    /* Visual del hero (PC only) */
+    .hero-visual,
+    .hero-visual-right {
+        display: none !important;
     }
 }
 
 @media (max-width: 575px) {
-    .hero-awwards {
+
+    .hero-awwards,
+    .page-header,
+    .hero-subpage {
         padding: 6rem 1rem 2.5rem !important;
     }
 
@@ -362,28 +229,16 @@ body.menu-open {
         font-size: clamp(1.6rem, 9vw, 2.5rem) !important;
     }
 
-    .hero-label {
-        font-size: 0.55rem !important;
-        letter-spacing: 0.25em !important;
-        margin-bottom: 0.75rem !important;
-    }
-
-    .hero-subpage-svg {
-        display: none !important;
-    }
-
-    .hero-stats-row {
-        flex-wrap: wrap !important;
-        gap: 1rem !important;
-    }
-
-    .hero-stat-item {
-        min-width: 40% !important;
+    .page-header-title {
+        font-size: clamp(1.5rem, 8vw, 2.5rem) !important;
     }
 }
 
 @media (max-width: 359px) {
-    .hero-awwards {
+
+    .hero-awwards,
+    .page-header,
+    .hero-subpage {
         padding: 5.5rem 0.75rem 2rem !important;
     }
 
@@ -392,16 +247,16 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   SECTION PADDING — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   SECCIONES — PADDING RESPONSIVO
+   ================================================================ */
 @media (max-width: 992px) {
-    .section-awwards {
-        padding: 4rem 1.5rem !important;
-    }
 
+    .section-awwards,
     .section-dark,
-    .section-light {
+    .section-light,
+    .content-section,
+    .partners-section {
         padding: 4rem 1.5rem !important;
     }
 
@@ -413,51 +268,37 @@ body.menu-open {
         font-size: clamp(1.6rem, 5vw, 2.5rem) !important;
         letter-spacing: -0.02em !important;
     }
-}
-
-@media (max-width: 767px) {
-    .section-awwards {
-        padding: 3.5rem 1.25rem !important;
-    }
-
-    .section-dark,
-    .section-light {
-        padding: 3.5rem 1.25rem !important;
-    }
-
-    .section-title {
-        font-size: clamp(1.4rem, 6vw, 2rem) !important;
-    }
 
     .section-label {
-        font-size: 0.6rem !important;
+        font-size: 0.65rem !important;
         letter-spacing: 0.2em !important;
     }
 }
 
 @media (max-width: 575px) {
-    .section-awwards {
-        padding: 3rem 1rem !important;
-    }
 
+    .section-awwards,
     .section-dark,
-    .section-light {
+    .section-light,
+    .content-section,
+    .partners-section {
         padding: 3rem 1rem !important;
     }
 
     .section-title {
         font-size: clamp(1.3rem, 7vw, 1.8rem) !important;
-        word-break: break-word !important;
     }
 }
 
-/* ============================================
-   MAX-WIDTH CONTAINER — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   MAX-WIDTH CONTAINER
+   ================================================================ */
 @media (max-width: 992px) {
     .max-w-\[1800px\] {
         padding-left: 1.25rem !important;
         padding-right: 1.25rem !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
     }
 }
 
@@ -468,18 +309,56 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   ALL TAILWIND GRID OVERRIDES — Collapse on mobile
-   ============================================ */
+/* ================================================================
+   TODAS LAS GRILLAS INLINE — Colapsar a 1 columna en móvil
+   Esto arregla TODAS las secciones con grid inline (JSX style prop)
+   ================================================================ */
 @media (max-width: 992px) {
+
+    div[style*="grid-template-columns"],
+    div[style*="gridTemplateColumns"] {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+
+    /* Keep 2-col stats at tablet */
+    div[style*="gridTemplateColumns: '1fr 1fr'"][style*="gap: '1.25rem'"] {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 1rem !important;
+    }
+
+    /* Comparison table fix */
+    div[style*="1fr auto 1fr auto 1fr"] {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Desktop-only elements */
+    .hidden.lg\:block {
+        display: none !important;
+    }
+
+    /* Floating absolute badges — make static */
+    div[style*="position: 'absolute'"][style*="bottom:"],
+    div[style*="position: 'absolute'"][style*="right: '-"] {
+        position: static !important;
+        margin-top: 1rem !important;
+        display: inline-flex !important;
+    }
+
+    /* Box shadows reducidos en móvil */
+    [style*="boxShadow: '15px 15px"],
+    [style*="boxShadow: '-15px 15px"],
+    [style*="boxShadow: '10px 10px"],
+    [style*="boxShadow: '-12px 12px"] {
+        box-shadow: 5px 5px 0 #E53935 !important;
+    }
+
+    /* Tailwind grid overrides */
     .lg\:grid-cols-2 {
         grid-template-columns: 1fr !important;
     }
 
-    .lg\:gap-20 {
-        gap: 2rem !important;
-    }
-
+    .lg\:gap-20,
     .lg\:gap-24 {
         gap: 2rem !important;
     }
@@ -488,76 +367,8 @@ body.menu-open {
         padding-left: 1.25rem !important;
         padding-right: 1.25rem !important;
     }
-}
 
-/* ============================================
-   INLINE GRIDS (auto-fit) — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) and (min-width: 576px) {
-    [style*="repeat(auto-fit"] {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-}
-
-@media (max-width: 575px) {
-    [style*="repeat(auto-fit"] {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-/* ============================================
-   CRITICAL: Force ALL inline 2+ column grids to stack on mobile
-   This catches gridTemplateColumns: '1fr 1fr', '1fr 420px',
-   '2fr 1fr', '1fr auto 1fr auto 1fr' etc.
-   ============================================ */
-@media (max-width: 992px) {
-
-    /* Any div with inline grid-template-columns containing fr */
-    div[style*="grid-template-columns"],
-    div[style*="gridTemplateColumns"] {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-    }
-
-    /* Keep 2-col stat/benefit grids at tablet */
-    div[style*="gridTemplateColumns: '1fr 1fr'"][style*="gap: '1.25rem'"],
-    div[style*="grid-template-columns: 1fr 1fr"] {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 1rem !important;
-    }
-
-    /* Force single column for comparison table */
-    div[style*="1fr auto 1fr auto 1fr"] {
-        grid-template-columns: 1fr !important;
-    }
-
-    /* Hide desktop-only elements */
-    .hidden.lg\:block {
-        display: none !important;
-    }
-
-    /* Fix images inside sections */
-    div[style*="aspectRatio"] {
-        aspect-ratio: 16/9 !important;
-    }
-
-    /* Floating absolute badges — make static to prevent overflow */
-    div[style*="position: 'absolute'"][style*="bottom:"],
-    div[style*="position: 'absolute'"][style*="right: '-"] {
-        position: static !important;
-        margin-top: 1rem !important;
-        display: inline-flex !important;
-    }
-
-    /* Box shadow hover cards — reduce shadow on mobile */
-    [style*="boxShadow: '15px 15px"],
-    [style*="boxShadow: '-15px 15px"],
-    [style*="boxShadow: '10px 10px"],
-    [style*="boxShadow: '-12px 12px"] {
-        box-shadow: 6px 6px 0 #E53935 !important;
-    }
-
-    /* Scroll indicator — hide on mobile */
+    /* Scroll indicator hide */
     .absolute.bottom-8.left-12 {
         display: none !important;
     }
@@ -565,14 +376,12 @@ body.menu-open {
 
 @media (max-width: 575px) {
 
-    /* ALL grids go single column on small phones */
     div[style*="grid-template-columns"],
     div[style*="gridTemplateColumns"] {
         grid-template-columns: 1fr !important;
         gap: 1.25rem !important;
     }
 
-    /* Box shadows smaller */
     [style*="boxShadow: '15px 15px"],
     [style*="boxShadow: '-15px 15px"],
     [style*="boxShadow: '10px 10px"],
@@ -580,20 +389,7 @@ body.menu-open {
         box-shadow: 4px 4px 0 #E53935 !important;
     }
 
-    /* Phone mockup width */
-    div[style*="width: '320px'"] {
-        width: 100% !important;
-        max-width: 240px !important;
-        margin: 0 auto !important;
-    }
-
-    /* Container overflow */
-    .overflow-hidden,
-    [class*="overflow-hidden"] {
-        overflow: hidden !important;
-    }
-
-    /* Negative positioned elements */
+    /* Negative positioned elements fix */
     [style*="left: '-"],
     [style*="right: '-"],
     [style*="bottom: '-"] {
@@ -601,42 +397,107 @@ body.menu-open {
         right: auto !important;
         bottom: auto !important;
         position: relative !important;
-        margin-top: 0.75rem !important;
     }
 }
 
-/* ============================================
-   SERVICES GRID — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   TARJETAS — TODAS LAS VARIANTES
+   Padding reducido, ancho completo, sin recortes
+   ================================================================ */
 @media (max-width: 992px) {
-    .services-grid {
-        grid-template-columns: 1fr !important;
-        gap: 1.5rem !important;
+
+    .service-card-large,
+    .service-card-light,
+    .value-card,
+    .value-card-light,
+    .value-dark-card,
+    .svc-dark-card,
+    .process-card,
+    .testimonial-card,
+    .testimonial-card-brutal,
+    .trust-card-brutal,
+    .comparador-card-brutal,
+    .eficiencia-card-brutal,
+    .empresa-card-brutal,
+    .qs-value-card,
+    .contact-form {
+        padding: 1.5rem !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
 
-    .service-card-large {
-        padding: 1.75rem !important;
+    .eficiencia-card-brutal,
+    .empresa-card-brutal {
+        padding: 0 !important;
+        /* These have image + content, no top padding */
+    }
+
+    .eficiencia-content,
+    .empresa-inner-content {
+        padding: 1.5rem !important;
     }
 }
 
 @media (max-width: 575px) {
-    .service-card-large {
+
+    .service-card-large,
+    .service-card-light,
+    .value-card,
+    .value-card-light,
+    .value-dark-card,
+    .svc-dark-card,
+    .process-card,
+    .testimonial-card,
+    .testimonial-card-brutal,
+    .trust-card-brutal,
+    .comparador-card-brutal,
+    .qs-value-card,
+    .contact-form {
         padding: 1.25rem !important;
     }
 
-    .service-card-title {
-        font-size: 1.3rem !important;
-    }
-
-    .service-card-number {
-        font-size: 3.5rem !important;
+    .eficiencia-content,
+    .empresa-inner-content {
+        padding: 1.25rem !important;
     }
 }
 
-/* ============================================
-   STATS GRID — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   NÚMEROS DECORATIVOS "01", "03" etc — Reducir en móvil
+   ================================================================ */
 @media (max-width: 992px) {
+
+    .service-card-number,
+    .service-card-light .service-number,
+    .service-card-large .service-card-number,
+    .process-number {
+        font-size: 2.5rem !important;
+        opacity: 0.08 !important;
+    }
+
+    .process-number {
+        font-size: 2.5rem !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* ================================================================
+   GRIDS DE CSS CLASES — Colapsar en móvil
+   ================================================================ */
+@media (max-width: 992px) {
+
+    .services-grid,
+    .values-grid,
+    .testimonials-grid,
+    .team-grid,
+    .features-grid,
+    .content-grid,
+    .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
+
     .stats-grid {
         grid-template-columns: repeat(2, 1fr) !important;
         gap: 1.5rem !important;
@@ -645,12 +506,26 @@ body.menu-open {
     .stat-item::after {
         display: none !important;
     }
+
+    .process-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1.5rem !important;
+    }
+
+    .trust-cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem !important;
+    }
 }
 
 @media (max-width: 575px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 1.25rem !important;
+        gap: 1rem !important;
+    }
+
+    .process-grid {
+        grid-template-columns: 1fr !important;
     }
 
     .stat-number {
@@ -668,103 +543,46 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   VALUES GRID — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .values-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 1.5rem !important;
-    }
-
-    .value-card {
-        padding: 1.75rem !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .values-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .value-card {
-        padding: 1.25rem !important;
-    }
-}
-
-/* ============================================
-   PROCESS GRID — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .process-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 1.5rem !important;
-    }
-
-    .process-card {
-        padding: 1.75rem !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .process-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .process-number {
-        font-size: 3rem !important;
-    }
-}
-
-/* ============================================
-   TESTIMONIALS — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .testimonials-grid {
-        grid-template-columns: 1fr !important;
-        gap: 1.5rem !important;
-    }
-
-    .testimonial-card,
-    .testimonial-card-brutal {
-        padding: 1.5rem !important;
-    }
-}
-
-/* ============================================
-   PARTNERS — RESPONSIVE
-   FIX: Make sure partners grid NEVER clips
-   ============================================ */
+/* ================================================================
+   PARTNERS — Mostrar TODOS (6 de 6), no recortar
+   ================================================================ */
 @media (max-width: 992px) {
     .partners-grid {
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 1rem !important;
     }
 
-    .footer-partners {
+    .partners-grid-3x2 {
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.5rem !important;
+        gap: 1rem !important;
     }
 
     .partner-logo-item {
-        padding: 0.75rem !important;
-        min-height: 70px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        width: 100% !important;
     }
 
-    .partner-logo-item img {
-        max-height: 30px !important;
-        width: auto !important;
+    .partner-logo-inner {
+        height: 90px !important;
+        padding: 1rem !important;
+    }
+
+    .partner-logo-inner img {
+        max-width: 100% !important;
+        max-height: 40px !important;
         object-fit: contain !important;
     }
-}
 
-@media (max-width: 575px) {
-    .partners-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 0.75rem !important;
+    .partner-logo-light {
+        padding: 1.5rem 1rem !important;
+    }
+
+    .partner-logo-light img {
+        max-height: 35px !important;
+    }
+
+    .footer-partners {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.5rem !important;
     }
 
     .partner-item {
@@ -773,19 +591,31 @@ body.menu-open {
         padding: 1rem !important;
     }
 
-    .footer-partners {
+    .partner-item img,
+    .partner-logo-item img {
+        max-height: 30px !important;
+        width: auto !important;
+        object-fit: contain !important;
+    }
+}
+
+@media (max-width: 575px) {
+
+    .partners-grid,
+    .partners-grid-3x2 {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 0.4rem !important;
+        gap: 0.75rem !important;
     }
 
-    .partner-logo img,
-    .partner-logo-item img {
-        max-height: 25px !important;
+    .footer-partners {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }
 
 @media (max-width: 359px) {
-    .partners-grid {
+
+    .partners-grid,
+    .partners-grid-3x2 {
         grid-template-columns: 1fr 1fr !important;
     }
 
@@ -794,113 +624,60 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   EFICIENCIA CARDS — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   LOGOS DE OPERADORES/PROVEEDORES (Disney, Netflix, etc)
+   NO deformar, contener, centrar
+   ================================================================ */
 @media (max-width: 992px) {
-    .eficiencia-card-brutal {
-        width: 100% !important;
+
+    .tc-operator-item img,
+    .en-provider-item img {
+        max-width: 100% !important;
+        max-height: 50px !important;
+        height: auto !important;
+        width: auto !important;
+        object-fit: contain !important;
+        margin: 0 auto !important;
+        display: block !important;
     }
 
-    .eficiencia-img-wrapper {
-        height: 180px !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .eficiencia-img-wrapper {
-        height: 150px !important;
-    }
-
-    .eficiencia-content {
-        padding: 1.25rem !important;
-    }
-}
-
-/* ============================================
-   COMPARADOR CARDS (brutal) — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .comparador-card-brutal {
-        padding: 1.75rem !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .comparador-card-brutal {
-        padding: 1.25rem !important;
-    }
-
-    .card-title {
-        font-size: 1.15rem !important;
-    }
-
-    .card-description {
-        font-size: 0.9rem !important;
-    }
-
-    .card-icon-container {
-        width: 48px !important;
-        height: 48px !important;
-    }
-
-    .card-icon-container svg {
-        width: 24px !important;
-        height: 24px !important;
-    }
-}
-
-/* ============================================
-   TRUST CARDS — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .trust-card-brutal {
-        padding: 1.5rem !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .trust-card-brutal {
+    .tc-operator-item,
+    .en-provider-item {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         padding: 1rem !important;
     }
 }
 
-/* ============================================
-   EMPRESA CARDS (Timeline) — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   ALT-LAYOUT (Imagen + Texto intercalado) — Apilar en móvil
+   ================================================================ */
+@media (max-width: 1024px) {
+    .alt-layout {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+
+    .alt-layout.reverse {
+        direction: ltr !important;
+    }
+}
+
 @media (max-width: 992px) {
-    .empresa-card-brutal {
-        flex-direction: column !important;
+    .alt-layout {
+        margin-bottom: 3rem !important;
     }
 
-    .empresa-img-wrapper {
+    .alt-layout-image {
         width: 100% !important;
-        max-width: 100% !important;
-        height: 180px !important;
-    }
-
-    .empresa-inner-content {
-        padding: 1.25rem !important;
+        aspect-ratio: 16/9 !important;
     }
 }
 
-@media (max-width: 575px) {
-    .empresa-img-wrapper {
-        height: 140px !important;
-    }
-
-    .empresa-inner-content h3 {
-        font-size: 1.2rem !important;
-    }
-
-    .empresa-inner-content p {
-        font-size: 0.9rem !important;
-    }
-}
-
-/* ============================================
-   TIMELINE — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   TIMELINE CORPORATIVO — Responsivo
+   ================================================================ */
 @media (max-width: 992px) {
     .timeline-container {
         padding-left: 30px !important;
@@ -910,6 +687,7 @@ body.menu-open {
         flex-direction: column !important;
         align-items: flex-start !important;
         gap: 1rem !important;
+        margin-bottom: 3rem !important;
     }
 
     .timeline-item:nth-child(even) {
@@ -919,6 +697,7 @@ body.menu-open {
     .timeline-content-card {
         width: 100% !important;
         max-width: 100% !important;
+        margin-left: 0 !important;
     }
 
     .timeline-svg-card {
@@ -928,6 +707,16 @@ body.menu-open {
     .timeline-dot {
         left: -15px !important;
     }
+
+    .timeline-line {
+        left: 15px !important;
+    }
+
+    .empresa-img-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 180px !important;
+    }
 }
 
 @media (max-width: 575px) {
@@ -935,72 +724,125 @@ body.menu-open {
         padding-left: 20px !important;
     }
 
-    .timeline-content-card {
-        padding: 0 !important;
-    }
-
-    .timeline-dot {
-        width: 28px !important;
-        height: 28px !important;
-        left: -14px !important;
+    .empresa-img-wrapper {
+        height: 140px !important;
     }
 }
 
-/* ============================================
-   SVG HEADER DECORATIONS — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   SVG HEADER DECORATIONS — Energía
+   ================================================================ */
 @media (max-width: 992px) {
     .energia-header-svg {
+        display: none !important;
+    }
+}
+
+/* ================================================================
+   PROCESS TIMELINE LINE (subpages)
+   ================================================================ */
+@media (max-width: 992px) {
+    .process-svg-line {
+        display: none !important;
+    }
+
+    .process-pin-wrapper {
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+    }
+
+    .process-step {
+        gap: 1rem !important;
+        margin-bottom: 2rem !important;
+    }
+
+    .process-step-num {
+        font-size: 2rem !important;
+    }
+}
+
+/* ================================================================
+   QUIENES SOMOS — Timeline de valores
+   ================================================================ */
+@media (max-width: 768px) {
+    div[style*="grid-template-columns: 1fr 40px 1fr"] {
         display: flex !important;
-        justify-content: center !important;
+        flex-direction: column !important;
+    }
+
+    .qs-value-card {
+        margin-bottom: 1rem !important;
+    }
+
+    .qs-timeline-line {
+        display: none !important;
+    }
+}
+
+/* ================================================================
+   CTA SECTION — Responsivo
+   ================================================================ */
+@media (max-width: 992px) {
+    .cta-brutal-title {
+        font-size: clamp(1.8rem, 8vw, 3rem) !important;
+        line-height: 1.05 !important;
+    }
+
+    .cta-brutal-section {
+        padding: 4rem 1.5rem !important;
+    }
+
+    .cta-content {
+        padding: 3rem 1.5rem !important;
+    }
+
+    .cta-section {
+        padding: 4rem 1.5rem !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .cta-brutal-title {
+        font-size: clamp(1.5rem, 9vw, 2.5rem) !important;
+    }
+
+    .cta-content {
+        padding: 2rem 1rem !important;
+    }
+}
+
+/* ================================================================
+   FORMULARIOS — Contacto, Trabaja con nosotros
+   NO desbordarse, reCAPTCHA escalado
+   ================================================================ */
+@media (max-width: 992px) {
+
+    .contact-form-card,
+    .form-container,
+    .contact-form,
+    #application-form {
+        padding: 1.5rem !important;
         width: 100% !important;
-        margin-top: 1rem !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
     }
 
-    .energia-header-svg svg {
-        width: 160px !important;
-        height: 160px !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .energia-header-svg {
-        display: none !important;
-    }
-}
-
-/* ============================================
-   CONTENT GRIDS (2-column layouts) — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-
-    .content-grid,
-    .contact-grid {
-        grid-template-columns: 1fr !important;
-        gap: 2rem !important;
-    }
-
-    /* Hide sticky sidebar on mobile */
-    aside[style*="sticky"] {
-        display: none !important;
-    }
-}
-
-/* ============================================
-   CONTACT FORM — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-
-    .contact-form-card,
-    .form-container {
-        padding: 1.75rem !important;
+    /* reCAPTCHA escalado */
+    .g-recaptcha,
+    .g-recaptcha>div,
+    iframe[src*="recaptcha"] {
+        transform: scale(0.85);
+        transform-origin: 0 0;
+        max-width: 100% !important;
     }
 }
 
 @media (max-width: 575px) {
 
     .contact-form-card,
-    .form-container {
+    .form-container,
+    .contact-form,
+    #application-form {
         padding: 1.25rem !important;
     }
 
@@ -1024,14 +866,43 @@ body.menu-open {
     a.hero-cta-button {
         min-height: 44px !important;
     }
+
+    .benefits-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
 }
 
-/* ============================================
+@media (max-width: 400px) {
+    .g-recaptcha {
+        transform: scale(0.72) !important;
+    }
+}
+
+/* ================================================================
+   PÁGINAS LEGALES — Aviso Legal, Privacidad, Cookies
+   Todo centrado, sin desbordamientos
+   ================================================================ */
+@media (max-width: 992px) {
+
+    body,
+    main,
+    .barba-container {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+    }
+}
+
+/* ================================================================
    FOOTER — RESPONSIVE
-   ============================================ */
+   ================================================================ */
 @media (max-width: 992px) {
     .footer-awwards {
-        padding-top: 3.5rem !important;
+        padding-top: 3rem !important;
+    }
+
+    .footer-top {
+        padding: 3rem 1.5rem !important;
     }
 
     .footer-grid {
@@ -1086,24 +957,24 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   WHATSAPP FLOATING — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   WHATSAPP FLOATING & SCROLL TOP — RESPONSIVE
+   ================================================================ */
 @media (max-width: 575px) {
 
     .whatsapp-float,
+    .whatsapp-floating-btn,
     [data-whatsapp] {
         bottom: 1.5rem !important;
         right: 1rem !important;
-        width: 48px !important;
-        height: 48px !important;
+        width: 50px !important;
+        height: 50px !important;
     }
-}
 
-/* ============================================
-   SCROLL TO TOP — RESPONSIVE
-   ============================================ */
-@media (max-width: 575px) {
+    .whatsapp-tooltip {
+        display: none !important;
+    }
+
     .scroll-top-btn {
         bottom: 5rem !important;
         right: 1rem !important;
@@ -1112,164 +983,49 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   PAGE HEADER (Legal etc.) — RESPONSIVE
-   ============================================ */
+/* ================================================================
+   COOKIE CONSENT — MOBILE FIX
+   ================================================================ */
 @media (max-width: 992px) {
-    .page-header {
-        padding: 7rem 1.5rem 3rem !important;
-        min-height: auto !important;
+    .fixed.bottom-0[class*="z-"] {
+        padding: 0.75rem !important;
     }
 
-    .page-header-title {
-        font-size: clamp(1.8rem, 6vw, 3.5rem) !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .page-header {
-        padding: 5.5rem 1rem 2rem !important;
-    }
-
-    .page-header-title {
-        font-size: clamp(1.5rem, 8vw, 2.5rem) !important;
-    }
-}
-
-/* ============================================
-   CARDS — GENERIC RESPONSIVE
-   ============================================ */
-@media (max-width: 767px) {
-
-    .service-card-large,
-    .value-card,
-    .process-card,
-    .testimonial-card {
-        padding: 1.5rem !important;
-    }
-}
-
-@media (max-width: 575px) {
-
-    .service-card-large,
-    .value-card,
-    .process-card,
-    .testimonial-card {
-        padding: 1.25rem !important;
-    }
-}
-
-/* ============================================
-   MICRO-BANNER (Experience Strip) — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .bg-\[\#0D0D0D\] {
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
-    }
-
-    .bg-\[\#0D0D0D\]>div {
+    .fixed.bottom-0[class*="z-"]>div {
         flex-direction: column !important;
-        gap: 1.5rem !important;
-        align-items: flex-start !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .bg-\[\#0D0D0D\]>div {
-        gap: 1rem !important;
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-    }
-}
-
-/* ============================================
-   CTA SECTIONS — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .cta-content {
-        padding: 3rem 1.5rem !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .cta-content {
-        padding: 2rem 1rem !important;
+        gap: 0.75rem !important;
+        padding: 1rem !important;
+        align-items: stretch !important;
     }
 
-    .hero-cta-button {
-        font-size: 0.8rem !important;
-        padding: 0.9rem 1.25rem !important;
+    .fixed.bottom-0[class*="z-"] h4 {
+        font-size: 0.95rem !important;
+    }
+
+    .fixed.bottom-0[class*="z-"] p {
+        font-size: 0.75rem !important;
+        line-height: 1.4 !important;
+    }
+
+    .fixed.bottom-0[class*="z-"] .flex.flex-wrap {
+        flex-wrap: nowrap !important;
+        gap: 0.5rem !important;
+        width: 100% !important;
+    }
+
+    .fixed.bottom-0[class*="z-"] .flex.flex-wrap button {
+        flex: 1 !important;
         text-align: center !important;
-        word-break: break-word !important;
-        box-shadow: 4px 4px 0 rgba(255, 255, 255, 0.1) !important;
+        justify-content: center !important;
+        padding: 0.6rem 1rem !important;
+        font-size: 0.75rem !important;
+        min-height: 40px;
     }
 }
 
-/* ============================================
-   FLOATING BADGES — RESPONSIVE
-   Prevent overflow on mobile
-   ============================================ */
-@media (max-width: 767px) {
-
-    div[style*="position: absolute"][style*="bottom: -20px"],
-    div[style*="position: absolute"][style*="right: -20px"] {
-        position: relative !important;
-        bottom: auto !important;
-        right: auto !important;
-        margin-top: 1rem !important;
-        width: fit-content !important;
-    }
-}
-
-/* ============================================
-   QUIENES SOMOS — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .team-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 1.5rem !important;
-    }
-}
-
-@media (max-width: 575px) {
-    .team-grid {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-/* ============================================
-   SERVICIOS — RESPONSIVE
-   ============================================ */
-@media (max-width: 992px) {
-    .features-grid {
-        grid-template-columns: 1fr !important;
-    }
-}
-
-/* ============================================
-   TRABAJA CON NOSOTROS — RESPONSIVE
-   ============================================ */
-@media (max-width: 767px) {
-    #application-form {
-        padding: 1.75rem 1.25rem !important;
-    }
-
-    .benefits-grid {
-        grid-template-columns: 1fr !important;
-        gap: 1rem !important;
-    }
-}
-
-@media (max-width: 575px) {
-    #application-form {
-        padding: 1.25rem 1rem !important;
-    }
-}
-
-/* ============================================
+/* ================================================================
    MARQUEE — RESPONSIVE
-   ============================================ */
+   ================================================================ */
 @media (max-width: 575px) {
     .marquee-item {
         font-size: clamp(1rem, 5vw, 1.75rem) !important;
@@ -1284,11 +1040,15 @@ body.menu-open {
     .marquee-section-vip {
         padding: 1rem 0 !important;
     }
+
+    .marquee-separator-vip {
+        margin: 0 1.5rem !important;
+    }
 }
 
-/* ============================================
-   TYPOGRAPHY — GLOBAL MOBILE SCALING
-   ============================================ */
+/* ================================================================
+   TIPOGRAFÍA — Escala global para móvil
+   ================================================================ */
 @media (max-width: 575px) {
     body {
         font-size: 16px !important;
@@ -1306,7 +1066,6 @@ body.menu-open {
 
     h2 {
         font-size: clamp(1.5rem, 6.5vw, 2rem) !important;
-        word-break: break-word !important;
     }
 
     h3 {
@@ -1321,7 +1080,10 @@ body.menu-open {
     .service-card-description,
     .value-description,
     .process-description,
-    .testimonial-card p {
+    .testimonial-card p,
+    .vdc-desc,
+    .trust-card-text,
+    .card-description {
         font-size: 0.9rem !important;
         line-height: 1.7 !important;
     }
@@ -1332,6 +1094,26 @@ body.menu-open {
     .form-label {
         font-size: 0.65rem !important;
         letter-spacing: 0.18em !important;
+    }
+
+    .service-card-title,
+    .card-title,
+    .trust-card-title {
+        font-size: 1.15rem !important;
+    }
+
+    .card-icon-container {
+        width: 48px !important;
+        height: 48px !important;
+    }
+
+    .card-icon-container svg {
+        width: 24px !important;
+        height: 24px !important;
+    }
+
+    .service-card-number {
+        font-size: 3rem !important;
     }
 }
 
@@ -1357,27 +1139,28 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   INLINE FLEX — Force wrapping on mobile
-   ============================================ */
-@media (max-width: 767px) {
-
-    .flex.flex-wrap,
-    [style*="display: flex"][style*="flexWrap: 'wrap'"],
-    [style*="display: flex"][style*="flex-wrap: wrap"] {
-        flex-wrap: wrap !important;
+/* ================================================================
+   EFICIENCIA CARDS — RESPONSIVE
+   ================================================================ */
+@media (max-width: 992px) {
+    .eficiencia-card-brutal {
+        width: 100% !important;
     }
 
-    /* Inline blocks used in word animations - keep inline */
-    [style*="display: inline-block"][style*="overflow: hidden"] {
-        display: inline-block !important;
+    .eficiencia-img-wrapper {
+        height: 180px !important;
     }
 }
 
-/* ============================================
-   IMAGE ASPECT RATIO — RESPONSIVE
-   Ensure images in cards show fully
-   ============================================ */
+@media (max-width: 575px) {
+    .eficiencia-img-wrapper {
+        height: 150px !important;
+    }
+}
+
+/* ================================================================
+   IMAGE ASPECT RATIO — Asegurar que se vean completas
+   ================================================================ */
 @media (max-width: 992px) {
 
     div[style*="aspectRatio"],
@@ -1396,36 +1179,69 @@ body.menu-open {
     }
 }
 
+/* ================================================================
+   INLINE FLEX — Forzar wrapping en móvil
+   ================================================================ */
+@media (max-width: 767px) {
+
+    .flex.flex-wrap,
+    [style*="display: flex"][style*="flexWrap: 'wrap'"],
+    [style*="display: flex"][style*="flex-wrap: wrap"] {
+        flex-wrap: wrap !important;
+    }
+}
+
+/* ================================================================
+   FLOATING BADGES — NO desbordar en móvil
+   ================================================================ */
+@media (max-width: 767px) {
+
+    div[style*="position: absolute"][style*="bottom: -20px"],
+    div[style*="position: absolute"][style*="right: -20px"] {
+        position: relative !important;
+        bottom: auto !important;
+        right: auto !important;
+        margin-top: 1rem !important;
+        width: fit-content !important;
+    }
+}
+
+/* ================================================================
+   MICRO-BANNER (Experience Strip)
+   ================================================================ */
+@media (max-width: 992px) {
+    .bg-\[\#0D0D0D\] {
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    .bg-\[\#0D0D0D\]>div {
+        flex-direction: column !important;
+        gap: 1.5rem !important;
+        align-items: flex-start !important;
+    }
+
+    .stat-item-minimal {
+        min-width: 120px !important;
+    }
+
+    .stats-grid-minimal {
+        gap: 1.5rem !important;
+    }
+}
+
 @media (max-width: 575px) {
-
-    div[style*="aspectRatio"],
-    div[style*="aspect-ratio"] {
-        min-height: 180px;
+    .bg-\[\#0D0D0D\]>div {
+        gap: 1rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
     }
 }
 
-/* ============================================
-   4K / ULTRA-WIDE
-   ============================================ */
-@media (min-width: 1921px) {
-    .max-w-\[1800px\] {
-        max-width: 2200px !important;
-    }
-
-    .hero-title-brutal {
-        font-size: clamp(5rem, 7vw, 10rem) !important;
-    }
-
-    .section-title {
-        font-size: clamp(3rem, 4vw, 6rem) !important;
-    }
-}
-
-/* ============================================
+/* ================================================================
    TOUCH DEVICE OPTIMIZATIONS
-   CRITICAL: Do NOT use transform: none !important
-   as it breaks GSAP ScrollTrigger animations
-   ============================================ */
+   CRITICAL: NO usar transform: none (rompe GSAP ScrollTrigger)
+   ================================================================ */
 @media (hover: none) and (pointer: coarse) {
     body {
         font-size: 17px;
@@ -1451,7 +1267,7 @@ body.menu-open {
         font-size: 0.7rem;
     }
 
-    /* Only remove box-shadow on hover, NOT transforms (GSAP needs them) */
+    /* Solo quitar box-shadow en hover, NO transforms */
     .service-card-large:hover,
     .value-card:hover,
     .process-card:hover,
@@ -1481,9 +1297,9 @@ body.menu-open {
     }
 }
 
-/* ============================================
+/* ================================================================
    PREFERS REDUCED MOTION
-   ============================================ */
+   ================================================================ */
 @media (prefers-reduced-motion: reduce) {
 
     .hero-subpage-svg,
@@ -1496,9 +1312,9 @@ body.menu-open {
     }
 }
 
-/* ============================================
+/* ================================================================
    LANDSCAPE MOBILE
-   ============================================ */
+   ================================================================ */
 @media (max-height: 500px) and (orientation: landscape) {
     .hero-awwards {
         min-height: auto !important;
@@ -1516,133 +1332,19 @@ body.menu-open {
     }
 }
 
-/* =======================================================
-   🔥 MEGA PARCHE DE RESPONSIVIDAD PARA MÓVILES 🔥
-   ======================================================= */
-@media (max-width: 992px) {
-    /* 1. FIX MENÚ CONGELADO / DESAPARECIDO AL HACER SCROLL */
-    /* Mantiene el menú pegado arriba siempre en móvil para que no se pierda al abrirlo */
-    .nav-awwards {
-        position: fixed !important;
-        background: rgba(10, 10, 10, 0.98) !important;
-        backdrop-filter: blur(20px) !important;
-        top: 0 !important;
-        width: 100% !important;
+/* ================================================================
+   4K / ULTRA-WIDE
+   ================================================================ */
+@media (min-width: 1921px) {
+    .max-w-\[1800px\] {
+        max-width: 2200px !important;
     }
 
-    /* 2. FIX TEXTOS MOCHOS Y TÍTULOS ENORMES QUE SE SALEN */
-    /* Fuerza a las palabras largas (como Telecomunicaciones) a saltar de línea */
-    .hero-title-brutal, 
-    .section-title, 
-    .cta-brutal-title, 
-    .hero-title, 
-    .page-header-title,
-    h1, h2, h3, p, span {
-        word-break: break-word !important;
-        overflow-wrap: break-word !important;
-        hyphens: auto !important;
-        white-space: normal !important;
+    .hero-title-brutal {
+        font-size: clamp(5rem, 7vw, 10rem) !important;
     }
 
-    /* Reducir títulos inmensos */
-    .hero-title-brutal, .cta-brutal-title {
-        font-size: clamp(1.8rem, 8vw, 2.5rem) !important;
-        line-height: 1.1 !important;
-    }
-
-    /* 3. FIX CAJAS RECORTADAS Y CON DEMASIADO PADDING */
-    /* Reduce el relleno interno de las tarjetas para que el texto quepa */
-    .service-card-large, .value-card, .process-card, .testimonial-card,
-    .service-card-light, .value-card-light, .svc-dark-card, .value-dark-card,
-    .trust-card-brutal, .comparador-card-brutal, .eficiencia-card-brutal, .empresa-card-brutal,
-    .contact-form, .qs-value-card {
-        padding: 1.25rem !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-    /* 4. FIX NÚMEROS "01", "03" GIGANTES (Telecomunicaciones / Energía) */
-    .service-card-light .service-number, 
-    .service-card-large .service-card-number,
-    .process-number {
-        font-size: 2.5rem !important;
-        top: 0.5rem !important;
-        right: 0.5rem !important;
-        opacity: 0.1 !important;
-    }
-
-    /* 5. FIX LOGOS GIGANTES Y DEFORMES (Disney, Netflix, Amazon, Partners) */
-    .partner-logo-inner img,
-    .tc-operator-item img,
-    .en-provider-item img,
-    .alt-layout-image img {
-        max-width: 100% !important;
-        height: auto !important;
-        max-height: 50px !important;
-        object-fit: contain !important;
-        width: auto !important;
-        margin: 0 auto !important;
-    }
-
-    /* 6. FIX RECAPTCHA "NO SOY ROBOT" QUE ROMPE EL FORMULARIO */
-    /* Escala el captcha de Google para que quepa en la pantalla del celular */
-    .g-recaptcha,
-    .g-recaptcha > div, 
-    iframe[src*="recaptcha"] {
-        transform: scale(0.85);
-        transform-origin: 0 0;
-        max-width: 100% !important;
-    }
-
-    /* 7. PREVENIR DESBORDAMIENTOS (Aviso Legal, Políticas) */
-    body, main, .barba-container, .max-w-\[1800px\] {
-        max-width: 100vw !important;
-        overflow-x: hidden !important;
-    }
-
-    /* 8. FIX SVGs DECORATIVOS QUE DESTRUYEN EL LAYOUT EN MÓVIL */
-    .svg-energy-container, 
-    .hero-subpage-svg, 
-    .energia-header-svg,
-    .cta-bg-svg {
-        display: none !important; 
-    }
-
-    /* 9. FIX GRILLAS DE PARTNERS (Mostrar todos centrados) */
-    .partners-grid-3x2, .partners-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 1rem !important;
-        width: 100% !important;
-    }
-    
-    .partner-logo-item {
-        width: 100% !important;
-    }
-
-    /* 10. FIX IMÁGENES Y TEXTOS INTERCALADOS */
-    .alt-layout {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 2rem !important;
-    }
-    
-    .alt-layout-image {
-        width: 100% !important;
-        height: auto !important;
-        aspect-ratio: 16/9 !important;
-    }
-}
-
-/* Ajuste extra para teléfonos muy estrechos (ej. iPhone SE) */
-@media (max-width: 400px) {
-    .g-recaptcha {
-        transform: scale(0.72) !important;
-    }
-    .hero-title-brutal, .cta-brutal-title {
-        font-size: clamp(1.6rem, 8vw, 2rem) !important;
-    }
-    .partners-grid-3x2 {
-        grid-template-columns: 1fr !important;
+    .section-title {
+        font-size: clamp(3rem, 4vw, 6rem) !important;
     }
 }
