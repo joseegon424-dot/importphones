@@ -117,8 +117,6 @@ const AppContent = () => {
       {/* Navigation */}
       {!isLoading && <Navbar />}
 
-      {/* Mobile Menu */}
-      {!isLoading && <MobileMenu />}
 
       {/* Main Content */}
       <main ref={mainRef} className="barba-container" data-barba="container" data-barba-namespace={location.pathname}>
@@ -162,54 +160,6 @@ const AppContent = () => {
   );
 };
 
-// Mobile Menu Component
-const MobileMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
-  // Close menu on route change
-  useEffect(() => {
-    setIsOpen(false);
-  }, [location.pathname]);
-
-  const navLinks = [
-    { path: '/', label: 'Inicio' },
-    { path: '/quienes-somos', label: 'Nosotros' },
-    { path: '/servicios', label: 'Servicios' },
-    { path: '/contacto', label: 'Contacto' },
-  ];
-
-  return (
-    <>
-      <button
-        className={`mobile-menu-btn ${isOpen ? 'active' : ''}`}
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label="Toggle menu"
-      >
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <div className={`mobile-menu ${isOpen ? 'active' : ''}`}>
-        {navLinks.map((link) => (
-          <a
-            key={link.path}
-            href={`#${link.path}`}
-            className={`nav-link ${location.pathname === link.path ? 'active' : ''}`}
-            onClick={(e) => {
-              e.preventDefault();
-              setIsOpen(false);
-              window.location.hash = link.path;
-            }}
-          >
-            {link.label}
-          </a>
-        ))}
-      </div>
-    </>
-  );
-};
 
 function App() {
   return (
