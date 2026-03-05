@@ -566,7 +566,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
             <div style={{ width: '80px', height: '6px', background: '#E53935', marginTop: '2.5rem' }} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: '2rem' }}>
+          <div className="servicios-features-grid">
             {features.map((feat, i) => (
               <div key={i} className="svc-feature-pill group relative overflow-hidden" style={{
                 background: 'rgba(15, 15, 15, 0.9)',
