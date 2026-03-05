@@ -351,8 +351,74 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
                 cursor: 'pointer',
                 overflow: 'hidden'
               }}
-                
-                
+                onMouseEnter={(e) => {
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.transform = 'translateY(-10px)';
+                  target.style.boxShadow = '0 40px 80px rgba(0,0,0,0.3)';
+                  target.style.borderColor = 'rgba(229,57,53,0.3)';
+                  target.style.background = '#0a0a0a'; // NEGRO
+
+                  const bgImg = target.querySelector('.card-bg-image') as HTMLElement;
+                  if (bgImg) bgImg.style.opacity = '0.4';
+
+                  const gradDiv = target.querySelector('.card-gradient') as HTMLElement;
+                  if (gradDiv) gradDiv.style.background = 'linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.95) 100%)';
+
+                  const numSpan = target.querySelector('.card-number') as HTMLElement;
+                  if (numSpan) numSpan.style.color = '#E53935';
+
+                  const iconBox = target.querySelector('.card-icon-box') as HTMLElement;
+                  if (iconBox) {
+                    iconBox.style.background = '#E53935';
+                    iconBox.style.color = '#ffffff';
+                  }
+
+                  const texts = target.querySelectorAll('.text-switch');
+                  texts.forEach(t => { (t as HTMLElement).style.color = '#ffffff'; });
+
+                  const descTexts = target.querySelectorAll('.text-desc-switch');
+                  descTexts.forEach(t => { (t as HTMLElement).style.color = 'rgba(255,255,255,0.7)'; });
+
+                  const ctaBtn = target.querySelector('.card-cta') as HTMLElement;
+                  if (ctaBtn) ctaBtn.style.color = '#ffffff';
+
+                  const accentBar = target.querySelector('.card-accent-bar') as HTMLElement;
+                  if (accentBar) accentBar.style.width = '100%';
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.currentTarget as HTMLElement;
+                  target.style.transform = 'translateY(0)';
+                  target.style.boxShadow = '';
+                  target.style.borderColor = '#E53935';
+                  target.style.background = '#fff';
+
+                  const bgImg = target.querySelector('.card-bg-image') as HTMLElement;
+                  if (bgImg) bgImg.style.opacity = '0';
+
+                  const gradDiv = target.querySelector('.card-gradient') as HTMLElement;
+                  if (gradDiv) gradDiv.style.background = 'linear-gradient(to bottom, #fff 0%, rgba(255,255,255,0.95) 100%)';
+
+                  const numSpan = target.querySelector('.card-number') as HTMLElement;
+                  if (numSpan) numSpan.style.color = '#E53935';
+
+                  const iconBox = target.querySelector('.card-icon-box') as HTMLElement;
+                  if (iconBox) {
+                    iconBox.style.background = 'rgba(229,57,53,0.1)';
+                    iconBox.style.color = '#E53935';
+                  }
+
+                  const texts = target.querySelectorAll('.text-switch');
+                  texts.forEach(t => { (t as HTMLElement).style.color = 'var(--color-text-dark)'; });
+
+                  const descTexts = target.querySelectorAll('.text-desc-switch');
+                  descTexts.forEach(t => { (t as HTMLElement).style.color = 'var(--color-gray-mid)'; });
+
+                  const ctaBtn = target.querySelector('.card-cta') as HTMLElement;
+                  if (ctaBtn) ctaBtn.style.color = '#E53935';
+
+                  const accentBar = target.querySelector('.card-accent-bar') as HTMLElement;
+                  if (accentBar) accentBar.style.width = '0%';
+                }}
               >
                 {/* Background Image that fades in on hover */}
                 <div className="card-bg-image"
