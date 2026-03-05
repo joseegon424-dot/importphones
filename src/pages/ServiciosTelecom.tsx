@@ -306,7 +306,6 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
                         className="tc-hero-logo-img"
                         style={{
                           height: '75px',
-                          maxWidth: '90%',
                           objectFit: 'contain',
                           filter: 'grayscale(1) brightness(2)',
                           transition: 'all 0.35s ease'

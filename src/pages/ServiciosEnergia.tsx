@@ -426,7 +426,6 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
                 >
                   <img src={pv.logo} alt={pv.name} className="tc-hero-logo-img" style={{
                     maxHeight: pv.name === 'Audax' ? '60px' : '95px',
-                    maxWidth: pv.name === 'Audax' ? '85%' : '90%',
                     objectFit: 'contain',
                     filter: 'grayscale(1) brightness(2)',
                     transition: 'all 0.35s ease'

@@ -142,13 +142,16 @@
   .partner-logo-light img,
   .alt-layout-image img,
   .tc-hero-logo-img {
-    max-width: 80% !important;
-    max-height: 28px !important;
+    max-width: 85% !important;
+    max-height: 24px !important;
+    /* Más pequeño para dar aire */
     height: auto !important;
     width: auto !important;
     object-fit: contain !important;
     margin: 0 auto !important;
     display: block !important;
+    overflow: visible !important;
+    /* Evita cualquier recorte a nivel de imagen */
   }
 
   .tc-operator-item,
@@ -156,11 +159,13 @@
   .partner-logo-inner,
   .tc-hero-logo-card {
     height: auto !important;
-    padding: 1rem !important;
+    padding: 1.5rem !important;
+    /* Un poco más de aire para que la imagen no parezca apretada */
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     box-shadow: 6px 6px 0 #E53935 !important;
+    overflow: hidden !important;
   }
 
   /* Mostrar todos los Partners en 2 columnas (para que no queden 4) */
