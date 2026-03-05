@@ -397,7 +397,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
             {providers.map((pv, i) => (
               <div key={i} className="en-provider-item group" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-                <div style={{
+                <div className="tc-hero-logo-card" style={{
                   width: '100%', background: '#111',
                   border: '1px solid #333',
                   padding: '2rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -424,7 +424,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
                     if (img) img.style.filter = 'grayscale(1) brightness(2)'; // make logo white initially
                   }}
                 >
-                  <img src={pv.logo} alt={pv.name} style={{
+                  <img src={pv.logo} alt={pv.name} className="tc-hero-logo-img" style={{
                     maxHeight: pv.name === 'Audax' ? '60px' : '95px',
                     maxWidth: pv.name === 'Audax' ? '85%' : '90%',
                     objectFit: 'contain',

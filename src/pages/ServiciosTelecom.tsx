@@ -273,7 +273,7 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
                   { src: '/images/prime_video.png', alt: 'Prime Video' },
                 ].map((logo, idx) => (
                   <div key={idx} className="group" style={{ position: 'relative' }}>
-                    <div style={{
+                    <div className="tc-hero-logo-card" style={{
                       width: '100%', background: '#111',
                       border: '1px solid #333',
                       padding: '2rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -303,6 +303,7 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
                       <img
                         src={logo.src}
                         alt={logo.alt}
+                        className="tc-hero-logo-img"
                         style={{
                           height: '75px',
                           maxWidth: '90%',
