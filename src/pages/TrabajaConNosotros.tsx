@@ -541,12 +541,20 @@ const TrabajaConNosotros = ({ isLoaded = true }: TrabajaConNosotrosProps) => {
                                 </div>
 
                                 <div className="form-group">
-                                    <label className="form-label" style={{ color: '#ccc', fontWeight: 600 }}>Currículum (CV)</label>
+                                    <label className="form-label" style={{ color: '#ccc', fontWeight: 600 }}>
+                                        Currículum (CV)
+                                        <span style={{ color: '#E53935', fontSize: '0.8rem', fontWeight: 800, marginLeft: '0.5rem' }}>*MÁXIMO 5MB*</span>
+                                    </label>
                                     <div style={{ position: 'relative' }}>
                                         <input type="file" name="attachment" required accept=".pdf,.doc,.docx,.xls,.xlsx"
                                             style={{ opacity: 0, position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: 'pointer', zIndex: 10 }}
                                             onChange={e => {
                                                 const file = e.target.files?.[0] || null;
+                                                if (file && file.size > 5 * 1024 * 1024) {
+                                                    alert("⚠️ El archivo (" + file.name + ") supera el tamaño máximo permitido de 5MB. Por favor, adjunta un CV más liviano.");
+                                                    e.target.value = '';
+                                                    return;
+                                                }
                                                 setFormData({ ...formData, file });
                                                 setFileName(file?.name || '');
                                             }}

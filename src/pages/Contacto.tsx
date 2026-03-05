@@ -347,11 +347,22 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label className="form-label" style={{ color: '#333' }}>Adjuntar facturas (opcional)</label>
+                    <label className="form-label" style={{ color: '#333' }}>
+                      Adjuntar facturas (opcional)
+                      <span style={{ color: '#E53935', fontSize: '0.8rem', fontWeight: 800, marginLeft: '0.5rem' }}>*MÁXIMO 5MB*</span>
+                    </label>
                     <div style={{ position: 'relative' }}>
                       <input type="file" name="attachment" accept=".pdf,.doc,.docx,.xls,.xlsx,image/*"
                         style={{ opacity: 0, position: 'absolute', inset: 0, width: '100%', height: '100%', cursor: 'pointer', zIndex: 10 }}
-                        onChange={e => { const file = e.target.files?.[0] || null; setFormData({ ...formData, file }); }}
+                        onChange={e => {
+                          const file = e.target.files?.[0] || null;
+                          if (file && file.size > 5 * 1024 * 1024) {
+                            alert("⚠️ El archivo supera el tamaño máximo permitido de 5MB. Por favor, adjunta un archivo más liviano.");
+                            e.target.value = '';
+                            return;
+                          }
+                          setFormData({ ...formData, file });
+                        }}
                       />
                       <div className="form-input" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#fff', color: '#111', border: '1px solid #ddd' }}>
                         <Upload size={18} style={{ color: '#E53935' }} />
