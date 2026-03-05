@@ -632,8 +632,8 @@ body.menu-open {
 
     .tc-operator-item img,
     .en-provider-item img {
-        max-width: 100% !important;
-        max-height: 50px !important;
+        max-width: 80% !important;
+        max-height: 32px !important;
         height: auto !important;
         width: auto !important;
         object-fit: contain !important;
