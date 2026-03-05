@@ -143,7 +143,8 @@
   .alt-layout-image img,
   .tc-hero-logo-img {
     max-width: 85% !important;
-    max-height: 32px !important;
+    max-height: 26px !important;
+    /* Un toque más pequeño y sencillo */
     height: auto !important;
     width: auto !important;
     object-fit: contain !important;
