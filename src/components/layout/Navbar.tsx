@@ -38,8 +38,31 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close dropdown on route change
-  useEffect(() => { setServicesOpen(false); }, [location.pathname]);
+  // Close dropdown and mobile menu on route change
+  useEffect(() => {
+    setServicesOpen(false);
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    const scrollY = window.scrollY;
+    if (mobileMenuOpen) {
+      document.body.classList.add('menu-open');
+      document.body.style.top = `-${scrollY}px`;
+    } else {
+      document.body.classList.remove('menu-open');
+      const savedTop = document.body.style.top;
+      document.body.style.top = '';
+      if (savedTop) {
+        window.scrollTo(0, parseInt(savedTop || '0') * -1);
+      }
+    }
+    return () => {
+      document.body.classList.remove('menu-open');
+      document.body.style.top = '';
+    };
+  }, [mobileMenuOpen]);
 
   const handleServicesEnter = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
