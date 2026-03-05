@@ -60,8 +60,8 @@ const PoliticaCookies = () => {
         </div>
     );
 
-    const P = ({ children }: { children: React.ReactNode }) => (
-        <p style={{ color: '#555', lineHeight: 1.85, marginBottom: '1rem' }}>{children}</p>
+    const P = ({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) => (
+        <p style={{ color: '#555', lineHeight: 1.85, marginBottom: '1rem', ...style }}>{children}</p>
     );
 
     const Li = ({ children }: { children: React.ReactNode }) => (
