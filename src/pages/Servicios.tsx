@@ -566,7 +566,7 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
             <div style={{ width: '80px', height: '6px', background: '#E53935', marginTop: '2.5rem' }} />
           </div>
 
-          <div className="servicios-features-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feat, i) => (
               <div key={i} className="svc-feature-pill group relative overflow-hidden" style={{
                 background: 'rgba(15, 15, 15, 0.9)',

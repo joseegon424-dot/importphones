@@ -185,32 +185,7 @@
   }
 }
 
-/* =======================================================
-   GRID PERSONALIZADOS (ESCRITORIO & TABLET)
-   ======================================================= */
-@media (min-width: 993px) {
-  .servicios-features-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 2rem !important;
-  }
-}
 
-@media (min-width: 768px) and (max-width: 992px) {
-  .servicios-features-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 2rem !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .servicios-features-grid {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    gap: 2rem !important;
-  }
-}
   /* 5. FIX NÚMEROS GIGANTES (01, 03 en Telecomunicaciones/Energía) */
   .service-number,
   .service-card-number,
@@ -301,3 +276,4 @@
     transform: scale(0.65) !important;
   }
 }
+
