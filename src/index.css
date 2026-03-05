@@ -73,3 +73,134 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* =======================================================
+   🚨 PARCHE NUCLEAR DE RESPONSIVIDAD PARA MÓVILES 🚨
+   Fuerza la adaptación ignorando cualquier otro estilo
+   ======================================================= */
+@media (max-width: 992px) {
+    /* 1. MATA EL DESBORDAMIENTO (Evita que la pantalla se mueva a los lados) */
+    html, body, #root, .barba-container, main {
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 2. TEXTOS MOCHOS Y TÍTULOS GIGANTES (Energía, Por qué elegirnos, etc) */
+    h1, h2, h3, h4, h5, h6, p, span, div, li, .hero-title-brutal, .section-title, .cta-brutal-title {
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        hyphens: auto !important;
+        white-space: normal !important;
+        max-width: 100% !important;
+    }
+
+    .hero-title-brutal, .section-title, .cta-brutal-title, h2 {
+        font-size: clamp(1.8rem, 7vw, 2.2rem) !important;
+        line-height: 1.2 !important;
+    }
+
+    /* 3. REPARAR CAJAS REBELDES (Obliga a que todo se ponga en 1 sola columna) */
+    .alt-layout, .services-grid, .values-grid, .process-grid, .testimonials-grid, .contact-grid, .trust-cards-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2rem !important;
+        width: 100% !important;
+    }
+
+    /* 4. ARREGLAR LOGOS GIGANTES (Netflix, Disney, Amazon) */
+    .tc-operator-item img, .en-provider-item img, .partner-logo-inner img, .partner-logo-light img, .alt-layout-image img {
+        max-width: 100% !important;
+        max-height: 50px !important;
+        width: auto !important;
+        object-fit: contain !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+
+    .tc-operator-item, .en-provider-item, .partner-logo-inner {
+        height: auto !important;
+        padding: 1.5rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Mostrar todos los Partners en 2 columnas (para que no queden 4) */
+    .partners-grid-3x2, .partners-grid {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
+    }
+
+    /* 5. FIX NÚMEROS GIGANTES (01, 03 en Telecomunicaciones/Energía) */
+    .service-number, .service-card-number, .process-number {
+        font-size: 3.5rem !important;
+        position: absolute !important;
+        top: 1rem !important;
+        right: 1rem !important;
+        line-height: 1 !important;
+        opacity: 0.08 !important;
+    }
+
+    /* 6. FIX RECAPTCHA "NO SOY ROBOT" Y FORMULARIOS */
+    .contact-form, #application-form, .contact-form-card {
+        padding: 1.5rem 1rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+    
+    .g-recaptcha, iframe[src*="recaptcha"] {
+        transform: scale(0.75) !important;
+        transform-origin: left center !important;
+        max-width: 100% !important;
+    }
+
+    /* 7. FIX ESTADÍSTICAS (+5000 clientes, 10 años, etc) */
+    .stats-grid-minimal, .hero-stats-row {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
+    }
+    .stat-item-minimal, .hero-stat-item {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* 8. FIX PÁGINAS LEGALES DESCENTRADAS */
+    .page-header {
+        padding: 6rem 1.5rem 2rem !important;
+    }
+    .prose, .container, .mx-auto {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* 9. OCULTAR SVGS DE FONDO QUE DAÑAN LA PANTALLA EN MÓVIL */
+    .hero-subpage-svg, .svg-energy-container, .cta-bg-svg, .energia-header-svg {
+        display: none !important;
+    }
+    
+    /* 10. FIX DEL MENÚ QUE SE TRABA AL FINAL DE LA PÁGINA */
+    .mobile-fullscreen-menu {
+        height: 100dvh !important;
+        overflow-y: auto !important;
+        overscroll-behavior: contain !important;
+        position: fixed !important;
+        z-index: 99999 !important;
+        top: 0 !important;
+    }
+}
+
+/* 📱 Ajuste extra para celulares muy delgados (iPhone SE, etc) */
+@media (max-width: 400px) {
+    .partners-grid-3x2, .partners-grid, .stats-grid-minimal, .hero-stats-row {
+        grid-template-columns: 1fr !important;
+    }
+    .g-recaptcha {
+        transform: scale(0.65) !important;
+    }
+}
