@@ -226,7 +226,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
               <h1 ref={titleRef} className="hero-title-brutal">
                 {[
                   { text: 'ENERGÍA', red: true },
-                  { text: '& AHORRO', red: false },
+                  { text: 'y AHORRO', red: false },
                 ].map((word, i) => (
                   <div key={i} style={{ overflow: 'hidden' }}>
                     <span className="hero-word-line" style={{
@@ -262,7 +262,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
 
             <div className="hidden lg:block relative">
               <div className="aspect-[4/3] border-[6px] border-white/5 rounded-3xl overflow-hidden shadow-2xl">
-                <img src="/images/service-energy.jpg" alt="Ahorro energético" className="w-full h-full object-cover" />
+                <img src="/images/energy-hero-renewed.png" alt="Ahorro energético" className="w-full h-full object-cover" />
               </div>
               <div className="absolute -bottom-6 -right-6 bg-[#E53935] text-white p-6 rounded-2xl shadow-xl border-4 border-black">
                 <div className="text-3xl font-black italic">-40%</div>
@@ -361,7 +361,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
             {/* Right: stacked energy image */}
             <div className="en-services-img" style={{ position: 'relative', paddingTop: '2rem' }}>
               <div style={{ border: '4px solid #111', overflow: 'hidden', aspectRatio: '3/4', boxShadow: '15px 15px 0 #E53935' }}>
-                <img src="/images/service-energy.jpg" alt="Servicios energía" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src="/images/energy-analysis-renewed.png" alt="Servicios energía" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               </div>
               {/* Floating badge top */}
               <div style={{ position: 'absolute', top: '0', left: '-2rem', background: '#111', color: '#fff', border: '2px solid #fff', padding: '1rem 1.5rem', boxShadow: '-8px 8px 0 #fff' }}>
@@ -400,7 +400,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
                 <div style={{
                   width: '100%', background: '#111',
                   border: '1px solid #333',
-                  padding: '2.5rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  padding: '2rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
                   aspectRatio: '1/1', overflow: 'hidden',
                   transition: 'all 0.35s ease',
                   boxShadow: '8px 8px 0 #E53935'
@@ -424,7 +424,13 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
                     if (img) img.style.filter = 'grayscale(1) brightness(2)'; // make logo white initially
                   }}
                 >
-                  <img src={pv.logo} alt={pv.name} style={{ maxHeight: '60px', maxWidth: '85%', objectFit: 'contain', filter: 'grayscale(1) brightness(2)', transition: 'filter 0.35s ease' }} />
+                  <img src={pv.logo} alt={pv.name} style={{
+                    maxHeight: pv.name === 'Audax' ? '60px' : '95px',
+                    maxWidth: pv.name === 'Audax' ? '85%' : '90%',
+                    objectFit: 'contain',
+                    filter: 'grayscale(1) brightness(2)',
+                    transition: 'all 0.35s ease'
+                  }} />
                 </div>
                 <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.85rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#888' }}>{pv.name}</span>
               </div>
@@ -503,7 +509,7 @@ const ServiciosEnergia = ({ isLoaded }: ServiciosEnergiaProps) => {
             {/* Right: energy photo */}
             <div className="en-benefit-img" style={{ position: 'relative' }}>
               <div style={{ border: '4px solid #E53935', overflow: 'hidden', aspectRatio: '4/3', boxShadow: '15px 15px 0 #fff' }}>
-                <img src="/images/service-energy.jpg" alt="Beneficios ahorro energía" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'contrast(1.2)' }} />
+                <img src="/images/energy-green-renewed.png" alt="Beneficios ahorro energía" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'contrast(1.2)' }} />
               </div>
 
               {/* Stat card */}

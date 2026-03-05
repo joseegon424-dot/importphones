@@ -104,6 +104,7 @@ const Footer = () => {
   const legalLinks = [
     { path: '/aviso-legal', label: 'Aviso Legal' },
     { path: '/politica-privacidad', label: 'Política de Privacidad' },
+    { path: '/politica-cookies', label: 'Política de Cookies' },
   ];
 
   const partners = [

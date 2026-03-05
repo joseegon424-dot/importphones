@@ -17,11 +17,15 @@ import ServiciosEnergia from './pages/ServiciosEnergia';
 import Contacto from './pages/Contacto';
 import AvisoLegal from './pages/AvisoLegal';
 import PoliticaPrivacidad from './pages/PoliticaPrivacidad';
+import PoliticaCookies from './pages/PoliticaCookies';
 import TrabajaConNosotros from './pages/TrabajaConNosotros';
 import WhatsAppFloating from './components/WhatsAppFloating';
+import CookieConsent from './components/layout/CookieConsent';
 import NotFound from './pages/NotFound';
 
 import './App.css';
+import './responsive.css';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -129,6 +133,7 @@ const AppContent = () => {
           <Route path="/contacto" element={<Contacto isLoaded={isLoaded} />} />
           <Route path="/aviso-legal" element={<AvisoLegal />} />
           <Route path="/politica-privacidad" element={<PoliticaPrivacidad />} />
+          <Route path="/politica-cookies" element={<PoliticaCookies />} />
           <Route path="/trabaja-con-nosotros" element={<TrabajaConNosotros />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -139,6 +144,9 @@ const AppContent = () => {
 
       {/* WhatsApp Floating Button */}
       {!isLoading && <WhatsAppFloating />}
+
+      {/* Cookie Consent Banner */}
+      {!isLoading && <CookieConsent />}
 
       {/* Scroll to Top Button */}
       {!isLoading && (

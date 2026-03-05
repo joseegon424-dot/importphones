@@ -224,7 +224,7 @@ const Contacto = ({ isLoaded }: ContactoProps) => {
               ].map((s, i) => (
                 <div key={i} className="hero-badge-ref bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
                   <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', fontWeight: 900, color: '#E53935', lineHeight: 1 }}>{s.v}</div>
-                  <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', marginTop: '0.5rem', fontWeight: 600, textTransform: 'uppercase' }}>{s.label}</div>
+                  <div style={{ fontSize: '0.8rem', color: '#ffffff', marginTop: '0.5rem', fontWeight: 600, textTransform: 'uppercase' }}>{s.label}</div>
                 </div>
               ))}
             </div>

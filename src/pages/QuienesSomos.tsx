@@ -238,15 +238,15 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
               {/* Established Date & Decorative line */}
               <div className="mt-8 flex items-center gap-6 hero-cta">
                 <div className="h-[2px] w-24 bg-gradient-to-r from-red-600 to-transparent"></div>
-                <p className="text-white/40 text-sm font-bold uppercase tracking-[0.4em]">Est. 2015 — Madrid</p>
+                <p className="text-white/70 text-sm font-bold uppercase tracking-[0.4em]">Est. 2015 — Barcelona</p>
               </div>
             </div>
 
             {/* Right side: Description & Badges */}
             <div className="lg:pl-12 lg:border-l border-white/10" style={{ alignSelf: 'center' }}>
-              <p className="hero-subtitle">
+              <p className="hero-subtitle" style={{ color: 'rgba(255,255,255,0.95)', fontWeight: 500, textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
                 Somos un equipo de profesionales apasionados por ayudar a empresas y particulares a optimizar sus gastos en
-                telecomunicaciones y energía con <strong className="text-white">transparencia y resultados garantizados</strong>.
+                telecomunicaciones y energía con <strong style={{ color: '#E53935', fontWeight: 900 }}>transparencia y resultados garantizados</strong>.
               </p>
 
               {/* Trust badges */}
@@ -260,7 +260,7 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
                     paddingLeft: '1.25rem',
                   }}>
                     <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.4rem', fontWeight: 900, color: '#E53935', lineHeight: 1 }}>{b.label}</div>
-                    <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.4)', fontWeight: 500, marginTop: '0.25rem' }}>{b.sub}</div>
+                    <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.7)', fontWeight: 600, marginTop: '0.25rem' }}>{b.sub}</div>
                   </div>
                 ))}
               </div>
@@ -405,14 +405,18 @@ const QuienesSomos = ({ isLoaded }: QuienesSomosProps) => {
                     {item.description}
                   </p>
 
-                  {/* Highlighted Stats: "Alumbramiento" effect */}
-                  <div className="pt-8 border-t border-red-600/30">
+                  {/* Clean Stats Section */}
+                  <div className="pt-8 border-t border-white/10 mt-auto">
                     <div className="flex flex-col">
-                      <span className="text-5xl font-black text-white/10 tracking-tighter transition-all duration-700 group-hover:text-red-600 group-hover:drop-shadow-[0_0_20px_rgba(220,38,38,0.5)] group-active:scale-105">
-                        {item.stat.split(' ')[0]}
-                        <span className="text-xl ml-2 text-white/5 group-hover:text-white/40 transition-colors duration-700">{item.stat.split(' ').slice(1).join(' ')}</span>
-                      </span>
-                      <span className="text-[10px] uppercase tracking-[0.4em] text-white/20 mt-2 font-bold group-hover:text-white/50 transition-colors duration-700">
+                      <div className="flex items-baseline gap-2 mb-1">
+                        <span className="text-5xl font-black text-[#E53935] tracking-tighter">
+                          {item.stat.split(' ')[0]}
+                        </span>
+                        <span className="text-xl font-bold text-white uppercase tracking-tight">
+                          {item.stat.split(' ').slice(1).join(' ')}
+                        </span>
+                      </div>
+                      <span className="text-[10px] uppercase tracking-[0.3em] text-white/50 font-bold">
                         {item.statSub}
                       </span>
                     </div>

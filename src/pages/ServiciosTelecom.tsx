@@ -180,7 +180,6 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
     { name: 'Orange', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Orange_logo.svg', color: '#FF6600' },
     { name: 'O2', logo: '/images/logo-o2-WJ0ZyWZ8.png', color: '#003087' },
     { name: 'Lowi', logo: 'data:image/png;base64,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', color: '#6B21A8' },
-    { name: 'Niba', logo: '/images/logo_niba_local.svg', color: '#E53935' },
   ];
 
   const benefits = [
@@ -266,15 +265,53 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
                 Fibra óptica de alta velocidad, planes móviles con datos ilimitados y las mejores plataformas de streaming integradas. Todo lo que necesitas para estar conectado.
               </p>
 
-              <div className="grid grid-cols-4 gap-4 mt-8">
+              <div className="grid grid-cols-2 gap-6 mt-8 max-w-[420px]">
                 {[
                   { src: '/images/logo_disney.png', alt: 'Disney+' },
                   { src: '/images/netflix.png', alt: 'Netflix' },
                   { src: '/images/movistar.png', alt: 'Movistar' },
                   { src: '/images/prime_video.png', alt: 'Prime Video' },
                 ].map((logo, idx) => (
-                  <div key={idx} className="bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors">
-                    <img src={logo.src} alt={logo.alt} className="h-8 w-auto object-contain brightness-0 invert" />
+                  <div key={idx} className="group" style={{ position: 'relative' }}>
+                    <div style={{
+                      width: '100%', background: '#111',
+                      border: '1px solid #333',
+                      padding: '2rem 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      aspectRatio: '16/9', overflow: 'hidden',
+                      transition: 'all 0.35s ease',
+                      boxShadow: '10px 10px 0 #E53935'
+                    }}
+                      onMouseEnter={e => {
+                        const el = e.currentTarget as HTMLElement;
+                        el.style.background = '#fff';
+                        el.style.borderColor = '#fff';
+                        el.style.transform = 'translate(10px, 10px)';
+                        el.style.boxShadow = 'none';
+                        const img = el.querySelector('img') as HTMLImageElement;
+                        if (img) img.style.filter = 'none';
+                      }}
+                      onMouseLeave={e => {
+                        const el = e.currentTarget as HTMLElement;
+                        el.style.background = '#111';
+                        el.style.borderColor = '#333';
+                        el.style.transform = '';
+                        el.style.boxShadow = '10px 10px 0 #E53935';
+                        const img = el.querySelector('img') as HTMLImageElement;
+                        if (img) img.style.filter = 'grayscale(1) brightness(2)';
+                      }}
+                    >
+                      <img
+                        src={logo.src}
+                        alt={logo.alt}
+                        style={{
+                          height: '75px',
+                          maxWidth: '90%',
+                          objectFit: 'contain',
+                          filter: 'grayscale(1) brightness(2)',
+                          transition: 'all 0.35s ease'
+                        }}
+                      />
+                    </div>
                   </div>
                 ))}
               </div>
@@ -426,12 +463,20 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '1.5rem' }}>
                 {operators.map((op, i) => (
-                  <div key={i} className="tc-operator-item" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
+                  <div key={i} className="tc-operator-item" style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    gridColumn: op.name === 'Orange' ? 'span 2' : 'span 1'
+                  }}>
                     <div style={{
                       width: '100%', background: 'var(--color-black)',
                       border: '1px solid #E53935', borderRadius: '20px',
-                      padding: '2.5rem 2rem', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      aspectRatio: '2/1', overflow: 'hidden',
+                      padding: op.name === 'Orange' ? '3rem 2rem' : '2.5rem 2rem',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      aspectRatio: op.name === 'Orange' ? '4/1' : '2/1',
+                      overflow: 'hidden',
                       transition: 'all 0.4s var(--ease-expo)',
                       boxShadow: '15px 15px 0 #E53935'
                     }}
@@ -450,7 +495,12 @@ const ServiciosTelecom = ({ isLoaded }: ServiciosTelecomProps) => {
                         el.style.boxShadow = '15px 15px 0 #E53935';
                       }}
                     >
-                      <img src={op.logo} alt={op.name} style={{ maxHeight: '55px', maxWidth: '80%', objectFit: 'contain', transition: 'all 0.4s ease' }}
+                      <img src={op.logo} alt={op.name} style={{
+                        maxHeight: op.name === 'Orange' ? '80px' : '55px',
+                        maxWidth: '80%',
+                        objectFit: 'contain',
+                        transition: 'all 0.4s ease'
+                      }}
                       />
                     </div>
                     <span style={{ fontFamily: 'var(--font-display)', fontSize: '0.72rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'var(--color-gray-mid)' }}>{op.name}</span>

@@ -462,17 +462,21 @@ const Home = ({ isLoaded }: HomeProps) => {
       }}>
         <div className="max-w-[1800px] mx-auto px-6 lg:px-12">
           <div className="section-header" style={{ marginBottom: '4rem' }}>
-            <h2 className="section-title" style={{ color: '#ffffff', fontSize: 'clamp(2rem, 4vw, 3.5rem)' }}>
+            <h2 className="section-title" style={{ color: '#ffffff', fontSize: 'clamp(2rem, 3.5vw, 3rem)', lineHeight: 1.2 }}>
               {[
-                { text: 'Soluciones', red: false },
+                { text: '¿Estás', red: false },
+                { text: 'pagando', red: false },
                 { text: 'de', red: false },
-                { text: 'Eficiencia', red: false },
-                { text: 'Energética', red: false },
+                { text: 'más', red: true },
                 { text: 'en', red: false },
-                { text: 'el', red: false },
-                { text: 'Hogar', red: true }
+                { text: 'tu', red: false },
+                { text: 'factura', red: false },
+                { text: 'eléctrica', red: false },
+                { text: 'sin', red: false },
+                { text: 'saberlo?', red: false },
+                { text: '⚡', red: false }
               ].map((word, i) => (
-                <div key={i} style={{ overflow: 'hidden', display: 'inline-block', margin: '0 0.25em' }}>
+                <div key={i} style={{ overflow: 'hidden', display: 'inline-block', margin: '0 0.15em' }}>
                   <span className="hero-word-line" style={{ display: 'block', color: word.red ? '#E53935' : 'inherit' }}>
                     {word.text}
                   </span>
@@ -482,7 +486,7 @@ const Home = ({ isLoaded }: HomeProps) => {
           </div>
 
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.25rem', lineHeight: '1.8', maxWidth: '850px', marginBottom: '3rem', fontWeight: 500 }}>
-            Lograr el máximo ahorro en la factura de la luz requiere un enfoque integral. En ImportPhones te asesoramos sobre:
+            “En más del 40% de los contratos eléctricos la potencia contratada es superior a la necesaria. Analizamos tu curva de consumo y optimizamos tus kW para que solo pagues por la energía que realmente utilizas.”
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2.5rem' }}>
@@ -508,24 +512,24 @@ const Home = ({ isLoaded }: HomeProps) => {
               </div>
             </div>
 
-            {/* Card 02 */}
-            <div className="eficiencia-card-brutal">
+            {/* Card 02 - Optimización de Potencia */}
+            <div className="eficiencia-card-brutal" style={{ display: 'flex', flexDirection: 'column' }}>
               <div className="eficiencia-img-wrapper" style={{ position: 'relative', height: '220px', overflow: 'hidden' }}>
                 <img
                   src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Estudio de eficiencia energética"
+                  alt="Estudio de potencia eléctrica"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 <div className="eficiencia-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(229,57,53,0.85)', opacity: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'opacity 0.4s ease' }}>
                   <Zap size={48} color="#fff" />
                 </div>
               </div>
-              <div className="eficiencia-content" style={{ padding: '2rem' }}>
+              <div className="eficiencia-content" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
                 <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#ffffff', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                  <span style={{ color: '#E53935' }}>02.</span> Estudio Eficiencia
+                  <span style={{ color: '#E53935' }}>02.</span> Potencia Contratada
                 </h3>
-                <p style={{ color: 'rgba(255,255,255,0.6)', lineHeight: '1.6' }}>
-                  Analizamos tu vivienda para detectar puntos de mejora, desde el aislamiento térmico hasta electrodomésticos de bajo consumo.
+                <p style={{ color: 'rgba(255,255,255,0.7)', lineHeight: '1.6', fontSize: '1rem', marginBottom: '1.5rem', flex: 1 }}>
+                  “Más del 40% de los hogares pagan de más en su factura eléctrica por tener una potencia contratada superior a la necesaria. Analizamos tu curva de consumo y optimizamos tu potencia para que pagues solo por lo que realmente utilizas.” ⚡
                 </p>
               </div>
             </div>
@@ -551,6 +555,35 @@ const Home = ({ isLoaded }: HomeProps) => {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* CTA Below Cards */}
+          <div style={{ marginTop: '5rem', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+            <Link to="/contacto" className="hero-cta-button group" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '1rem',
+              background: '#E53935',
+              color: 'white',
+              padding: '1.25rem 2.5rem',
+              fontSize: '1rem',
+              fontWeight: 800,
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              transition: 'all 0.3s ease',
+              boxShadow: '8px 8px 0 rgba(255,255,255,0.1)'
+            }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow = '10px 10px 0 rgba(255,255,255,0.2)';
+                (e.currentTarget as HTMLElement).style.transform = 'translate(-2px, -2px)';
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow = '8px 8px 0 rgba(255,255,255,0.1)';
+                (e.currentTarget as HTMLElement).style.transform = 'translate(0, 0)';
+              }}>
+              “Solicita ahora tu análisis energético gratuito y empieza a ahorrar.” 📊
+              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>
@@ -763,58 +796,48 @@ const Home = ({ isLoaded }: HomeProps) => {
                 <div className="empresa-card-brutal">
                   <div className="empresa-img-wrapper">
                     <img
-                      src="https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                      alt="Iluminación eficiente LED para empresas"
+                      src="/images/energy-storage-system.png"
+                      alt="Sistema de almacenaje de energía Industrial ImportPhones"
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   </div>
                   <div className="empresa-inner-content">
                     <h3 style={{ fontSize: '1.6rem', fontWeight: 900, color: '#111', marginBottom: '1rem' }}>
-                      💡 Iluminación eficiente
+                      💡 Sistema de almacenaje de energía
                     </h3>
                     <p style={{ color: '#555', lineHeight: '1.7', fontSize: '1.05rem' }}>
-                      Renovamos tus instalaciones con tecnología LED de última generación, reduciendo drásticamente el consumo y mejorando el ambiente laboral de tu equipo.
+                      Con nuestro sistema de baterías y HBS tratamos de aislar la empresa para no depender de la distribuidora y ser 100% autoconsumo, haciendo que en muchos casos la factura sea casi 0€.
                     </p>
                   </div>
                 </div>
               </div>
-              {/* SVG RIGHT - LED Light / Energy Efficiency */}
+              {/* SVG RIGHT - Energy Storage / Battery */}
               <div className="timeline-content-card timeline-svg-card">
                 <svg width="220" height="220" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {/* Main Bulb Shape with glow */}
-                  <path d="M50 15C36 15 25 26 25 40C25 50 30 58 38 63L38 75C38 77 40 79 42 79H58C60 79 62 77 62 75V63C70 58 75 50 75 40C75 26 64 15 50 15Z" stroke="#E53935" strokeWidth="1.5" />
+                  {/* Battery Body */}
+                  <rect x="30" y="25" width="40" height="60" rx="4" stroke="#E53935" strokeWidth="2" />
+                  <path d="M40 25 V20 H60 V25" stroke="#E53935" strokeWidth="2" />
 
-                  {/* Internal LED grid - modern look */}
-                  <g opacity="0.8">
-                    <rect x="42" y="30" width="16" height="2" rx="1" fill="#E53935" className="animate-glow" />
-                    <rect x="42" y="36" width="16" height="2" rx="1" fill="#E53935" className="animate-glow" style={{ animationDelay: '0.2s' }} />
-                    <rect x="42" y="42" width="16" height="2" rx="1" fill="#E53935" className="animate-glow" style={{ animationDelay: '0.4s' }} />
-                    <line x1="50" y1="28" x2="50" y2="46" stroke="#E53935" strokeWidth="0.5" />
-                  </g>
+                  {/* Energy levels (animated) */}
+                  <rect x="35" y="73" width="30" height="8" rx="1" fill="#E53935" className="animate-pulse" />
+                  <rect x="35" y="61" width="30" height="8" rx="1" fill="#E53935" className="animate-pulse" style={{ animationDelay: '0.2s' }} />
+                  <rect x="35" y="49" width="30" height="8" rx="1" fill="#E53935" className="animate-pulse" style={{ animationDelay: '0.4s' }} />
+                  <rect x="35" y="37" width="30" height="8" rx="1" fill="#E53935" className="animate-pulse" style={{ animationDelay: '0.6s' }} />
 
-                  {/* Efficiency Seal (70% Saving) - Made much bigger and visible */}
+                  {/* Lightning Icon in center */}
+                  <path d="M50 40 L45 52 H50 L45 65" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+
+                  {/* 100% Autoconsumo badge */}
                   <g className="animate-bounce-slow" style={{ transformOrigin: '50px 50px' }}>
-                    {/* Glowing background for the seal */}
                     <circle cx="78" cy="25" r="18" fill="#E53935" fillOpacity="0.1" />
                     <circle cx="78" cy="25" r="14" stroke="#E53935" strokeWidth="1.5" strokeDasharray="2 1" />
-
-                    <text x="78" y="24" fill="#E53935" fontSize="9" fontWeight="900" textAnchor="middle" fontFamily="var(--font-display)">70%</text>
-                    <text x="78" y="30" fill="#E53935" fontSize="3.5" fontWeight="800" textAnchor="middle" style={{ textTransform: 'uppercase' }} letterSpacing="0.05em">AHORRO</text>
+                    <text x="78" y="24" fill="#E53935" fontSize="8" fontWeight="900" textAnchor="middle" fontFamily="var(--font-display)">100%</text>
+                    <text x="78" y="30" fill="#E53935" fontSize="3" fontWeight="800" textAnchor="middle" style={{ textTransform: 'uppercase' }} letterSpacing="0.05em">AUTOCONSUMO</text>
                   </g>
 
-                  {/* Socket Detail */}
-                  <path d="M42 79H58V83C58 85 56 87 54 87H46C44 87 42 85 42 83V79Z" fill="rgba(229,57,53,0.15)" stroke="#E53935" strokeWidth="1.2" />
-                  <line x1="42" y1="82" x2="58" y2="82" stroke="#E53935" strokeWidth="1" />
-                  <line x1="42" y1="85" x2="58" y2="85" stroke="#E53935" strokeWidth="1" />
-
-                  {/* Light Rays - cleaner animation */}
-                  <g className="animate-glow" style={{ animationDuration: '3s' }}>
-                    <line x1="20" y1="18" x2="15" y2="13" stroke="#E53935" strokeWidth="1.5" strokeLinecap="round" />
-                    <line x1="80" y1="18" x2="85" y2="13" stroke="#E53935" strokeWidth="1.5" strokeLinecap="round" />
-                    <line x1="15" y1="40" x2="8" y2="40" stroke="#E53935" strokeWidth="1.5" strokeLinecap="round" />
-                    <line x1="92" y1="40" x2="85" y2="40" stroke="#E53935" strokeWidth="1.5" strokeLinecap="round" />
-                    <line x1="50" y1="8" x2="50" y2="4" stroke="#E53935" strokeWidth="1.5" strokeLinecap="round" />
-                  </g>
+                  {/* Connecting lines */}
+                  <path d="M15 50 H30" stroke="#E53935" strokeWidth="1" strokeDasharray="3 3" opacity="0.4" />
+                  <path d="M70 50 H85" stroke="#E53935" strokeWidth="1" strokeDasharray="3 3" opacity="0.4" />
                 </svg>
               </div>
             </div>

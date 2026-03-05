@@ -830,8 +830,8 @@ const Servicios = ({ isLoaded }: ServiciosProps) => {
                 boxShadow: '40px 40px 0px rgba(229,57,53,0.05)',
               }}>
                 <img
-                  src="/images/service-energy.jpg"
-                  alt="Ahorra en energía y telecomunicaciones"
+                  src="/images/asesoramiento-real.png"
+                  alt="Asesoramiento real y profesional de ImportPhones"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </div>
